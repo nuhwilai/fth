@@ -1,0 +1,117 @@
+<!-- Header -->
+<section class="hero is-link is-fullheight is-fullheight-with-navbar">
+  <div class="hero-body">
+    <div class="container">
+      Welcome to Food to home platform
+      <h1 class="title is-1">ตำบล {{ subDistrict }}</h1>
+      <h2 class="subtitle is-3">
+        ยินดีต้อนรับสู่ระบบแจกจ่ายอาหาร
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- Terms of use -->
+<section class="section" id="services">
+  <div class="section-heading">
+    <h3 class="title is-2">ข้อตกลงการใช้งาน</h3>
+    <h4 class="subtitle is-5">Terms of use</h4>
+  </div>
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <div class="box">
+          <div class="content">
+            <div class="overflow">
+              <h4 class="title is-12">1. THAI</h4>
+              <h4 class="title is-12">2. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
+              <h4 class="title is-12">3. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
+              <h4 class="title is-12">4. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
+              <h4 class="title is-12">5. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
+            </div>
+            <label class="checkbox">
+              <input type="checkbox" [(ngModel)]="isAccept" />
+              ฉันยอมรับ<a href="#">ข้อตกลง</a>ข้างต้น
+            </label>
+          </div>
+
+          <div class="register">
+            <button class="button is-large is-link" [disabled]="!isAccept">
+              สมัครสมาชิก
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div class="box">
+          <div class="content">
+            <div class="overflow">
+              <h4 class="title is-12">1. ENG</h4>
+              <h4 class="title is-12">2. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
+              <h4 class="title is-12">3. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
+              <h4 class="title is-12">4. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
+              <h4 class="title is-12">5. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
+            </div>
+            <label class="checkbox">
+              <input type="checkbox" [(ngModel)]="isAccept" />
+              I agree to the <a href="#">terms and conditions</a>
+            </label>
+          </div>
+
+          <div class="register">
+            <button class="button is-large is-link" [disabled]="!isAccept">
+              Register
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-heading">
+      <h3 class="title is-2">ติดต่อ</h3>
+      <h4 class="subtitle is-5">Contact</h4>
+      <span>074-xxx-xxxx</span>
+    </div>
+    <br />
+  </div>
+</section>
+
+<!-- Sponsored by -->
+<section class="section" id="resume">
+  <div class="section-heading">
+    <h3 class="title is-2">สนับสนุนโดย</h3>
+    <h4 class="subtitle is-5">Sponsored by</h4>
+  </div>
+  <nav class="level">
+    <div class="level-item has-text-centered">
+      <div *ngFor="let sponsered of sponsoredBy">
+        <img [src]="sponsered.imageURI" />
+      </div>
+    </div>
+  </nav>
+</section>
+
+<section class="section"></section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="section-heading">
+    <p>
+      <strong>Bulma Personal Template</strong> by
+      <a href="https://mubaidr.js.org">Muhammad Ubaid Raza</a>.
+    </p>
+    <p>
+      <strong>Develop</strong> by
+      <a href="https://www.bonmek.com">Bonmek</a>
+    </p>
+    <p>
+      The source code is licensed
+      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+    </p>
+  </div>
+</footer>
