@@ -100,6 +100,9 @@ interface IProductRound {
 # Staff
 - [ ] POST `/login`
    ```ts
+    interface ILoginBody{
+        oauthToken: string
+    }
     interface ILoginSuccessData{
         token: string
     }
