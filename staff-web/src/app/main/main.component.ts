@@ -27,8 +27,8 @@ export class MainComponent implements OnInit {
       .subscribe((product: any) => (this.products = product))
 
     this.cols = [
-      { field: 'title', header: 'Title' },
-      { field: 'date', header: 'Date' },
+      { field: 'productName', header: 'Product Name' },
+      { field: 'roundDateTime', header: 'Date Time' },
     ]
   }
 
@@ -39,20 +39,17 @@ export class MainComponent implements OnInit {
   }
 
   save() {
-    let products = [...this.products]
-    if (this.newProduct) products.push(this.product)
-    else products[this.products.indexOf(this.selectedProduct)] = this.product
-
-    this.products = products
+    if (this.newProduct) {
+      this.productRoundService.createProduct(this.product)
+    } else {
+      this.productRoundService.updateProduct(this.product.id, this.product)
+    }
     this.product = null
     this.displayDialog = false
   }
 
   delete() {
-    let index = this.products.indexOf(this.selectedProduct)
-    this.products = this.products.filter((val, i) => i != index)
-    this.product = null
-    this.displayDialog = false
+    this.productRoundService.deleteProduct(this.selectedProduct.id)
   }
 
   onRowSelect(event) {

@@ -24,6 +24,13 @@ import { TableModule } from 'primeng/table'
 import { DialogModule } from 'primeng/dialog'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ProductSendComponent } from './product-send/product-send.component'
+import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
+import productRoundIndbSchma from './main/product-round-indb-schma'
+import { IndexDbService } from './indb/index-db.service'
+import { ToastModule } from 'primeng/toast'
+import recieveTxn from './product-send/recieve-txn'
+import { MessageService } from 'primeng/components/common/messageservice'
+
 import { ProductRoundModule } from './product-round/product-round.module'
 const config = new AuthServiceConfig([
   {
@@ -34,6 +41,12 @@ const config = new AuthServiceConfig([
 
 export function provideConfig() {
   return config
+}
+
+const dbConfig: DBConfig = {
+  name: 'MyDb',
+  version: 1,
+  objectStoresMeta: [productRoundIndbSchma, recieveTxn],
 }
 
 @NgModule({
@@ -60,6 +73,8 @@ export function provideConfig() {
     CardModule,
     TableModule,
     DialogModule,
+    NgxIndexedDBModule.forRoot(dbConfig),
+    ToastModule,
     ProductRoundModule,
   ],
   providers: [
@@ -72,7 +87,10 @@ export function provideConfig() {
       useClass: AuthInterceptor,
       multi: true,
     },
+    MessageService,
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private indexDbService: IndexDbService) {}
+}

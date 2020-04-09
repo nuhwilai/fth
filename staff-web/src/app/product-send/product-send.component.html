@@ -33,14 +33,15 @@
 
 <p-card>
   <p-button icon="pi pi-angle-left" (click)="decreaseFoodCount()"></p-button>
-  {{ txactionRecieveForm.value.foodCount }}
+  {{ amount }}
   <p-button icon="pi pi-angle-right" (click)="increaseFoodCount()"></p-button>
+  <br />
   <button
     pButton
     type="button"
-    label="Close"
+    label="Submit"
     (click)="submit()"
-    disabled="!recieverInfo"
+    [disabled]="txactionRecieveForm.invalid"
     style="width: 100%;"
   ></button>
 </p-card>

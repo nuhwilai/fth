@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core'
 
 @Component({
   selector: 'app-reciever-info',
@@ -7,13 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class RecieverInfoComponent implements OnInit {
   @Input() set recieverInfo(data) {
-    if (data) {
-      console.log('data :', data);
-      this.recieverData = data;
-    }
+    this.recieverData = data
   }
 
-  recieverData;
+  recieverData
   constructor() {}
 
   ngOnInit() {}
