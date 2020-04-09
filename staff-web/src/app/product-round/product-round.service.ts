@@ -1,15 +1,20 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { environment } from 'src/environments/environment'
+import { NgxIndexedDBService } from 'ngx-indexed-db'
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductRoundService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private dbService: NgxIndexedDBService,
+  ) {}
 
   listProductRounds = (params: any) => {
-    return this.http.get(`${environment.apiEndpointUrl}/productRounds`)
+    return this.dbService.getAll('productRound')
+    // return this.http.get(`${environment.apiEndpointUrl}/productRounds`)
   }
 
   createProductRound(params: any) {

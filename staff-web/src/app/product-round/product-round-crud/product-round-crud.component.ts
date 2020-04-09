@@ -39,18 +39,14 @@ export class ProductRoundCrudComponent implements OnInit {
 
   private refreshData() {
     this.loading = true
-    this.productRoundService
-      .listProductRounds({})
-      .subscribe((res: IResponseSuccess) => {
-        if (res.valid) {
-          this.productRoundList = this.prepareProductRounds(
-            res.data.productRounds,
-          )
-          this.totalRecords = this.productRoundList.length
-          console.log('this.productRoundList', this.productRoundList)
-        }
-        this.loading = false
-      })
+    this.productRoundService.listProductRounds({}).then((res: any) => {
+      // if (res.valid) {
+      this.productRoundList = this.prepareProductRounds(res)
+      this.totalRecords = this.productRoundList.length
+      console.log('this.productRoundList', this.productRoundList)
+      // }
+      this.loading = false
+    })
   }
 
   private loadProductRounds(
@@ -63,18 +59,14 @@ export class ProductRoundCrudComponent implements OnInit {
     this.loading = true
     console.log('load product round')
     setTimeout(() => {
-      this.productRoundService
-        .listProductRounds({})
-        .subscribe((res: IResponseSuccess) => {
-          if (res.valid) {
-            this.productRoundList = this.prepareProductRounds(
-              res.data.productRounds,
-            )
-            this.totalRecords = this.productRoundList.length
-            console.log('this.productRoundList', this.productRoundList)
-          }
-          this.loading = false
-        })
+      this.productRoundService.listProductRounds({}).then((res: any) => {
+        // if (res.valid) {
+        this.productRoundList = this.prepareProductRounds(res)
+        this.totalRecords = this.productRoundList.length
+        console.log('this.productRoundList', this.productRoundList)
+        // }
+        this.loading = false
+      })
     }, 0)
   }
 

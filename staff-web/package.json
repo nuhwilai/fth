@@ -7,7 +7,8 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "startWithHttps": "ng serve --host=0.0.0.0 --ssl --ssl-key c:\\work\\localhost.key  --ssl-cert c:\\work\\localhost.crt"
   },
   "private": true,
   "dependencies": {
@@ -25,9 +26,11 @@
     "jsrsasign": "^8.0.13",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "ngx-indexed-db": "^4.0.14",
     "primeicons": "^2.0.0",
     "primeng": "8.1.4",
+    "qs": "^6.9.3",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

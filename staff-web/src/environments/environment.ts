@@ -1,14 +1,12 @@
-import googleOauth from './google-oauth'
-
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 const serverUrl = 'http://localhost:8000'
+// const serverUrl = 'http://192.168.1.10:8000'
 
 export const environment = {
   production: false,
-  googleOauth,
   restEndpointUrl: serverUrl + '/api',
   serverPubKey: `-----BEGIN PUBLIC KEY-----
   MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2VO6BGTgz0tkrDYEABUN

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, interval, ReplaySubject } from 'rxjs'
 import { SocialUser } from 'angularx-social-login'
-import { AuthService as OAuthService } from 'angularx-social-login'
 import { debounce } from 'rxjs/operators'
 import { Router } from '@angular/router'
 @Injectable({
@@ -11,25 +10,25 @@ export class AuthService {
   authData = { isLogin: false, authToken: null }
   authData$: BehaviorSubject<any>
   public settingsLoaded: ReplaySubject<any> = new ReplaySubject()
-  constructor(private oAuthService: OAuthService, private router: Router) {
+  constructor( private router: Router) {
     this.authData$ = new BehaviorSubject({ isLogin: false })
     // this.registerOAuth();
     this.settingsLoaded.next(true)
   }
 
-  registerOAuth() {
-    this.oAuthService.authState
-      .pipe(debounce(() => interval(1000)))
-      .subscribe((socialUser) => {
-        if (socialUser) {
-          this.setUser(socialUser)
-          this.router.navigateByUrl('/')
-        } else {
-          this.router.navigateByUrl('/login')
-        }
-        this.settingsLoaded.next(true)
-      })
-  }
+  // registerOAuth() {
+  //   this.oAuthService.authState
+  //     .pipe(debounce(() => interval(1000)))
+  //     .subscribe((socialUser) => {
+  //       if (socialUser) {
+  //         this.setUser(socialUser)
+  //         this.router.navigateByUrl('/')
+  //       } else {
+  //         this.router.navigateByUrl('/login')
+  //       }
+  //       this.settingsLoaded.next(true)
+  //     })
+  // }
 
   loginWithGoogle(socialUser: SocialUser) {}
 
