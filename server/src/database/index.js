@@ -15,6 +15,7 @@ var database = mongojs(mainConf.dbUrl, [
   'staff',
   'roundProduct',
   'receiveTxn',
+  'nationalIdInfo'
 ])
 
 exports.initializeDatabase = () => {

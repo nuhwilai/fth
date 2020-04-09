@@ -1,3 +1,4 @@
+const { db } = require('../database')
 // example case "111-111" --> pattern_incorrect
 // example case "111111" --> duplicate_national_id
 
@@ -48,19 +49,43 @@ exports.validateUserPatternNationalId = (user) => {
   return { valid: false, reason: 'pattern_incorrect' }
 }
 
-exports.validateUserDuplicateNationalId = (user) => {
-  // TODO: check duplicate national id from radis
-  if (user.nationalId === '111111') {
+exports.validateUserDuplicateNationalId = async (user) => {
+  try {
+    const nationalIdInfoes = this.getNationalIdInfoes(user)
+    const nationalIds = nationalIdInfoes.map((n) => n.nationalId)
+
+    const uniqueNationalIds = [...new Set(nationalIds)]
+    if (nationalIds.length !== uniqueNationalIds.length) {
+      throw new Error('duplicate_national_id')
+    }
+
+    const nationalIdInfoCount = await db.nationalIdInfo.countAsync({
+      nationalId: { $in: nationalIds },
+    })
+
+    if (nationalIdInfoCount > 0) {
+      throw new Error('duplicate_national_id')
+    }
+
+    return {
+      valid: true,
+    }
+  } catch (error) {
     return {
       valid: false,
-      reason: 'duplicate_national_id',
+      reason: error.message,
     }
-  }
-  return {
-    valid: true,
   }
 }
 
+exports.getNationalIdInfoes = (user) => {
+  const memberNationalIds = user.members.map(this.getNationalIdInfo)
+  return [this.getNationalIdInfo(user), ...memberNationalIds]
+}
+
+exports.getNationalIdInfo = (user) => {
+  return { nationalId: user.nationalId, isUsePassport: user.isUsePassport }
+}
 const checkSumNationalId = (value) => {
   // thai nationalId
   const digit1 = Number(value[0])
