@@ -124,7 +124,6 @@ export class RequestQrCodeComponent implements OnInit {
       },
       (err) => {
         this.loading = false
-        console.log(err)
         this.notificationError(err.message)
         this.doSurvey()
       },

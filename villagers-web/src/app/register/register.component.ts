@@ -29,7 +29,6 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.result = mockResult
     this.doSurvey()
   }
 
@@ -143,7 +142,7 @@ export class RegisterComponent implements OnInit {
         })
       },
       (err) => {
-        this.notificationError(err)
+        this.notificationError(err.message)
       },
     )
   }
