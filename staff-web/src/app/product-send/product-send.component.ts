@@ -28,6 +28,8 @@ export class ProductSendComponent implements OnInit {
   staffData
 
   txnRequireCount = 0
+  cameras: any
+
   constructor(
     private recieverService: RecieverService,
     private route: ActivatedRoute,
@@ -57,6 +59,7 @@ export class ProductSendComponent implements OnInit {
 
   camerasFoundHandler($event) {
     console.log('$event :', $event)
+    this.cameras = $event
     this.desiredDevice = $event[0]
   }
 
@@ -131,5 +134,21 @@ export class ProductSendComponent implements OnInit {
     this.txactionRecieveForm.patchValue({
       supplyId: this.supplyId,
     })
+  }
+  toggleCamera = (
+    currentCamera: MediaDeviceInfo,
+    cameras: MediaDeviceInfo[],
+  ) => {
+    console.log('cameras', cameras)
+    console.log('currentCamera', currentCamera)
+
+    if (cameras && cameras.length == 2 && currentCamera) {
+      // use _.xorBy e.g. assert _.xor([1,2], [2]) == [1]
+      this.desiredDevice = _.chain(cameras)
+        .xorBy([currentCamera], 'deviceId')
+        .first()
+        .value()
+      console.log('toggle to camera', this.desiredDevice)
+    }
   }
 }
