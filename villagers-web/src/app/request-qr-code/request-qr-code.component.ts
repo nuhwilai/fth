@@ -5,7 +5,7 @@ import * as showdown from 'showdown'
 import * as Survey from 'survey-angular'
 import { surveyJSON } from './request-qr-code-forms'
 import { RequestQrCodeService } from './request-qr-code.service'
-import { IRequestQrTokenSuccessData } from './type'
+import { IRequestQrTokenResponse } from './type'
 @Component({
   selector: 'app-request-qr-code',
   templateUrl: './request-qr-code.component.html',
@@ -116,7 +116,7 @@ export class RequestQrCodeComponent implements OnInit {
     this.result.isUsePassport = this.result.isUsePassport == true
     this.loading = true
     this.requestQrCodeService.requestQrCode(this.result).subscribe(
-      (data: IRequestQrTokenSuccessData) => {
+      (data: IRequestQrTokenResponse) => {
         this.loading = false
         if(data.valid){
           this.router.navigate(['show-qr-code', { ...data.data }], {

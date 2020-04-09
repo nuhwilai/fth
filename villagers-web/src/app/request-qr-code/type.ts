@@ -4,7 +4,7 @@ export interface IRequestQrTokenBody {
   phoneNumber: string
 }
 
-export interface IRequestQrTokenSuccessData {
+export interface IRequestQrTokenResponse {
   valid: boolean
   data?: {
     _id: string

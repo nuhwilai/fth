@@ -6,7 +6,7 @@ import * as Survey from 'survey-angular'
 import { ALLERGIES, DISEASE } from './data-values'
 import { surveyJSON, mockResult } from './register-forms'
 import { RegisterService } from './register.service'
-import { ICreateUserSuccessData } from './type'
+import { ICreateUserResponse } from './type'
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -137,7 +137,7 @@ export class RegisterComponent implements OnInit {
   complete() {
     this.result.isUsePassport = this.result.isUsePassport == true
     this.registerService.createUser(this.result).subscribe(
-      (data: ICreateUserSuccessData) => {
+      (data: ICreateUserResponse) => {
         if (data.valid) {
           this.router.navigate(['show-qr-code', { ...data.data }], {
             replaceUrl: true,

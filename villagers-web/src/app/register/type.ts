@@ -24,7 +24,7 @@ export class ICreateUseRequestData {
   remark?: string
 }
 
-export interface ICreateUserSuccessData {
+export interface ICreateUserResponse {
   valid: boolean
   data?: {
     _id?: string
