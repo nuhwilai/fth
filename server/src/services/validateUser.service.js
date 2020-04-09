@@ -10,7 +10,6 @@ exports.validateUser = async (user) => {
   for (const validatorFn of validators) {
     const result = await validatorFn(user)
     if (!result.valid) {
-      console.log(result)
       return result
     }
   }
@@ -21,7 +20,6 @@ exports.validateUser = async (user) => {
 }
 
 exports.validateUserPatternNationalId = (user) => {
-  // TODO: check validate user with national id and passport
   if (user.isUsePassport) {
     return { valid: true, reason: 'pattern_incorrect' }
   }
@@ -33,6 +31,14 @@ exports.validateUserPatternNationalId = (user) => {
         return {
           valid: true,
         }
+      }
+    } else {
+      return { valid: false, reason: 'wrong_length' }
+    }
+  } else {
+    if (user.nationalId.length === 9) {
+      return {
+        valid: true,
       }
     } else {
       return { valid: false, reason: 'wrong_length' }
