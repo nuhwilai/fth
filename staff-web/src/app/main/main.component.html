@@ -1,14 +1,14 @@
 <p-table
   [columns]="cols"
-  [value]="supplies"
+  [value]="products"
   selectionMode="single"
-  [(selection)]="selectedSupply"
+  [(selection)]="selectedProduct"
   (onRowSelect)="onRowSelect($event)"
   [paginator]="true"
   [rows]="15"
 >
   <ng-template pTemplate="caption">
-    List of Supplies
+    List of Products
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
@@ -24,7 +24,7 @@
         {{ rowData[col.field] }}
       </td>
       <td>
-        <a [routerLink]="['/supply', rowData.id]">
+        <a [routerLink]="['/product-send', rowData.id]">
           <p-button class="action-button" label="Send Spply"> </p-button>
         </a>
       </td>
@@ -44,7 +44,7 @@
 </p-table>
 
 <p-dialog
-  header="Supply Details"
+  header="Product Details"
   [(visible)]="displayDialog"
   [focusOnShow]="false"
   [responsive]="true"
@@ -52,13 +52,13 @@
   [modal]="true"
   [style]="{ width: '300px' }"
 >
-  <div class="ui-g ui-fluid" *ngIf="supply">
+  <div class="ui-g ui-fluid" *ngIf="product">
     <div class="ui-g-12">
       <div class="ui-g-4">
         <label for="vin">Title</label>
       </div>
       <div class="ui-g-8">
-        <input pInputText id="vin" [(ngModel)]="supply.title" autofocus />
+        <input pInputText id="vin" [(ngModel)]="product.title" autofocus />
       </div>
     </div>
     <div class="ui-g-12">
@@ -66,7 +66,7 @@
         <label for="year">Date</label>
       </div>
       <div class="ui-g-8">
-        <input pInputText id="year" [(ngModel)]="supply.date" />
+        <input pInputText id="year" [(ngModel)]="product.date" />
       </div>
     </div>
   </div>

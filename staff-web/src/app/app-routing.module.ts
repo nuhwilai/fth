@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { MainComponent } from './main/main.component';
-import { LoginComponent } from './login/login.component';
-import { SupplySendComponent } from './supply-send/supply-send.component';
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { MainComponent } from './main/main.component'
+import { LoginComponent } from './login/login.component'
+import { ProductSendComponent } from './product-send/product-send.component'
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'main' },
-  { path: 'supply/:id', component: SupplySendComponent },
+  { path: 'product-send/:id', component: ProductSendComponent },
   {
     component: MainComponent,
     path: 'main',
@@ -15,7 +15,7 @@ const routes: Routes = [
     component: LoginComponent,
     path: 'login',
   },
-];
+]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
