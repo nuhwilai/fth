@@ -14,7 +14,7 @@
   <h4 class="title is-5 header">
     Please keep the QR code confidential. Do not give to others.
   </h4>
-  <div class="qrCode">
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS7dqFRYAb5w7amjkGOIo676u06z7NG8b9IDk2a4aO1GoSIl0rq&usqp=CAU"/>
+  <div class="qrCode" *ngIf="_id">
+    <img [src]="apiUrl+'/qrcode?text='+qrcodeToken"/>
   </div>
 </div>

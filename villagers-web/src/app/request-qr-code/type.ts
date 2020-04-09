@@ -5,6 +5,10 @@ export interface IRequestQrTokenBody {
 }
 
 export interface IRequestQrTokenSuccessData {
-  _id: string // userId
-  qrcodeToken: string
+  valid: boolean
+  data: {
+    _id: string
+    qrcodeToken: string
+  }
+  reason?: string
 }

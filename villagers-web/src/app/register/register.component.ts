@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 import * as showdown from 'showdown'
 import * as Survey from 'survey-angular'
 import { ALLERGIES, DISEASE } from './data-values'
-import { surveyJSON } from './register-forms'
+import { surveyJSON, mockResult } from './register-forms'
 import { RegisterService } from './register.service'
 import { ICreateUserSuccessData } from './type'
 @Component({
@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.result = mockResult
     this.doSurvey()
   }
 
@@ -137,9 +138,14 @@ export class RegisterComponent implements OnInit {
     this.result.isUsePassport = this.result.isUsePassport == true
     this.registerService.createUser(this.result).subscribe(
       (data: ICreateUserSuccessData) => {
-        this.router.navigate(['show-qr-code', { ...data }], {
-          replaceUrl: true,
-        })
+        if (data.valid) {
+          this.router.navigate(['show-qr-code', { ...data.data }], {
+            replaceUrl: true,
+          })
+        } else {
+          this.notificationError(data.reason)
+          this.doSurvey()
+        }
       },
       (err) => {
         this.notificationError(err.message)

@@ -118,9 +118,15 @@ export class RequestQrCodeComponent implements OnInit {
     this.requestQrCodeService.requestQrCode(this.result).subscribe(
       (data: IRequestQrTokenSuccessData) => {
         this.loading = false
-        this.router.navigate(['show-qr-code', { ...data }], {
-          replaceUrl: true,
-        })
+        if(data.valid){
+          this.router.navigate(['show-qr-code', { ...data.data }], {
+            replaceUrl: true,
+          })
+        }
+        else{
+          this.notificationError(data.reason)
+          this.doSurvey()
+        }
       },
       (err) => {
         this.loading = false
