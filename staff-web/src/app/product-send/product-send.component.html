@@ -1,4 +1,4 @@
-<div *ngIf="txnRequireCount">รายการรอบันทึก {{ txnRequireCount }}</div>
+<div>รายการรอบันทึก {{ txnRequireCount }}</div>
 
 <button
   pButton
@@ -16,16 +16,16 @@
   *ngIf="scannerEnabled"
   style="width: 100%;"
 ></button>
-<div style="height: 70vh; width: 100%;">
-  <zxing-scanner
-    *ngIf="scannerEnabled"
-    [enable]="scannerEnabled"
-    [(device)]="desiredDevice"
-    (camerasFound)="camerasFoundHandler($event)"
-    (camerasNotFound)="camerasNotFoundHandler($event)"
-    (scanSuccess)="scanSuccessHandler($event)"
-  ></zxing-scanner>
-</div>
+<!-- <div style="height: 70vh; width: 100%;"> -->
+<zxing-scanner
+  *ngIf="scannerEnabled"
+  [enable]="scannerEnabled"
+  [(device)]="desiredDevice"
+  (camerasFound)="camerasFoundHandler($event)"
+  (camerasNotFound)="camerasNotFoundHandler($event)"
+  (scanSuccess)="scanSuccessHandler($event)"
+></zxing-scanner>
+<!-- </div> -->
 
 <hr />
 

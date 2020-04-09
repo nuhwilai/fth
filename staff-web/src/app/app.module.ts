@@ -33,16 +33,16 @@ import { ProductRoundModule } from './product-round/product-round.module'
 import productRoundIndbSchma from './main/product-round-indb-schma'
 import { IncludeArrayPipe } from './include-array.pipe'
 
-const config = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider(googleOauth.key),
-  },
-])
+// const config = new AuthServiceConfig([
+//   {
+//     id: GoogleLoginProvider.PROVIDER_ID,
+//     provider: new GoogleLoginProvider(googleOauth.key),
+//   },
+// ])
 
-export function provideConfig() {
-  return config
-}
+// export function provideConfig() {
+//   return config
+// }
 
 const dbConfig: DBConfig = {
   name: 'MyDb',
@@ -65,7 +65,7 @@ const dbConfig: DBConfig = {
     FormsModule,
     BrowserModule,
     AppRoutingModule,
-    SocialLoginModule,
+    // SocialLoginModule,
     ReactiveFormsModule,
     HttpClientModule,
     ButtonModule,
@@ -79,10 +79,10 @@ const dbConfig: DBConfig = {
     ProductRoundModule,
   ],
   providers: [
-    {
-      provide: AuthServiceConfig,
-      useFactory: provideConfig,
-    },
+    // {
+    //   provide: AuthServiceConfig,
+    //   useFactory: provideConfig,
+    // },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

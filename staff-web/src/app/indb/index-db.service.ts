@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core'
 import { NgxIndexedDBService } from 'ngx-indexed-db'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
 import * as _ from 'lodash'
 import { Subject } from 'rxjs'
-
+import { stringify } from 'qs'
+import * as moment from 'moment'
 @Injectable({
   providedIn: 'root',
 })
@@ -81,6 +82,28 @@ export class IndexDbService {
   }
 
   getServiceToIndexDb() {
-    // this.http.get('/producRounds').subscribe((data: any) => {})
+    this.http
+      .get(environment.restEndpointUrl + '/productRounds', {
+        params: new HttpParams({
+          fromString: stringify({
+            roundDateTime_gt: moment().startOf('day').toISOString(),
+          }),
+        }),
+      })
+      .subscribe((data: any) => {
+        if (data && data.valid) {
+          const productRoundsData = data.data.productRounds
+          this.dbService.clear('productRound').then(
+            () => {
+              _.each(productRoundsData, (data) => {
+                this.dbService.add('productRound', data)
+              })
+            },
+            (error) => {
+              console.log(error)
+            },
+          )
+        }
+      })
   }
 }
