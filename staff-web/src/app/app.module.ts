@@ -3,15 +3,10 @@ import { NgModule } from '@angular/core'
 
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import {
-  AuthServiceConfig,
-  GoogleLoginProvider,
-  SocialLoginModule,
-} from 'angularx-social-login'
+
 import { LoginComponent } from './login/login.component'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { NavBarComponent } from './nav-bar/nav-bar.component'
-import googleOauth from 'src/environments/google-oauth'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AuthInterceptor } from './auth-interceptor'
 import { ButtonModule } from 'primeng/button'
