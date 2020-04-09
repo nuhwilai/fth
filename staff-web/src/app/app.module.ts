@@ -8,7 +8,6 @@ import {
   GoogleLoginProvider,
   SocialLoginModule,
 } from 'angularx-social-login'
-import { MainComponent } from './main/main.component'
 import { LoginComponent } from './login/login.component'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { NavBarComponent } from './nav-bar/nav-bar.component'
@@ -25,13 +24,13 @@ import { DialogModule } from 'primeng/dialog'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ProductSendComponent } from './product-send/product-send.component'
 import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
-import productRoundIndbSchma from './main/product-round-indb-schma'
 import { IndexDbService } from './indb/index-db.service'
 import { ToastModule } from 'primeng/toast'
 import recieveTxn from './product-send/recieve-txn'
 import { MessageService } from 'primeng/components/common/messageservice'
 
 import { ProductRoundModule } from './product-round/product-round.module'
+import productRoundIndbSchma from './main/product-round-indb-schma'
 const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -52,7 +51,6 @@ const dbConfig: DBConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
     LoginComponent,
     NavBarComponent,
     RecieverInfoComponent,
