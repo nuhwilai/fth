@@ -16,14 +16,14 @@
 ```
 # User
 
-- [ ] POST `/user`
+- [ ] POST `/users`
    ```ts
         interface ICreateUserSuccessData {
             _id: string
             qrcodeToken: string
         }
     ```
-- [ ] PUT `/user`
+- [ ] PUT `/users`
     ```ts
         interface ICreateUserSuccessData {
             _id: string
