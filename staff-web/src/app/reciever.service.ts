@@ -14,17 +14,17 @@ export class RecieverService {
   ) {}
 
   getRecieverData(data) {
-    return new Observable((sub) => {
-      setTimeout(() => {
-        sub.next({
-          nationalId: '11111',
-          phone: '0899999999',
-          firstname: 'Tharit',
-          lastname: 'Wichiankoo',
-          amount: 3,
-        })
-      }, 3000)
-    })
+    // return new Observable((sub) => {
+    //   setTimeout(() => {
+    //     sub.next({
+    //       nationalId: '11111',
+    //       phone: '0899999999',
+    //       firstname: 'Tharit',
+    //       lastname: 'Wichiankoo',
+    //       amount: 3,
+    //     })
+    //   }, 3000)
+    // })
     return this.http.get(
       environment.restEndpointUrl + `/users/${data.nationalId}`,
     )

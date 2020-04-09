@@ -30,27 +30,27 @@ export class IndexDbService {
   addIndexDbToService() {
     this.dbService.getAll('recieveTxn').then(
       (recieveTxn) => {
-        console.log(recieveTxn)
         if (_.isEmpty(recieveTxn)) {
           return
         }
         const newRecieveTxn = _.map(recieveTxn, (data) => _.omit(data, ['id']))
-        console.log('newRecieveTxn :', newRecieveTxn)
-        // this.http
-        //   .post(environment.restEndpointUrl + '/receiveTxnSyncUp', newRecieveTxn)
-        //   .subscribe((data) => {
-        //     if (data) {
-        //       console.log('save success')
-        //     }
-        //   })
-        this.dbService.clear('recieveTxn').then(
-          () => {
-            console.log('clear :')
-          },
-          (error) => {
-            console.log(error)
-          },
-        )
+        this.http
+          .post(environment.restEndpointUrl + '/receiveTxnSyncUp', {
+            receiveTxns: newRecieveTxn,
+          })
+          .subscribe((data) => {
+            if (data) {
+              console.log('save success')
+              this.dbService.clear('recieveTxn').then(
+                () => {
+                  console.log('clear :')
+                },
+                (error) => {
+                  console.log(error)
+                },
+              )
+            }
+          })
       },
       (error) => {
         console.log(error)

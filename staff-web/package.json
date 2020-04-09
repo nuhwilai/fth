@@ -22,6 +22,8 @@
     "@angular/router": "~8.2.14",
     "@zxing/ngx-scanner": "^3.0.0",
     "angularx-social-login": "^2.2.1",
+    "jsrsasign": "^8.0.13",
+    "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
     "ngx-indexed-db": "^4.0.14",
     "primeicons": "^2.0.0",
