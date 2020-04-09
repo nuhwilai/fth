@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ProductRoundService } from '../product-round.service'
 
 @Component({
@@ -12,7 +12,7 @@ export class ProductRoundCrudComponent implements OnInit {
 
   productRound: IProductRound
   newProductRound: boolean
-  productRoundList: any[]
+  productRoundList: any[] = []
   productRoundForm: FormGroup
   submitted: boolean = false
 
@@ -40,11 +40,16 @@ export class ProductRoundCrudComponent implements OnInit {
   private refreshData() {
     this.loading = true
     this.productRoundService
-      .listProductRounds()
-      .subscribe(({ productRounds }: IProductRoundSuccessData) => {
-        this.productRoundList = productRounds
+      .listProductRounds({})
+      .subscribe((res: IResponseSuccess) => {
+        if (res.valid) {
+          this.productRoundList = this.prepareProductRounds(
+            res.data.productRounds,
+          )
+          this.totalRecords = this.productRoundList.length
+          console.log('this.productRoundList', this.productRoundList)
+        }
         this.loading = false
-        console.log('this.productRoundList', this.productRoundList)
       })
   }
 
@@ -60,12 +65,13 @@ export class ProductRoundCrudComponent implements OnInit {
     setTimeout(() => {
       this.productRoundService
         .listProductRounds({})
-        .subscribe((data: IResponseSuccess) => {
-          if (data.valid) {
-            let productRounds = data.data.productRounds
-            this.productRoundList = productRounds
+        .subscribe((res: IResponseSuccess) => {
+          if (res.valid) {
+            this.productRoundList = this.prepareProductRounds(
+              res.data.productRounds,
+            )
+            this.totalRecords = this.productRoundList.length
             console.log('this.productRoundList', this.productRoundList)
-            this.totalRecords = productRounds.length
           }
           this.loading = false
         })
@@ -118,16 +124,25 @@ export class ProductRoundCrudComponent implements OnInit {
     this.submitted = true
     if (this.productRoundForm.invalid) return
     if (this.newProductRound) {
-      let _value = this.productRoundForm.value
-      this.productRoundService.createProductRound(_value).subscribe(() => {
-        this.refreshData()
-      })
-    } else {
-      let _id = this.productRound._id
-      delete this.productRound._id
       this.productRoundService
-        .updateProductRound(_id, this.productRoundForm.value)
-        .subscribe(() => {
+        .createProductRound(this.productRoundForm.value)
+        .subscribe((res: IResponseSuccess) => {
+          if (res.valid) {
+            console.log(`product round ${res.data._id} has been created`)
+          } else {
+          }
+          this.refreshData()
+        })
+    } else {
+      let _value = this.productRoundForm.value
+      let _id = _value._id
+      delete _value._id
+      this.productRoundService
+        .updateProductRound(_id, _value)
+        .subscribe((res: IResponseSuccess) => {
+          if (res.valid) {
+            console.log(`product round ${res.data._id} has been updated.`)
+          }
           this.refreshData()
         })
     }
@@ -136,17 +151,29 @@ export class ProductRoundCrudComponent implements OnInit {
     this.submitted = false
   }
 
-  delete() {
+  delete(id: string) {
     this.productRoundService
-      .deleteProductRound(this.productRound._id)
-      .subscribe(({ _id }) => {
-        if (_id) {
-          this.refreshData()
+      .deleteProductRound(id)
+      .subscribe((res: IResponseSuccess) => {
+        if (res.valid) {
+          console.log(`product round id ${res.data._id} has been deleted.`)
         } else {
         }
+        this.refreshData()
         delete this.productRound
       })
     this.displayDialog = false
     this.submitted = false
+  }
+
+  prepareProductRounds = (rounds: IProductRound[]) => {
+    return rounds.map((it) => this.parseRoundDateTime(it))
+  }
+
+  parseRoundDateTime = (productRound: IProductRound) => {
+    return {
+      ...productRound,
+      roundDateTime: new Date(productRound.roundDateTime),
+    }
   }
 }

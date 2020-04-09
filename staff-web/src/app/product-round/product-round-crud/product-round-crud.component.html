@@ -40,9 +40,9 @@
     <tr [pSelectableRow]="rowData">
       <td>{{ rowData.productName }}</td>
       <td>{{ rowData.roundDateTime | date: 'medium' }}</td>
-      <td>
+      <td style="text-align: center;">
         <a [routerLink]="['/product-send', rowData._id]">
-          <p-button class="action-button" label="Send Spply"> </p-button>
+          <p-button label="Send Spply"> </p-button>
         </a>
       </td>
     </tr>
@@ -94,6 +94,7 @@
       <p-calendar
         formControlName="roundDateTime"
         [showTime]="true"
+        appendTo="body"
       ></p-calendar>
     </div>
   </div>
@@ -112,7 +113,7 @@
         type="button"
         pButton
         icon="pi pi-times"
-        (click)="delete()"
+        (click)="delete(productRound._id)"
         label="Delete"
         class="ui-button-danger"
       ></button>
