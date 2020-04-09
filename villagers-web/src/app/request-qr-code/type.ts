@@ -6,7 +6,7 @@ export interface IRequestQrTokenBody {
 
 export interface IRequestQrTokenSuccessData {
   valid: boolean
-  data: {
+  data?: {
     _id: string
     qrcodeToken: string
   }

@@ -26,7 +26,7 @@ export class ICreateUseRequestData {
 
 export interface ICreateUserSuccessData {
   valid: boolean
-  data: {
+  data?: {
     _id?: string
     qrcodeToken?: string
   }
