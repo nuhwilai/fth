@@ -20,6 +20,10 @@ router.post('/requestQrToken', async (req, res) => {
       throw new Error(validate.reason)
     }
     const userResult = await db.user.findOneAsync(userInput)
+
+    if(!userResult){
+      throw new Error('not match.')
+    }
     const qrcodeToken = await generateQrToken(userResult)
     res.send({
       valid: true,
