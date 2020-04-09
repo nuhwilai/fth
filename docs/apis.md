@@ -16,8 +16,39 @@
 ```
 # User
 
+```ts
+    interface IUser {
+        firstname: string
+        lastname: string
+        isUsePassport?: boolean
+        nationalId: string
+        phoneNumber: string
+        homeNumber: string
+        homeMoo?: string
+        homeMooban?: string
+        homePostalCode: string
+        homeSubDistrict: string
+        homeDistrict: string
+        homeProvince: string
+        allergies: string[]
+        diseases: string[]
+        members: {
+            isUsePassport: string
+            firstname: string
+            lastname: string
+            nationalId: string
+            allergies: string[]
+            diseases: string[]
+        }[]
+        remark?: string
+    }
+```
+
 - [x] POST `/users`
    ```ts
+        interface ICreateUserBody extends IUser {
+        }
+
         interface ICreateUserSuccessData {
             _id: string
             qrcodeToken: string
@@ -26,7 +57,7 @@
 - [x] GET `/users/:nationalId`
     ```ts
         interface IUserSuccessData {
-            user: any
+            user: IUser
         }
     ```
 - [x] PUT `/users/:nationalId`
