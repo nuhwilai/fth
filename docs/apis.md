@@ -16,23 +16,60 @@
 ```
 # User
 
-- [ ] POST `/users`
+```ts
+    interface IUser {
+        firstname: string
+        lastname: string
+        isUsePassport?: boolean
+        nationalId: string
+        phoneNumber: string
+        homeNumber: string
+        homeMoo?: string
+        homeMooban?: string
+        homePostalCode: string
+        homeSubDistrict: string
+        homeDistrict: string
+        homeProvince: string
+        allergies: string[]
+        diseases: string[]
+        members: {
+            isUsePassport: string
+            firstname: string
+            lastname: string
+            nationalId: string
+            allergies: string[]
+            diseases: string[]
+        }[]
+        remark?: string
+    }
+```
+
+- [x] POST `/users`
    ```ts
+        interface ICreateUserBody extends IUser {
+        }
+
         interface ICreateUserSuccessData {
             _id: string
             qrcodeToken: string
         }
     ```
-- [ ] PUT `/users`
+- [x] GET `/users/:nationalId`
     ```ts
-        interface ICreateUserSuccessData {
-            _id: string
-            qrcodeToken: string
+        interface IUserSuccessData {
+            user: IUser
         }
     ```
-- [ ] POST `/requestQrToken`
+- [x] PUT `/users/:nationalId`
+    ```ts
+        interface IUpdateUserSuccessData {
+            _id: string
+        }
+    ```
+- [x] POST `/requestQrToken`
    ```ts
         interface IRequestQrTokenBody {
+            isUsePassport: boolean
             nationalId: string
             phoneNumber: string
         }
@@ -66,31 +103,31 @@ interface IProductRound {
    productName: string
 }
 ```
-- [ ] POST `/productRounds`
+- [x] POST `/productRounds`
     ```ts
         interface ICreateProductRoundSuccessData {
             _id: string
         }
     ```
-- [ ] PUT `/productRounds`
+- [x] PUT `/productRounds/:id`
     ```ts
         interface IUpdateProductRoundSuccessData {
             _id: string
         }
     ```
-- [ ] DELETE `/productRounds`
+- [x] DELETE `/productRounds/:id`
     ```ts
         interface IDeleteProductRoundSuccessData {
             _id: string
         }
     ```
-- [ ] GET `/productRounds`
+- [x] GET `/productRounds`
      ```ts
         interface IProductRoundSuccessData {
             productRounds: IProductRound[]
         }
     ```
-- [ ] GET `/productRounds/:id`
+- [x] GET `/productRounds/:id`
      ```ts
         interface IListProductRoundSuccessData {
             productRound: IProductRound
@@ -108,7 +145,7 @@ interface IProductRound {
     }
     ```
   
-- [ ] POST `/receiveTxnSyncUp`
+- [x] POST `/receiveTxnSyncUp`
     ```ts
     interface IReceiveTxnSyncUpBody{
         receiveTxns: IReceiveTxn[]
@@ -119,7 +156,7 @@ interface IProductRound {
     ```
 
 # QR
-- [ ] GET `/qrcode?text=&imageUrl=`
+- [x] GET `/qrcode?text=&imageUrl=`
 
 
 
