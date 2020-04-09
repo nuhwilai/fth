@@ -31,6 +31,8 @@ import { MessageService } from 'primeng/components/common/messageservice'
 
 import { ProductRoundModule } from './product-round/product-round.module'
 import productRoundIndbSchma from './main/product-round-indb-schma'
+import { IncludeArrayPipe } from './include-array.pipe'
+
 const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -55,6 +57,7 @@ const dbConfig: DBConfig = {
     NavBarComponent,
     RecieverInfoComponent,
     ProductSendComponent,
+    IncludeArrayPipe,
   ],
   imports: [
     BrowserAnimationsModule,

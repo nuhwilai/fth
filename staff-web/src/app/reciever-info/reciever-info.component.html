@@ -1,24 +1,143 @@
-<p>reciever-info works!</p>
-
 <div *ngIf="recieverData">
-  <div>
-    <p>
-      หมายเลขบัตรประจำตัวประชาชน:<span>{{ recieverData?.nationalId }}</span>
-    </p>
-    <p>
-      หมายเลขโทรศัพท์:<span>{{ recieverData?.phone }}</span>
-    </p>
-  </div>
+  <p-card>
 
-  <div>
-    <p>
-      ชื่อ: <span>{{ recieverData?.firstname }}</span>
-    </p>
-    <p>
-      นามสกุล: <span>{{ recieverData?.lastname }}</span>
-    </p>
-    <p>
-      จำนวนอาหาร: <span>{{ recieverData?.amount }}</span>
-    </p>
+    <div class="ui-g-12">
+      <div class="ui-g-12 ui-md-4">
+        <p>
+          หมายเลขบัตรประจำตัวประชาชน:<span>{{ recieverData?.nationalId }}</span>
+        </p>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p>
+          หมายเลขโทรศัพท์:<span>{{ recieverData?.phone }}</span>
+        </p>
+      </div>
+      <div class="ui-g-12 ui-md-4">
+        <p>
+          ชื่อ: <span>{{ recieverData?.firstname }}</span>
+        </p>
+      </div>
+    </div>
+    <!-- <ng-container *ngFor="let member of members"> -->
+    <div>
+      <p>
+        อาการแพ้
+      </p>
+    </div>
+  
+    <div class="ui-g-12">
+      <ng-container *ngFor="let allergy of ALLERGIES">
+        <div class="ui-g-12 ui-md-4">
+          <span>
+            <ng-container
+              ngSwitch="{{ recieverData.allergies | includeArray: allergy.key }}"
+            >
+              <i class="pi pi-check" *ngSwitchCase="'/'"></i>
+              <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
+              <i class="pi pi-times" *ngSwitchCase="'x'"></i>
+            </ng-container>
+  
+            {{ allergy.key }}
+          </span>
+        </div>
+      </ng-container>
+    </div>
+  
+    <div>
+      <p>
+        โรคที่เป็น
+      </p>
+    </div>
+    <div class="ui-g-12">
+      <ng-container *ngFor="let disease of DISEASE">
+        <div class="ui-g-12 ui-md-4">
+          <span>
+            <ng-container
+              ngSwitch="{{ recieverData.diseases | includeArray: disease.key }}"
+            >
+              <i class="pi pi-check" *ngSwitchCase="'/'"></i>
+              <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
+              <i class="pi pi-times" *ngSwitchCase="'x'"></i>
+            </ng-container>
+            {{ disease.key }}
+          </span>
+        </div>
+      </ng-container>
+    </div>
+  </p-card>
+
+  
+  <div *ngIf="members">
+    <p>สมาชิก</p>
+    <ng-container *ngFor="let member of members">
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-4">
+          <p>
+            หมายเลขบัตรประจำตัวประชาชน:<span>{{ member?.nationalId }}</span>
+          </p>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p>
+            หมายเลขโทรศัพท์:<span>{{ member?.phone }}</span>
+          </p>
+        </div>
+        <div class="ui-g-12 ui-md-4">
+          <p>
+            ชื่อ: <span>{{ member?.firstname }}</span>
+          </p>
+        </div>
+      </div>
+      <!-- <ng-container *ngFor="let member of members"> -->
+      <div>
+        <p>
+          อาการแพ้
+        </p>
+      </div>
+      <div class="ui-g-12">
+        <ng-container *ngFor="let allergy of ALLERGIES">
+          <div class="ui-g-12 ui-md-4">
+            <span>
+              <ng-container
+                ngSwitch="{{ member.allergies | includeArray: allergy.key }}"
+              >
+                <i class="pi pi-check" *ngSwitchCase="'/'"></i>
+                <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
+                <i class="pi pi-times" *ngSwitchCase="'x'"></i>
+              </ng-container>
+
+              {{ allergy.key }}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+      <div>
+        <p>
+          โรคที่เป็น
+        </p>
+      </div>
+
+      <div class="ui-g-12">
+        <ng-container *ngFor="let disease of DISEASE">
+          <div class="ui-g-12 ui-md-4">
+            <span>
+              <ng-container
+                ngSwitch="{{ member.diseases | includeArray: disease.key }}"
+              >
+                <i class="pi pi-check" *ngSwitchCase="'/'"></i>
+                <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
+                <i class="pi pi-times" *ngSwitchCase="'x'"></i>
+              </ng-container>
+              {{ disease.key }}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+
+      <div>
+        <p>
+          จำนวนอาหาร: <span>{{ member?.amount }}</span>
+        </p>
+      </div>
+    </ng-container>
   </div>
 </div>
