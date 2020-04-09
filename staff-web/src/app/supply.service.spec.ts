@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { QrScanService } from './qr-scan.service';
+import { SupplyService } from './supply.service';
 
-describe('QrScanService', () => {
+describe('SupplyService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: QrScanService = TestBed.get(QrScanService);
+    const service: SupplyService = TestBed.get(SupplyService);
     expect(service).toBeTruthy();
   });
 });

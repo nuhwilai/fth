@@ -13,7 +13,8 @@ export class AuthService {
   public settingsLoaded: ReplaySubject<any> = new ReplaySubject();
   constructor(private oAuthService: OAuthService, private router: Router) {
     this.authData$ = new BehaviorSubject({ isLogin: false });
-    this.registerOAuth();
+    // this.registerOAuth();
+    this.settingsLoaded.next(true);
   }
 
   registerOAuth() {

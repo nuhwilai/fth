@@ -6,7 +6,7 @@ import { SupplySendComponent } from './supply-send/supply-send.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'main' },
-  { path: 'supply', component: SupplySendComponent },
+  { path: 'supply/:id', component: SupplySendComponent },
   {
     component: MainComponent,
     path: 'main',

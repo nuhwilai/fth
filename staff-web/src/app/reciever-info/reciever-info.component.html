@@ -1,1 +1,24 @@
 <p>reciever-info works!</p>
+
+<div *ngIf="recieverData">
+  <div>
+    <p>
+      หมายเลขบัตรประจำตัวประชาชน:<span>{{ recieverData?.nationalId }}</span>
+    </p>
+    <p>
+      หมายเลขโทรศัพท์:<span>{{ recieverData?.phone }}</span>
+    </p>
+  </div>
+
+  <div>
+    <p>
+      ชื่อ: <span>{{ recieverData?.firstname }}</span>
+    </p>
+    <p>
+      นามสกุล: <span>{{ recieverData?.lastname }}</span>
+    </p>
+    <p>
+      จำนวนอาหาร: <span>{{ recieverData?.foodCount }}</span>
+    </p>
+  </div>
+</div>
