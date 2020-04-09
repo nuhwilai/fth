@@ -8,9 +8,10 @@ import { ProductRoundRoutingModule } from './product-round-routing.module'
 import { DialogModule } from 'primeng/dialog'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { InputTextModule } from 'primeng/inputtext'
-import { CalendarModule } from 'primeng/calendar'
+import { CalendarModule } from 'primeng/calendar';
+import { ProductRoundOfflineComponent } from './product-round-offline/product-round-offline.component'
 @NgModule({
-  declarations: [ProductRoundCrudComponent],
+  declarations: [ProductRoundCrudComponent, ProductRoundOfflineComponent],
   exports: [ProductRoundCrudComponent],
   imports: [
     CommonModule,

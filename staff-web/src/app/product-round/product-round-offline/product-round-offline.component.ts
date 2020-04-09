@@ -3,11 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ProductRoundService } from '../product-round.service'
 
 @Component({
-  selector: 'app-product-round-crud',
-  templateUrl: './product-round-crud.component.html',
-  styleUrls: ['./product-round-crud.component.scss'],
+  selector: 'app-product-round-offline',
+  templateUrl: './product-round-offline.component.html',
+  styleUrls: ['./product-round-offline.component.scss'],
 })
-export class ProductRoundCrudComponent implements OnInit {
+export class ProductRoundOfflineComponent implements OnInit {
   displayDialog: boolean
 
   productRound: IProductRound
@@ -39,18 +39,14 @@ export class ProductRoundCrudComponent implements OnInit {
 
   private refreshData() {
     this.loading = true
-    this.productRoundService
-      .listProductRounds({})
-      .subscribe((res: IResponseSuccess) => {
-        if (res.valid) {
-          this.productRoundList = this.prepareProductRounds(
-            res.data.productRounds,
-          )
-          this.totalRecords = this.productRoundList.length
-          console.log('this.productRoundList', this.productRoundList)
-        }
-        this.loading = false
-      })
+    this.productRoundService.listProductRoundOffline({}).then((res: any) => {
+      // if (res.valid) {
+      this.productRoundList = this.prepareProductRounds(res)
+      this.totalRecords = this.productRoundList.length
+      console.log('this.productRoundList', this.productRoundList)
+      // }
+      this.loading = false
+    })
   }
 
   private loadProductRounds(
@@ -63,18 +59,14 @@ export class ProductRoundCrudComponent implements OnInit {
     this.loading = true
     console.log('load product round')
     setTimeout(() => {
-      this.productRoundService
-        .listProductRounds({})
-        .subscribe((res: IResponseSuccess) => {
-          if (res.valid) {
-            this.productRoundList = this.prepareProductRounds(
-              res.data.productRounds,
-            )
-            this.totalRecords = this.productRoundList.length
-            console.log('this.productRoundList', this.productRoundList)
-          }
-          this.loading = false
-        })
+      this.productRoundService.listProductRoundOffline({}).then((res: any) => {
+        // if (res.valid) {
+        this.productRoundList = this.prepareProductRounds(res)
+        this.totalRecords = this.productRoundList.length
+        console.log('this.productRoundList', this.productRoundList)
+        // }
+        this.loading = false
+      })
     }, 0)
   }
 

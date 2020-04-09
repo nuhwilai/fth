@@ -13,8 +13,11 @@ export class ProductRoundService {
   ) {}
 
   listProductRounds = (params: any) => {
+    return this.http.get(`${environment.apiEndpointUrl}/productRounds`)
+  }
+
+  listProductRoundOffline = (params: any) => {
     return this.dbService.getAll('productRound')
-    // return this.http.get(`${environment.apiEndpointUrl}/productRounds`)
   }
 
   createProductRound(params: any) {
