@@ -59,11 +59,14 @@ export class ProductRoundCrudComponent implements OnInit {
     console.log('load product round')
     setTimeout(() => {
       this.productRoundService
-        .listProductRounds()
-        .subscribe(({ productRounds }: IProductRoundSuccessData) => {
-          this.productRoundList = productRounds
-          console.log('this.productRoundList', this.productRoundList)
-          this.totalRecords = productRounds.length
+        .listProductRounds({})
+        .subscribe((data: IResponseSuccess) => {
+          if (data.valid) {
+            let productRounds = data.data.productRounds
+            this.productRoundList = productRounds
+            console.log('this.productRoundList', this.productRoundList)
+            this.totalRecords = productRounds.length
+          }
           this.loading = false
         })
     }, 0)

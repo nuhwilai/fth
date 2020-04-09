@@ -1,3 +1,13 @@
+interface IResponseSuccess {
+  valid: boolean // true
+  data: any // see I<SomeThing>SuccessData
+}
+
+interface IResponseFail {
+  valid: boolean // false
+  reason: string
+}
+
 interface IProductRound {
   _id: string
   roundDateTime: Date

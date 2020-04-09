@@ -3,12 +3,13 @@ import { Routes, RouterModule } from '@angular/router'
 import { MainComponent } from './main/main.component'
 import { LoginComponent } from './login/login.component'
 import { ProductSendComponent } from './product-send/product-send.component'
+import { ProductRoundCrudComponent } from './product-round/product-round-crud/product-round-crud.component'
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'main' },
   { path: 'product-send/:id', component: ProductSendComponent },
   {
-    component: MainComponent,
+    component: ProductRoundCrudComponent,
     path: 'main',
   },
   {
