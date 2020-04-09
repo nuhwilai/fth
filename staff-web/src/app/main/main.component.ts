@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { SupplyService } from '../supply.service';
+import { Component, OnInit } from '@angular/core'
+import { ProductRoundService } from '../product-round.service'
 
 @Component({
   selector: 'app-main',
@@ -7,65 +7,65 @@ import { SupplyService } from '../supply.service';
   styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-  displayDialog: boolean;
+  displayDialog: boolean
 
-  supply: any = {};
+  product: any = {}
 
-  selectedSupply: any;
+  selectedProduct: any
 
-  newSupply: boolean;
+  newProduct: boolean
 
-  supplies: any[];
+  products: any[]
 
-  cols: any[];
+  cols: any[]
 
-  constructor(private supplyService: SupplyService) {}
+  constructor(private productRoundService: ProductRoundService) {}
 
   ngOnInit() {
-    this.supplyService
-      .listSupply()
-      .subscribe((supply: any) => (this.supplies = supply));
+    this.productRoundService
+      .listProduct()
+      .subscribe((product: any) => (this.products = product))
 
     this.cols = [
       { field: 'title', header: 'Title' },
       { field: 'date', header: 'Date' },
-    ];
+    ]
   }
 
   showDialogToAdd() {
-    this.newSupply = true;
-    this.supply = {};
-    this.displayDialog = true;
+    this.newProduct = true
+    this.product = {}
+    this.displayDialog = true
   }
 
   save() {
-    let supplies = [...this.supplies];
-    if (this.newSupply) supplies.push(this.supply);
-    else supplies[this.supplies.indexOf(this.selectedSupply)] = this.supply;
+    let products = [...this.products]
+    if (this.newProduct) products.push(this.product)
+    else products[this.products.indexOf(this.selectedProduct)] = this.product
 
-    this.supplies = supplies;
-    this.supply = null;
-    this.displayDialog = false;
+    this.products = products
+    this.product = null
+    this.displayDialog = false
   }
 
   delete() {
-    let index = this.supplies.indexOf(this.selectedSupply);
-    this.supplies = this.supplies.filter((val, i) => i != index);
-    this.supply = null;
-    this.displayDialog = false;
+    let index = this.products.indexOf(this.selectedProduct)
+    this.products = this.products.filter((val, i) => i != index)
+    this.product = null
+    this.displayDialog = false
   }
 
   onRowSelect(event) {
-    this.newSupply = false;
-    this.supply = this.cloneCar(event.data);
-    this.displayDialog = true;
+    this.newProduct = false
+    this.product = this.cloneCar(event.data)
+    this.displayDialog = true
   }
 
   cloneCar(c: any): any {
-    let car = {};
+    let car = {}
     for (let prop in c) {
-      car[prop] = c[prop];
+      car[prop] = c[prop]
     }
-    return car;
+    return car
   }
 }
