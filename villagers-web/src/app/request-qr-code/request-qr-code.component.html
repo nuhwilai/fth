@@ -1,0 +1,19 @@
+<div class="section-heading has-background-info">
+  <h3 class="title has-text-light is-2">ร้องขอ QR code ใหม่</h3>
+  <h4 class="subtitle has-text-light is-5">Request new QR code</h4>
+  <div class="backBtn" (click)="back()">
+    <span class="icon is-large has-text-primary">
+      <i class="fas fa-3x fa-chevron-left"></i>
+    </span>
+  </div>
+</div>
+<div class="container">
+  <div id="surveyElement"></div>
+  <div class="center" *ngIf="loading">
+    <button class="button is-white is-loading is-large loading"></button>
+  </div>
+  <div class="notification is-danger is-light" *ngIf="error">
+    <button class="delete" (click)="closeError()"></button>
+    {{ errorText }}
+  </div>
+</div>

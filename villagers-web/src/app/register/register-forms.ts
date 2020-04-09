@@ -49,6 +49,13 @@ export const surveyJSON = {
           maxLength: 13,
           placeHolder:
             'ระบุหมายเลขบัตรประจำตัวประชาชน 13 หลัก หรือ หมายเลขพาสปอร์ต ( fill your national id or passport number )',
+          validators: [
+            {
+              type: 'expression',
+              expression: 'checkNationalId({nationalId}, {isUsePassport})',
+              text: 'คุณกรอกหมายเลขบัตรประชาชนไม่ถูกต้อง',
+            },
+          ],
         },
         {
           type: 'text',
@@ -107,15 +114,6 @@ export const surveyJSON = {
             },
             {
               type: 'text',
-              name: 'homePostalCode',
-              title: 'รหัสไปรษณีย์ ( Postal code )',
-              isRequired: true,
-              requiredErrorText:
-                'กรุณากรอกรหัสไปรษณีย์ ( please fill your postal code )',
-              placeHolder: 'รหัสไปรษณีย์ ( Postal code )',
-            },
-            {
-              type: 'text',
               name: 'homeSubDistrict',
               title: 'ตำบล/แขวง ( Sub-district )',
               isRequired: true,
@@ -140,6 +138,15 @@ export const surveyJSON = {
               requiredErrorText:
                 'กรุณากรอกจังหวัด ( please fill your province)',
               placeHolder: 'จังหวัด ( Province )',
+            },
+            {
+              type: 'text',
+              name: 'homePostalCode',
+              title: 'รหัสไปรษณีย์ ( Postal code )',
+              isRequired: true,
+              requiredErrorText:
+                'กรุณากรอกรหัสไปรษณีย์ ( please fill your postal code )',
+              placeHolder: 'รหัสไปรษณีย์ ( Postal code )',
             },
           ],
           title: 'ที่อยู่ปัจจุบัน ( Current Address )',
@@ -180,7 +187,7 @@ export const surveyJSON = {
         },
         {
           type: 'checkbox',
-          name: 'disease',
+          name: 'diseases',
           title: 'โรคประจำตัว ( Congenital disease )',
           choices: [
             {
@@ -205,7 +212,10 @@ export const surveyJSON = {
         {
           type: 'paneldynamic',
           name: 'members',
-          title: 'ข้อมูลสมาชิกในครอบครัว ( Family information )',
+          title: 'ข้อมูลสมาชิกในครอบครัวไม่รวมตัวเอง ( Family information not include yourself )',
+          panelAddText: '+ เพิ่มสมาชิก',
+          processedTitle : 'สมาชิกคนที่ ',
+          panelRemoveText: 'remove',
           templateElements: [
             {
               type: 'text',
@@ -254,6 +264,14 @@ export const surveyJSON = {
               maxLength: 13,
               placeHolder:
                 'ระบุหมายเลขบัตรประจำตัวประชาชน 13 หลัก หรือ หมายเลขพาสปอร์ต ( fill your national id or passport number )',
+              validators: [
+                {
+                  type: 'expression',
+                  expression:
+                    'checkNationalId({panel.nationalId}, {panel.isUsePassport})',
+                  text: 'คุณกรอกหมายเลขบัตรประชาชนไม่ถูกต้อง',
+                },
+              ],
             },
             {
               type: 'checkbox',
@@ -290,7 +308,7 @@ export const surveyJSON = {
             },
             {
               type: 'checkbox',
-              name: 'disease',
+              name: 'diseases',
               title: 'โรคประจำตัว ( Congenital disease )',
               choices: [
                 {
@@ -308,8 +326,14 @@ export const surveyJSON = {
               ],
             },
           ],
+          showQuestionNumbers: 'onPanel',
           templateTitle:
-            'ระบุข้อมูลสมาชิกครอบครัวในบ้านของท่านเพื่อให้เจ้าหน้าที่ทำการจัดสรรอาหารให้แก่ท่านได้อย่างเหมาะสม ( Provide family member information in your home so that staff can allocate food appropriately for you.)',
+            'ข้อมูลสมาชิกคนที่ {panelIndex} ( Family member #{panelIndex} )',
+        },
+        {
+          type: 'comment',
+          name: 'remark',
+          title: 'คำร้องขออื่นๆ ( Other requests )',
         },
       ],
     },
@@ -319,4 +343,32 @@ export const surveyJSON = {
   pagePrevText: 'ย้อนกลับ',
   pageNextText: 'ถัดไป',
   completeText: 'เสร็จสิ้น',
-};
+  showCompletedPage: false,
+}
+
+export const mockResult = {
+  firstname: 'ธนพนธ์',
+  lastname: 'ท่อประสิทธิ์',
+  isUsePassport: 'false',
+  nationalId: '1100801188111',
+  phoneNumber: '0993023911',
+  homeNumber: '3/186',
+  homeMoo: '2',
+  homePostalCode: '90000',
+  homeSubDistrict: 'เขารูปช้าง',
+  homeDistrict: 'เมือง',
+  homeProvince: 'สงขลา',
+  allergies: ['NO_SEA_FOOD', 'NO_MEAT'],
+  diseases: ['GOUT'],
+  members: [
+    {
+      isUsePassport: 'false',
+      firstname: 'ธนพนธ์2222',
+      lastname: 'ท่อประสิทธิ์222',
+      nationalId: '1100801188111',
+      allergies: ['NO_MEAT', 'NO_CHICKEN', 'NO_SEA_FOOD'],
+      diseases: ['DIABETES', 'HEART_DISEASE'],
+    },
+  ],
+  remark: 'ต้องการผ้าปูที่นอนเสื่อหมอนฟูก',
+}

@@ -1,7 +1,245 @@
 <div class="section-heading has-background-info">
-  <h3 class="title has-text-white is-2">สมัครสมาชิก</h3>
-  <h4 class="subtitle has-text-white is-5">Register</h4>
+  <h3 class="title has-text-light is-2">สมัครสมาชิก</h3>
+  <h4 class="subtitle has-text-light is-5">Register</h4>
+  <div class="backBtn" (click)="back()">
+    <span class="icon is-large has-text-primary">
+      <i class="fas fa-3x fa-chevron-left"></i>
+    </span>
+  </div>
 </div>
 <div class="container">
   <div id="surveyElement"></div>
+  <div *ngIf="result">
+    <h4 class="title is-5 header">
+      ตรวจสอบข้อมูลสมัครสมาชิก ( Check membership information )
+    </h4>
+    <!-- ADDRESS -->
+    <div class="box">
+      <div class="content">
+        <h4 class="subtitle is-5 header">
+          ข้อมูลที่อยู่อาศัยปัจจุบัน ( Address )
+        </h4>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              บ้านเลขที่ ( House number )
+            </h4>
+          </div>
+          <div class="column">
+            {{ result?.homeNumber }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              หมู่ที่
+            </h4>
+          </div>
+          <div class="column">
+            {{ result?.homeMoo ? result?.homeMoo : '-' }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              หมู่บ้าน/อาคาร/ชั้น ( Village / Building / Floor )
+            </h4>
+          </div>
+          <div class="column">
+            {{ result?.homeMooban ? result?.homeMooban : '-' }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              ตรอก/ซอย ( Alley )
+            </h4>
+          </div>
+          <div class="column">
+            {{ result?.homeSoi ? result?.homeSoi : '-' }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              ถนน ( Road )
+            </h4>
+          </div>
+          <div class="column">
+            {{ result?.homeRoad ? result?.homeRoad : '-' }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              ตำบล/แขวง ( Sub-district )
+            </h4>
+          </div>
+          <div class="column">
+            {{ result?.homeSubDistrict ? result?.homeSubDistrict : '-' }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              อำเภอ/เขต ( District )
+            </h4>
+          </div>
+          <div class="column">
+            {{ result?.homeDistrict ? result?.homeDistrict : '-' }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              จังหวัด ( Province )
+            </h4>
+          </div>
+          <div class="column">
+            {{ result?.homeProvince ? result?.homeProvince : '-' }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              รหัสไปรษณีย์ ( Postal code )
+            </h4>
+          </div>
+          <div class="column">
+            {{ result?.homePostalCode ? result?.homePostalCode : '-' }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- MAJOR MEMBER -->
+    <div class="box">
+      <div class="content">
+        <h4 class="subtitle is-5 header">ข้อมูลสมาชิก ( หลัก )</h4>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              ชื่อ-นามสกุล ( Name )
+            </h4>
+            {{ result?.firstname + ' ' + result?.lastname }}
+          </div>
+          <div class="column">
+            <h4 class="title is-6">
+              หมายเลขโทรศัพท์มือถือที่ติดต่อได้ ( Mobile phone number )
+            </h4>
+            {{ result?.phoneNumber }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6" *ngIf="result.isUsePassport == 'true'">
+              หมายเลขพาสพอร์ต ( Passport number )
+            </h4>
+            <h4 class="title is-6" *ngIf="result.isUsePassport == 'false'">
+              หมายเลขบัตรประจำตัวประชาชน ( National Id number )
+            </h4>
+            {{ result?.nationalId }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              ข้อมูลสำหรับการจัดเตรียมอาหาร ( Information for food preparation )
+            </h4>
+            <div *ngFor="let allergy of result?.allergies">
+              {{ ALLERGIES[allergy] }}
+            </div>
+            {{ result?.allergies.length == 0 ? '-' : ' ' }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              โรคประจำตัว ( Congenital disease )
+            </h4>
+            <div *ngFor="let disease of result?.diseases">
+              {{ DISEASE[disease] }}
+            </div>
+            {{ result?.diseases.length == 0 ? '-' : ' ' }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- MINOR MEMBER -->
+    <div class="box" *ngFor="let member of result?.members; let i = index">
+      <div class="content">
+        <h4 class="subtitle is-5 header">ข้อมูลสมาชิกรอง ( {{ i + 1 }} )</h4>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              ชื่อ-นามสกุล ( Name )
+            </h4>
+            {{ member?.firstname + ' ' + member?.lastname }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6" *ngIf="member.isUsePassport == 'true'">
+              หมายเลขพาสพอร์ต ( Passport number )
+            </h4>
+            <h4 class="title is-6" *ngIf="member.isUsePassport == 'false'">
+              หมายเลขบัตรประจำตัวประชาชน ( National Id number )
+            </h4>
+            {{ member?.nationalId }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              ข้อมูลสำหรับการจัดเตรียมอาหาร ( Information for food preparation )
+            </h4>
+            <div *ngFor="let allergy of member?.allergies">
+              {{ ALLERGIES[allergy] }}
+            </div>
+            {{ member?.allergies.length == 0 ? '-' : ' ' }}
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <h4 class="title is-6">
+              โรคประจำตัว ( Congenital disease )
+            </h4>
+            <div *ngFor="let disease of member?.diseases">
+              {{ DISEASE[disease] }}
+            </div>
+            {{ member?.diseases.length == 0 ? '-' : ' ' }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REMARK -->
+    <div class="box">
+      <div class="content">
+        <h4 class="subtitle is-5 header">คำร้องขออื่นๆ ( Other requests )</h4>
+        {{ result?.remark ? result?.remark : '-' }}
+      </div>
+    </div>
+    <div class="flexSpaceBetween">
+      <button class="button is-link" (click)="doSurvey()">
+        <span class="icon is-small">
+          <i class="fas fa-edit"></i>
+        </span>
+        <span>กลับไปแก้ไข</span>
+      </button>
+      <button class="button is-success" (click)="complete()">
+        <span class="icon is-small">
+          <i class="fas fa-check"></i>
+        </span>
+        <span>ส่งข้อมูลให้เจ้าหน้าที่</span>
+      </button>
+    </div>
+  </div>
+  <div class="notification is-success is-light" *ngIf="success">
+    <button class="delete" (click)="closeSuccess()"></button>
+    {{ successText }}
+  </div>
+  <div class="notification is-danger is-light" *ngIf="error">
+    <button class="delete" (click)="closeError()"></button>
+    {{ errorText }}
+  </div>
 </div>

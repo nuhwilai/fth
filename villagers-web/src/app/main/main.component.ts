@@ -28,4 +28,7 @@ export class MainComponent implements OnInit {
     this.router.navigate(['/register'])
   }
 
+  goToRequestQrCode(){
+    this.router.navigate(['/request-qr-code'])
+  }
 }

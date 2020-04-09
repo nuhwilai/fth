@@ -3,33 +3,29 @@ import { Component, NgZone, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import * as showdown from 'showdown'
 import * as Survey from 'survey-angular'
-import { ALLERGIES, DISEASE } from './data-values'
-import { mockResult, surveyJSON } from './register-forms'
-import { RegisterService } from './register.service'
-import { ICreateUserSuccessData } from './type'
+import { surveyJSON } from './request-qr-code-forms'
+import { RequestQrCodeService } from './request-qr-code.service'
+import { IRequestQrTokenSuccessData } from './type'
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  selector: 'app-request-qr-code',
+  templateUrl: './request-qr-code.component.html',
+  styleUrls: ['./request-qr-code.component.scss'],
 })
-export class RegisterComponent implements OnInit {
+export class RequestQrCodeComponent implements OnInit {
   survey: any
   result: any
 
+  loading: boolean = false
   error: boolean = false
   errorText: String
-
-  ALLERGIES = ALLERGIES
-  DISEASE = DISEASE
   constructor(
     private _ngZone: NgZone,
     private _location: Location,
-    private registerService: RegisterService,
     private router: Router,
+    private requestQrCodeService: RequestQrCodeService,
   ) {}
 
   ngOnInit(): void {
-    this.result = mockResult
     this.doSurvey()
   }
 
@@ -44,12 +40,7 @@ export class RegisterComponent implements OnInit {
     this.survey.onComplete.add((result) => {
       this._ngZone.run(() => {
         this.result = result.data
-        this.result['allergies'] = this.result['allergies']
-          ? this.result.allergies
-          : []
-        this.result['diseases'] = this.result['diseases']
-          ? this.result.diseases
-          : []
+        this.requestQrCode()
       })
     })
     let converter = new showdown.Converter()
@@ -121,6 +112,25 @@ export class RegisterComponent implements OnInit {
     Survey.SurveyNG.render('surveyElement', { model: this.survey })
   }
 
+  requestQrCode() {
+    this.result.isUsePassport = this.result.isUsePassport == true
+    this.loading = true
+    this.requestQrCodeService.requestQrCode(this.result).subscribe(
+      (data: IRequestQrTokenSuccessData) => {
+        this.loading = false
+        this.router.navigate(['show-qr-code', { ...data }], {
+          replaceUrl: true,
+        })
+      },
+      (err) => {
+        this.loading = false
+        console.log(err)
+        this.notificationError(err.message)
+        this.doSurvey()
+      },
+    )
+  }
+
   notificationError(text) {
     this.error = true
     this.errorText = text
@@ -132,19 +142,5 @@ export class RegisterComponent implements OnInit {
   closeError() {
     this.error = false
     this.errorText = null
-  }
-
-  complete() {
-    this.result.isUsePassport = this.result.isUsePassport == true
-    this.registerService.createUser(this.result).subscribe(
-      (data: ICreateUserSuccessData) => {
-        this.router.navigate(['show-qr-code', { ...data }], {
-          replaceUrl: true,
-        })
-      },
-      (err) => {
-        this.notificationError(err)
-      },
-    )
   }
 }
