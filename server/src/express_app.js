@@ -39,6 +39,8 @@ app.get('/api/qrcode', async (req, res) => {
   }
 })
 
+app.use('/api', require('./apis/generals.api'))
+
 _.each(apis, (api, name) => {
   console.info('registering routes for %s', [name])
   app.use(`/api/${name}`, api)

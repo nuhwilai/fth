@@ -1,3 +1,4 @@
 module.exports = {
-  roundProduct: require('./roundProduct'),
+  users: require('./users.api'),
+  productRounds: require('./productRounds.api'),
 }
