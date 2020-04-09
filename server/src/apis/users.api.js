@@ -7,6 +7,7 @@ const _ = require('lodash')
 
 router.post('/', async (req, res) => {
   try {
+    // TODO validate nationalId in memebers
     const userCreateInput = req.body
     const validate = await validateUser(userCreateInput)
     if (!validate.valid) {

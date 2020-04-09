@@ -16,7 +16,7 @@
 ```
 # User
 
-- [-] POST `/users`
+- [x] POST `/users`
    ```ts
         interface ICreateUserSuccessData {
             _id: string
