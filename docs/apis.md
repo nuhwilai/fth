@@ -20,7 +20,7 @@
     interface IUser {
         firstname: string
         lastname: string
-        isUsePassport?: boolean
+        isUsePassport: boolean
         nationalId: string
         phoneNumber: string
         homeNumber: string
