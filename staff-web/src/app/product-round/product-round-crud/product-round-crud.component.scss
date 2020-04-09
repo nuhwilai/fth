@@ -1,0 +1,23 @@
+.label {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+span.label {
+  margin-right: 0.5em;
+}
+
+#row-empty {
+  text-align: center;
+  height: 5em;
+}
+
+.caption-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.star-required {
+  color: crimson;
+}

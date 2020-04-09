@@ -24,6 +24,7 @@ import { TableModule } from 'primeng/table'
 import { DialogModule } from 'primeng/dialog'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ProductSendComponent } from './product-send/product-send.component'
+import { ProductRoundModule } from './product-round/product-round.module'
 const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -59,6 +60,7 @@ export function provideConfig() {
     CardModule,
     TableModule,
     DialogModule,
+    ProductRoundModule,
   ],
   providers: [
     {
