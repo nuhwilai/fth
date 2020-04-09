@@ -1,0 +1,21 @@
+.container {
+    padding: 1em 10vw;
+    @media only screen and (max-width: 600px) {
+        padding: 0 0;
+    }
+}
+
+.section-heading {
+    text-align: center;
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
+
+:host ::ng-deep .sv_q_erbox {
+    padding: 5;
+    background-color: rgba(235, 92, 92, 0.822);
+    transition: 0.3s;
+    color: white;
+    border-radius: 20px;
+    margin: 10px;
+}
