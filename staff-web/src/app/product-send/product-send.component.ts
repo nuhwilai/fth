@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router'
 import * as _ from 'lodash'
 import { MessageService } from 'primeng/components/common/messageservice'
 import { verifyJWTToken } from '../utils'
+import { IndexDbService } from '../indb/index-db.service'
 
 @Component({
   selector: 'app-product-send',
@@ -25,10 +26,13 @@ export class ProductSendComponent implements OnInit {
   amount = 1
   supplyId
   staffData
+
+  txnRequireCount = 0
   constructor(
     private recieverService: RecieverService,
     private route: ActivatedRoute,
     private messageService: MessageService,
+    private indexDbService: IndexDbService,
   ) {}
 
   ngOnInit() {
@@ -36,6 +40,10 @@ export class ProductSendComponent implements OnInit {
     this.supplyId = this.route.snapshot.paramMap.get('id')
     this.txactionRecieveForm.patchValue({
       supplyId: this.supplyId,
+    })
+
+    this.indexDbService.getTxnCount().subscribe((number: number) => {
+      this.txnRequireCount = number
     })
   }
 
@@ -62,7 +70,7 @@ export class ProductSendComponent implements OnInit {
   scanSuccessHandler($event) {
     this.clickCloseCamera()
     const stream =
-      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdG5hbWUiOiJ0ZXN0IiwibGFzdG5hbWUiOiJnZyIsIm5hdGlvbmFsSWQiOiIxMjM0IiwiYW1vdW50IjozLCJwaG9uZU51bWJlciI6IjA4OTk5OTk5OTkiLCJpYXQiOjE1ODY0NDAyOTAsImV4cCI6MTU4NzczNjI5MH0.be2Ef_yPVjVm6pHtfCvuczFUjie3JjO3CfglGSi37VbCgg5c2ovPLQCFgUyD4Kv67dFFcziWe2-2UzFiL1ApWlx_dUuE9cQjozbW9yBk3OmiTU_5FXzaTRQGwCG3LksCmmhQTzhdetmPmH1hXZP9NxsTNq0iVLlRCwQYs27onIEFUlebUAgAW_qUTOs9lmqyaCDEoMZUR8ThAeppEveGRDHuMtp_p6hDT2ZymGon2zdVoNc4mLqbYVkYXZeM__tJX3gJGoNLlbgvbAOtZ_VLbO5jGEH6OCTuOvKlCxfmTNiI9KUrtBLHbUeSzJsnjlWKcRzQuavY2mxCHrr5syFMiC3BVtytWtdZtLmgTtLUdp9dxz4d_f1IW_qxiRJYlrgWBSOPSMAAuUDmxlzfxjzLUTCknJi89MaOr8szxLHSd0bTeiC5u1sZ2aAYWFTcKWV1qL4b_hc4MZgGPkGdysWqipK_JpJ5JDWtajq1S_3YkLyoJItw5s4PcIuH_mjaUDEHuD9E9goKxegk4a-Me4NGaWqdzWmHsr5AdZy7JnbQBT2MSsigivMKAen-cqnadm_efVTaOySuM0oA3h8vIX8TkxhFTjrq3lhzhYl10JgRxKAmzXB1_PMPC35urdaq3IIkPgoGfB02bSe7_rezXVxIevpCAJyVevKhtFjfe9V0Myc'
+      'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdG5hbWUiOiJ0ZXN0IiwibGFzdG5hbWUiOiJnZyIsIm5hdGlvbmFsSWQiOiIxMjM0NTY3ODkwMTIxIiwiYW1vdW50IjozLCJwaG9uZU51bWJlciI6IjA4OTExMTExMTEiLCJpYXQiOjE1ODY0NDMzMzksImV4cCI6MTU4NzczOTMzOX0.0vSjiO9uXL6W6TeBNtJGLTEPDjLOPvQs29t-fqvOq2Zu_A0doTPo3oJ7ChvxsBAhH9GDF2fE_iTEJqcRhO_lxrzQ9Gqe0H_nJoYXeU759qgo8-wGVqB-cJntK5CznO6YZ47XqSLxAbPI3YfBKRkn7Yttx2EW9i6wIjokeCPD_xmNp0YNoRzYSWQ1pO9DOxbSM2DevkeduE4EvgrKreDe16kkv54_G83TS-9uxEApB12OLChv3oHD0kHsW8lQzIEhzncqsGIC_xiTdCydNfZEgl34LEvpiWcTJZW0_Ps50GUYGWhEuuZhqDNJnnagOybdncgCVORy-Q93GibNRiKlI-pzI_KV4JnLkXMrTYf3b8bggw7fNf8Ay2hvlpgpfjj7RIn_E5rSX0tP1A-txpbG-MN5O90umrGp6nm9CyNstK9rZxmpz2LKVOZ0tOCcF2iVkOjUNesYmgbZ1CPOXqnB0eKTNFQT-9-6TOYq1QOqEfPWJJl7I7aOuLffETasj_w2ZSi4s4hEMctwiKhA5hIUw-HzxZ6QfWXSP8VniyR4fPNO9IHN_ZiBazPmCYOk4A8n6InQhc1Sny_jzp6D7-zubOU8LYdrOUBce9gpxGgcuruaQzswV0RIe95zVVh4fq--YkcLC2zDECCBFGaCEYksxBbY_eQvxAbfyl6oziTgYIg'
     try {
       let decoded = verifyJWTToken(stream)
       this.recieverInfo = decoded
@@ -107,8 +115,7 @@ export class ProductSendComponent implements OnInit {
         timestamp: new Date(),
       })
       .then(
-        (data) => {
-          console.log('data :', data)
+        () => {
           this.clearData()
         },
         (error) => {

@@ -3,13 +3,14 @@ import { Observable } from 'rxjs'
 import { NgxIndexedDBService } from 'ngx-indexed-db'
 import { HttpClient } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
+import { IndexDbService } from './indb/index-db.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecieverService {
   constructor(
-    private dbService: NgxIndexedDBService,
+    private indexDbService: IndexDbService,
     private http: HttpClient,
   ) {}
 
@@ -31,6 +32,7 @@ export class RecieverService {
   }
 
   createRecieveTxn(data) {
-    return this.dbService.add('recieveTxn', data)
+    // return this.dbService.add('recieveTxn', data)
+    return this.indexDbService.addTxnIndexDb(data)
   }
 }

@@ -3,6 +3,7 @@ import { NgxIndexedDBService } from 'ngx-indexed-db'
 import { HttpClient } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
 import * as _ from 'lodash'
+import { Subject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
@@ -10,12 +11,27 @@ import * as _ from 'lodash'
 export class IndexDbService {
   private intervalInstance = null
   private intervalTime = 20000
-
+  public txnCount$ = new Subject()
   constructor(
     private dbService: NgxIndexedDBService,
     private http: HttpClient,
   ) {
     this.runIndexDbService()
+    this.dbService.count('recieveTxn').then((number) => {
+      this.txnCount$.next(number)
+    })
+  }
+
+  getTxnCount() {
+    return this.txnCount$.asObservable()
+  }
+
+  async addTxnIndexDb(data) {
+    try {
+      await this.dbService.add('recieveTxn', data)
+      const number = await this.dbService.count('recieveTxn')
+      this.txnCount$.next(number)
+    } catch (e) {}
   }
 
   runIndexDbService() {
@@ -38,19 +54,25 @@ export class IndexDbService {
           .post(environment.restEndpointUrl + '/receiveTxnSyncUp', {
             receiveTxns: newRecieveTxn,
           })
-          .subscribe((data) => {
-            if (data) {
-              console.log('save success')
-              this.dbService.clear('recieveTxn').then(
-                () => {
-                  console.log('clear :')
-                },
-                (error) => {
-                  console.log(error)
-                },
-              )
-            }
-          })
+          .subscribe(
+            (data) => {
+              if (data) {
+                console.log('save success')
+                this.dbService.clear('recieveTxn').then(
+                  () => {
+                    console.log('clear :')
+                    this.txnCount$.next(0)
+                  },
+                  (error) => {
+                    console.log(error)
+                  },
+                )
+              }
+            },
+            (error) => {
+              this.txnCount$.next(newRecieveTxn.length)
+            },
+          )
       },
       (error) => {
         console.log(error)
