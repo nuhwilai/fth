@@ -1,0 +1,67 @@
+.section-heading {
+    text-align: center;
+    padding-top: 3em;
+    padding-bottom: 3em;
+    @media only screen and (max-width: 600px) {
+        padding-top: 3em;
+        padding-bottom: 2em;
+    }
+}
+
+.backBtn {
+    cursor: pointer;
+    position: absolute;
+    top: 5vh;
+    left: 5vw;
+    @media only screen and (max-width: 600px) {
+        position: relative;
+    }
+}
+
+.container {
+    padding: 1em 10vw;
+    @media only screen and (max-width: 600px) {
+        padding: 0 0;
+    }
+}
+
+.header {
+    text-align: center;
+    @media only screen and (max-width: 600px) {
+        margin-top: 1em;
+    }
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.loading {
+    height: 40vh;
+}
+
+:host ::ng-deep .sv_complete_btn {
+    background-color: #4bb98f !important; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 32px !important;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px !important;
+    border-radius: 10px !important;
+    margin-bottom: 10px;
+}
+
+:host ::ng-deep .sv_q_title {
+    font-size: 1.3em !important;
+}
+
+:host ::ng-deep .sv_q_checkbox {
+    font-size: 1.2em !important;
+}
+
+:host ::ng-deep .sv_q_radiogroup_label {
+    font-size: 1.2em !important;
+}

@@ -1,0 +1,20 @@
+<div class="section-heading has-background-info">
+  <h3 class="title has-text-light is-2">คิวอาร์โค้ด</h3>
+  <h4 class="subtitle has-text-light is-5">Qr code</h4>
+  <div class="backBtn" (click)="back()">
+    <span class="icon is-large has-text-primary">
+      <i class="fas fa-3x fa-chevron-left"></i>
+    </span>
+  </div>
+</div>
+<div class="container">
+  <h4 class="title is-5 header">
+    กรุณาเก็บ QR code ไว้เป็นความลับห้ามมอบให้ผู้อื่น
+  </h4>
+  <h4 class="title is-5 header">
+    Please keep the QR code confidential. Do not give to others.
+  </h4>
+  <div class="qrCode" *ngIf="_id">
+    <img [src]="apiUrl+'/qrcode?text='+qrcodeToken"/>
+  </div>
+</div>
