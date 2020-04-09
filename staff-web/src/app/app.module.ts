@@ -31,6 +31,7 @@ import { ToastModule } from 'primeng/toast'
 import recieveTxn from './product-send/recieve-txn'
 import { MessageService } from 'primeng/components/common/messageservice'
 
+import { ProductRoundModule } from './product-round/product-round.module'
 const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -74,6 +75,7 @@ const dbConfig: DBConfig = {
     DialogModule,
     NgxIndexedDBModule.forRoot(dbConfig),
     ToastModule,
+    ProductRoundModule,
   ],
   providers: [
     {

@@ -22,6 +22,7 @@ export const environment = {
   1L8plGZdFYeCCnfRBBry1S/nNFWRQah7/FPClaIstrHbXY9RE7iqd2s5C4S4dQ9s
   ul77EzaGpsmVO4MvbZtms4LgJzVe/7l0LHmRHlHpAdw8O8PplA9XQ08+F4mJZlVL
   dJGPZLG7oP+zLZKANd5WyRkCAwEAAQ==`,
+  apiEndpointUrl: serverUrl + '/api',
 }
 
 /*
