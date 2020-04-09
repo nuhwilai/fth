@@ -17,7 +17,7 @@ export class IndexDbService {
     private dbService: NgxIndexedDBService,
     private http: HttpClient,
   ) {
-    this.initDb()
+    // this.initDb()
     this.runIndexDbService()
     this.dbService.count('recieveTxn').then((number) => {
       this.txnCount$.next(number)
