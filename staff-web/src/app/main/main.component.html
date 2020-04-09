@@ -58,7 +58,12 @@
         <label for="vin">Title</label>
       </div>
       <div class="ui-g-8">
-        <input pInputText id="vin" [(ngModel)]="product.title" autofocus />
+        <input
+          pInputText
+          id="vin"
+          [(ngModel)]="product.productName"
+          autofocus
+        />
       </div>
     </div>
     <div class="ui-g-12">
@@ -66,7 +71,7 @@
         <label for="year">Date</label>
       </div>
       <div class="ui-g-8">
-        <input pInputText id="year" [(ngModel)]="product.date" />
+        <input pInputText id="year" [(ngModel)]="product.roundDateTime" />
       </div>
     </div>
   </div>

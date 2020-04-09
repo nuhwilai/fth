@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { RecieverService } from '../reciever.service'
 import { FormGroup, FormControl, Validators, FormsModule } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
+import * as _ from 'lodash'
 
 @Component({
   selector: 'app-product-send',
@@ -15,10 +16,13 @@ export class ProductSendComponent implements OnInit {
   txactionRecieveForm = new FormGroup({
     nationalId: new FormControl('', Validators.required),
     phone: new FormControl('', Validators.required),
-    foodCount: new FormControl(1),
+    // amount: new FormControl(1),
     timestamp: new FormControl(new Date()),
     supplyId: new FormControl(null, Validators.required),
   })
+  amount = 1
+  supplyId
+  staffData
   constructor(
     private recieverService: RecieverService,
     private route: ActivatedRoute,
@@ -26,9 +30,9 @@ export class ProductSendComponent implements OnInit {
 
   ngOnInit() {
     this.scannerEnabled = false
-    const id = this.route.snapshot.paramMap.get('id')
+    this.supplyId = this.route.snapshot.paramMap.get('id')
     this.txactionRecieveForm.patchValue({
-      supplyId: id,
+      supplyId: this.supplyId,
     })
   }
 
@@ -49,36 +53,58 @@ export class ProductSendComponent implements OnInit {
     console.log('$camerasNotFoundHandler :', $event)
   }
   scanSuccessHandler($event) {
-    console.log('$scanSuccessHandler :', $event)
     this.clickCloseCamera()
-
     const mockDataQR = {
       nationalId: '11111',
       phone: '0899999999',
     }
     this.recieverInfo = mockDataQR
+    this.txactionRecieveForm.patchValue(this.recieverInfo)
     this.getRecieverInfo(mockDataQR)
     // this.getRecieverInfo($event);
   }
 
   getRecieverInfo(recieverInfo) {
     this.recieverService.getRecieverData(recieverInfo).subscribe((data) => {
+      const newData = _.omit(data, ['amount'])
       this.recieverInfo = data
+      this.txactionRecieveForm.patchValue(newData)
     })
   }
 
   decreaseFoodCount() {
-    this.txactionRecieveForm.patchValue({
-      foodCount: this.txactionRecieveForm.value.foodCount - 1,
-    })
+    this.amount--
   }
   increaseFoodCount() {
-    this.txactionRecieveForm.patchValue({
-      foodCount: this.txactionRecieveForm.value.foodCount + 1,
-    })
+    this.amount++
   }
 
   submit() {
-    console.log('submit :')
+    if (this.txactionRecieveForm.invalid) {
+      return
+    }
+    this.recieverService
+      .createRecieveTxn({
+        ...this.txactionRecieveForm.value,
+        amount: this.amount,
+      })
+      .then(
+        (data) => {
+          console.log('data :', data)
+          this.clearData()
+        },
+        (error) => {
+          console.log('error :', error)
+        },
+      )
+  }
+
+  clearData() {
+    this.amount = 1
+    this.recieverInfo = null
+    this.txactionRecieveForm.reset()
+    this.txactionRecieveForm.patchValue({
+      supplyId: this.supplyId,
+    })
   }
 }
