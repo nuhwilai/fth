@@ -37,7 +37,7 @@ export class ProductRoundOfflineComponent implements OnInit {
     this.initFilters()
   }
 
-  private refreshData() {
+  refreshData() {
     this.loading = true
     this.productRoundService.listProductRoundOffline({}).then((res: any) => {
       // if (res.valid) {
