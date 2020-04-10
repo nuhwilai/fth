@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import { AuthService as OAuthService } from 'angularx-social-login'
 import { AuthService } from './auth.service'
 import { Location } from '@angular/common'
+import { IndexDbService } from './indb/index-db.service'
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,11 @@ export class AppComponent {
   title = 'staff-web'
   loading = true
   user
-  constructor(private authService: AuthService, private _location: Location) {
+  constructor(
+    private authService: AuthService,
+    private _location: Location,
+    private indexDbService: IndexDbService,
+  ) {
     this.authService.settingsLoaded.subscribe(() => {
       this.loading = false
     })
