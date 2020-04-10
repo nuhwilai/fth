@@ -4,28 +4,36 @@
   object-fit: contain;
 }
 
-:host ::ng-deep .ui-button{
+:host ::ng-deep .ui-button {
   height: 5em !important;
 }
 
-.flexCenter{
+#swap{
+  height: 100% !important;
+  padding: .5em;
+  @media only screen and (max-width: 600px) {
+    padding: .2em;
+  }
+}
+
+.flexCenter {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.amount{
+.amount {
   font-size: 5em;
   font-weight: bold;
   margin: 0 1em;
 }
-.amountBtn{
+.amountBtn {
   height: 5em;
 }
 
-.container{
+.container {
   padding: 1em 20vw;
   @media only screen and (max-width: 600px) {
     padding: 1em 0;
-}
+  }
 }
