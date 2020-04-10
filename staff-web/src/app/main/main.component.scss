@@ -1,15 +1,15 @@
-.menu{
-    display: flex;
-    a {
-        margin-right: 3em;
+
+.title {
+    font-size: 2em;
+    padding: 0.5em;
+    @media only screen and (max-width: 600px) {
+        font-size: 1.6em;
     }
 }
-
-.title{
-    font-size: 2em;
-    padding: .5em;
-}
-.iconTitle{
+.iconTitle {
     font-size: 3em;
-    padding: .5em;
+    padding: 0.5em;
+    @media only screen and (max-width: 600px) {
+        font-size: 2.5em;
+    }
 }
