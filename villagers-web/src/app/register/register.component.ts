@@ -3,6 +3,7 @@ import { Component, NgZone, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import * as showdown from 'showdown'
 import * as Survey from 'survey-angular'
+import { ERROR_MESSAGES } from '../shared/pageRestful/error-message-data'
 import { ALLERGIES, DISEASE } from './data-values'
 import { surveyJSON } from './register-forms'
 import { RegisterService } from './register.service'
@@ -125,7 +126,7 @@ export class RegisterComponent implements OnInit {
     this.errorText = text
     setTimeout(() => {
       this.closeError()
-    }, 5000)
+    }, 20000)
   }
 
   closeError() {
@@ -142,7 +143,11 @@ export class RegisterComponent implements OnInit {
             replaceUrl: true,
           })
         } else {
-          this.notificationError(data.reason)
+          if (ERROR_MESSAGES[data.reason]) {
+            this.notificationError(ERROR_MESSAGES[data.reason])
+          } else {
+            this.notificationError(data.reason)
+          }
           this.doSurvey()
         }
       },

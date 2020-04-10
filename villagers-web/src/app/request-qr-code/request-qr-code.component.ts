@@ -6,6 +6,7 @@ import * as Survey from 'survey-angular'
 import { surveyJSON } from './request-qr-code-forms'
 import { RequestQrCodeService } from './request-qr-code.service'
 import { IRequestQrTokenResponse } from './type'
+import { ERROR_MESSAGES } from '../shared/pageRestful/error-message-data'
 @Component({
   selector: 'app-request-qr-code',
   templateUrl: './request-qr-code.component.html',
@@ -118,13 +119,16 @@ export class RequestQrCodeComponent implements OnInit {
     this.requestQrCodeService.requestQrCode(this.result).subscribe(
       (data: IRequestQrTokenResponse) => {
         this.loading = false
-        if(data.valid){
+        if (data.valid) {
           this.router.navigate(['show-qr-code', { ...data.data }], {
             replaceUrl: true,
           })
-        }
-        else{
-          this.notificationError(data.reason)
+        } else {
+          if (ERROR_MESSAGES[data.reason]) {
+            this.notificationError(ERROR_MESSAGES[data.reason])
+          } else {
+            this.notificationError(data.reason)
+          }
           this.doSurvey()
         }
       },
@@ -141,7 +145,7 @@ export class RequestQrCodeComponent implements OnInit {
     this.errorText = text
     setTimeout(() => {
       this.closeError()
-    }, 5000)
+    }, 20000)
   }
 
   closeError() {
