@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable, OnDestroy } from '@angular/core'
 import { NgxIndexedDBService } from 'ngx-indexed-db'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
@@ -9,7 +9,7 @@ import * as moment from 'moment'
 @Injectable({
   providedIn: 'root',
 })
-export class IndexDbService {
+export class IndexDbService implements OnDestroy {
   private intervalInstance = null
   private intervalTime = 20000
   public txnCount$ = new Subject()
@@ -29,6 +29,10 @@ export class IndexDbService {
     this.getServiceToIndexDb()
   }
 
+  ngOnDestroy() {
+    this.unRegisterDbService()
+  }
+
   getTxnCount() {
     return this.txnCount$.asObservable()
   }
@@ -42,12 +46,15 @@ export class IndexDbService {
   }
 
   runIndexDbService() {
-    console.log('runIndexDbService')
     this.intervalInstance = setInterval(() => {
       this.addIndexDbToService()
 
       this.getServiceToIndexDb()
     }, this.intervalTime)
+  }
+
+  unRegisterDbService() {
+    clearInterval(this.intervalInstance)
   }
 
   addIndexDbToService() {

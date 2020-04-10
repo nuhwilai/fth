@@ -19,28 +19,37 @@
     *ngIf="scannerEnabled"
     style="width: 100%;"
   ></button>
-  <div style="display: flex; justify-content: center;">
-    <button
+  <div style="position: relative;">
+    <div
+      style="
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        z-index: 1000000;
+        bottom: 5px;
+        right: 1px;
+      "
+    >
+      <button
+        *ngIf="scannerEnabled"
+        pButton
+        type="button"
+        label="swap camera"
+        (click)="toggleCamera(desiredDevice, cameras)"
+        icon="pi pi-refresh"
+        id="swap"
+      ></button>
+    </div>
+    <zxing-scanner
       *ngIf="scannerEnabled"
-      pButton
-      type="button"
-      label="Toggle"
-      (click)="toggleCamera(desiredDevice, cameras)"
-      icon="pi pi-camera"
-    ></button>
+      [enable]="scannerEnabled"
+      [device]="desiredDevice"
+      (camerasFound)="camerasFoundHandler($event)"
+      (camerasNotFound)="camerasNotFoundHandler($event)"
+      (scanSuccess)="scanSuccessHandler($event)"
+    ></zxing-scanner>
   </div>
-  <zxing-scanner
-    *ngIf="scannerEnabled"
-    [enable]="scannerEnabled"
-    [device]="desiredDevice"
-    (camerasFound)="camerasFoundHandler($event)"
-    (camerasNotFound)="camerasNotFoundHandler($event)"
-    (scanSuccess)="scanSuccessHandler($event)"
-  ></zxing-scanner>
-  <br />
-  <div *ngIf="recieverInfo">
-    <app-reciever-info [recieverInfo]="recieverInfo"></app-reciever-info>
-  </div>
+
   <br />
   <p-card>
     <div class="flexCenter">
@@ -66,4 +75,10 @@
       style="width: 100%;"
     ></button>
   </p-card>
+  <br />
+
+  <div *ngIf="recieverInfo">
+    <app-reciever-info [recieverInfo]="recieverInfo"></app-reciever-info>
+  </div>
+  <br />
 </div>

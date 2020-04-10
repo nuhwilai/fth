@@ -2,7 +2,7 @@ export default {
   store: 'recieveTxn',
   storeConfig: { keyPath: 'id', autoIncrement: true },
   storeSchema: [
-    { name: 'nationalId', keypath: 'nationalId', options: { unique: true } },
+    { name: 'nationalId', keypath: 'nationalId', options: { unique: false } },
     {
       name: 'receivedDateTime',
       keypath: 'receivedDateTime',
