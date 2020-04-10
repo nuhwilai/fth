@@ -1,13 +1,15 @@
 const { db } = require('../database')
 const { generateQrToken } = require('../services/generals.service')
-const { validateUser } = require('../services/validateUser.service')
+const {
+  validateUser,
+  getNationalIdInfoes,
+} = require('../services/validateUser.service')
 const mongojs = require('mongojs')
 const router = require('express').Router()
 const _ = require('lodash')
 
 router.post('/', async (req, res) => {
   try {
-    // TODO validate nationalId in memebers
     const userCreateInput = req.body
     const validate = await validateUser(userCreateInput)
     if (!validate.valid) {
@@ -15,6 +17,10 @@ router.post('/', async (req, res) => {
     }
     const userCreateResult = await db.user.insertAsync(req.body)
     const qrcodeToken = await generateQrToken(userCreateResult)
+
+    const nationalIdInfoes = getNationalIdInfoes(req.body)
+    db.nationalIdInfo.insertAsync(nationalIdInfoes)
+
     res.send({
       valid: true,
       data: { _id: userCreateResult._id, qrcodeToken },
@@ -26,8 +32,9 @@ router.post('/', async (req, res) => {
 
 router.put('/:nationalId', async (req, res) => {
   try {
+    // TODO: handle nationalId change or add
     const userUpdateInput = req.body
-    const validate = await validateUser(userUpdateInput)
+    const validate = await validateUserPatternNationalId(userUpdateInput)
     if (!validate.valid) {
       throw new Error(validate.reason)
     }

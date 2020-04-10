@@ -1,0 +1,138 @@
+.container {
+    padding: 1em 10vw;
+    @media only screen and (max-width: 600px) {
+        padding: 0 0;
+    }
+}
+
+.backBtn {
+    cursor: pointer;
+    position: absolute;
+    top: 5vh;
+    left: 5vw;
+    @media only screen and (max-width: 600px) {
+        padding-top: 1em;
+    }
+}
+
+.section-heading {
+    text-align: center;
+    padding-top: 3em;
+    padding-bottom: 3em;
+    @media only screen and (max-width: 600px) {
+        padding-top: 3em;
+        padding-bottom: 2em;
+    }
+}
+
+.notification {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+}
+
+.subtitle {
+    font-weight: normal;
+}
+
+.columns {
+    @media only screen and (max-width: 600px) {
+        padding-bottom: 0.45rem;
+    }
+}
+.column {
+    h4 {
+        @media only screen and (max-width: 600px) {
+            margin-bottom: 0.25rem;
+        }
+    }
+    @media only screen and (max-width: 600px) {
+        padding: 0.25rem;
+    }
+}
+
+.flexSpaceBetween {
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    @media only screen and (max-width: 600px) {
+        width: 50vw;
+    }
+}
+
+:host ::ng-deep .sv_prev_btn {
+    background-color: #3880ff !important; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 32px !important;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px !important;
+    border-radius: 10px !important;
+    margin-bottom: 10px;
+}
+
+:host ::ng-deep .sv_next_btn {
+    background-color: #3880ff !important; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 32px !important;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px !important;
+    border-radius: 10px !important;
+    margin-bottom: 10px;
+}
+
+:host ::ng-deep .sv_main.sv_default_css {
+    background-color: #3880ff !important;
+}
+
+:host ::ng-deep .sv_complete_btn {
+    background-color: #4bb98f !important; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 32px !important;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px !important;
+    border-radius: 10px !important;
+    margin-bottom: 10px;
+}
+
+:host ::ng-deep .sv-paneldynamic__add-btn {
+    background-color: #3880ff !important; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 32px !important;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px !important;
+    border-radius: 10px !important;
+    margin-bottom: 10px;
+}
+
+:host ::ng-deep .sv_q_title {
+    font-size: 1.3em !important;
+}
+
+:host ::ng-deep .sv_q_checkbox {
+    font-size: 1.2em !important;
+}
+
+:host ::ng-deep .sv_q_radiogroup_label {
+    font-size: 1.2em !important;
+}
+
+.header {
+    @media only screen and (max-width: 600px) {
+        margin-top: 1em;
+        text-align: center;
+    }
+}

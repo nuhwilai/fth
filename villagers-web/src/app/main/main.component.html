@@ -1,13 +1,28 @@
 <!-- Header -->
-<section class="hero is-link is-fullheight is-fullheight-with-navbar">
+<section
+  class="hero is-fullheight"
+  style="
+    background-image: url({{ bgImage }});
+    background-repeat: no-repeat;
+    background-size: cover;
+  "
+>
   <div class="hero-body">
-    <div class="container">
+    <div class="container has-text-white">
       Welcome to Food to home platform
-      <h1 class="title is-1">ตำบล {{ subDistrict }}</h1>
-      <h2 class="subtitle is-3">
-        ยินดีต้อนรับสู่ระบบแจกจ่ายอาหาร
+      <h1 class="title has-text-white is-1">ตำบล {{ subDistrict }}</h1>
+      <h2 class="subtitle has-text-white is-3">
+        ยินดีต้อนรับ มาร่วมกัน "อยู่บ้าน หยุดเชื้อ เพื่อชาติ" ไปด้วยกัน
       </h2>
     </div>
+  </div>
+  <div class="requstQrCode">
+    <button class="button is-large" (click)="goToRequestQrCode()">
+      <span class="icon is-medium">
+        <i class="fas fa-qrcode"></i>
+      </span>
+      <span>ขอ QR Code อีกครั้ง</span>
+    </button>
   </div>
 </section>
 
@@ -31,12 +46,16 @@
             </div>
             <label class="checkbox">
               <input type="checkbox" [(ngModel)]="isAccept" />
-              ฉันยอมรับ<a href="#">ข้อตกลง</a>ข้างต้น
+              ฉันยอมรับ<a>ข้อตกลง</a>ข้างต้น
             </label>
           </div>
 
           <div class="register">
-            <button class="button is-large is-link" [disabled]="!isAccept">
+            <button
+              (click)="goToRegister()"
+              class="button is-large is-link"
+              [disabled]="!isAccept"
+            >
               สมัครสมาชิก
             </button>
           </div>
@@ -54,12 +73,16 @@
             </div>
             <label class="checkbox">
               <input type="checkbox" [(ngModel)]="isAccept" />
-              I agree to the <a href="#">terms and conditions</a>
+              I agree to the <a>terms and conditions</a>
             </label>
           </div>
 
           <div class="register">
-            <button class="button is-large is-link" [disabled]="!isAccept">
+            <button
+              (click)="goToRegister()"
+              class="button is-large is-link"
+              [disabled]="!isAccept"
+            >
               Register
             </button>
           </div>
@@ -75,7 +98,9 @@
     <div class="section-heading">
       <h3 class="title is-2">ติดต่อ</h3>
       <h4 class="subtitle is-5">Contact</h4>
-      <span>074-xxx-xxxx</span>
+      <div *ngFor="let contract of contracts">
+        <span>{{ contract.text }}</span>
+      </div>
     </div>
     <br />
   </div>
@@ -84,14 +109,15 @@
 <!-- Sponsored by -->
 <section class="section" id="resume">
   <div class="section-heading">
-    <h3 class="title is-2">สนับสนุนโดย</h3>
-    <h4 class="subtitle is-5">Sponsored by</h4>
+    <!-- <h3 class="title is-2">สนับสนุนโดย</h3>
+    <h4 class="subtitle is-5">Sponsored by</h4> -->
   </div>
   <nav class="level">
-    <div class="level-item has-text-centered">
-      <div *ngFor="let sponsered of sponsoredBy">
-        <img [src]="sponsered.imageURI" />
-      </div>
+    <div
+      class="level-item has-text-centered"
+      *ngFor="let sponsered of sponsoredBy"
+    >
+      <a [href]="sponsered.link"><img [src]="sponsered.imageURI" /></a>
     </div>
   </nav>
 </section>
