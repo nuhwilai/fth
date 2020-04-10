@@ -1,9 +1,12 @@
 <h2>
   รายการแจกของ
-  <button pButton label="Reload" (click)="refreshData()"></button>
+  <button
+    pButton
+    label="Reload"
+    (click)="refreshData()"
+    icon="pi pi-refresh"
+  ></button>
 </h2>
-<!-- <pre>product round {{ productRound | json }}</pre>
-  <pre>form value {{ productRoundForm.value | json }}</pre> -->
 <p-table
   #dt
   [lazy]="true"
@@ -17,14 +20,14 @@
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th>ชื่อรายการ</th>
-      <th>วัน เวลา</th>
+      <th>รอบวันที่</th>
       <th></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr [pSelectableRow]="rowData">
       <td>{{ rowData.productName }}</td>
-      <td class="center">{{ rowData.roundDateTime | date: 'medium' }}</td>
+      <td class="center">{{ rowData.roundDateTime | date: 'dd/MM/yyyy' }}</td>
       <td style="text-align: center;">
         <a [routerLink]="['/product-send', rowData._id]">
           <p-button label="แจกของ"> </p-button>
