@@ -29,7 +29,9 @@ import productRoundIndbSchma from './main/product-round-indb-schma'
 import { IncludeArrayPipe } from './include-array.pipe'
 import { MainComponent } from './main/main.component'
 import { AccordionModule } from 'primeng/accordion'
-import { FieldsetModule } from 'primeng/fieldset'
+import { FieldsetModule } from 'primeng/fieldset';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment'
 // const config = new AuthServiceConfig([
 //   {
 //     id: GoogleLoginProvider.PROVIDER_ID,
@@ -77,6 +79,7 @@ const dbConfig: DBConfig = {
     ProductRoundModule,
     AccordionModule,
     FieldsetModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     // {
