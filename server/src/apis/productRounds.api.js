@@ -2,6 +2,7 @@ const router = require('express').Router()
 const mongojs = require('mongojs')
 const { db } = require('../database')
 const _ = require('lodash')
+const config = require('../conf/config')
 
 router.post('/', async (req, res) => {
   try {
@@ -50,18 +51,31 @@ router.get('/', async (req, res) => {
       'productName',
     ])
 
+    const limit = req.query.max
+      ? Number(req.query.max)
+      : config.maxRecordsPerQuery
+    const skip = req.query.offset ? Number(req.query.offset) : 0
+
     if (query.roundDateTime_gt) {
       query.roundDateTime = { $gt: new Date(query.roundDateTime_gt) }
       delete query.roundDateTime_gt
     }
 
-    const productRoundResults = await db.productRound.findAsync(query)
-    res.send({
-      valid: true,
-      data: {
-        productRounds: productRoundResults,
-      },
-    })
+    await db.productRound
+      .find(query)
+      .limit(limit)
+      .skip(skip)
+      .toArray((err, result) => {
+        if (err) {
+          throw err
+        }
+        res.send({
+          valid: true,
+          data: {
+            productRounds: result,
+          },
+        })
+      })
   } catch (error) {
     res.send({ valid: false, reason: error.message })
   }
