@@ -27,55 +27,73 @@
     <!-- <ng-container *ngFor="let member of members"> -->
     <div>
       <p class="title">
-        อาการแพ้
+        ข้อควรระวัง
       </p>
     </div>
-
-    <div class="ui-g-12">
-      <ng-container *ngFor="let allergy of ALLERGIES">
-        <div class="ui-g-12 ui-md-4">
-          <span class="listText" [class.check]="(recieverData.allergies | includeArray: allergy.key) == '/'">
-            <ng-container
-              ngSwitch="{{
-                recieverData.allergies | includeArray: allergy.key
-              }}"
+    <p-fieldset
+      legend="อาการแพ้ ({{ recieverData?.allergies?.length }})"
+      [toggleable]="true"
+      [collapsed]="true"
+    >
+      <div class="ui-g-12">
+        <ng-container *ngFor="let allergy of ALLERGIES">
+          <div class="ui-g-12 ui-md-4">
+            <span
+              class="listText"
+              [class.check]="
+                (recieverData.allergies | includeArray: allergy.key) == '/'
+              "
             >
-              <i class="pi pi-check" *ngSwitchCase="'/'"></i>
-              <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
-              <i class="pi pi-times" *ngSwitchCase="'x'"></i>
-            </ng-container>
+              <ng-container
+                ngSwitch="{{
+                  recieverData.allergies | includeArray: allergy.key
+                }}"
+              >
+                <i class="pi pi-check" *ngSwitchCase="'/'"></i>
+                <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
+                <i class="pi pi-times" *ngSwitchCase="'x'"></i>
+              </ng-container>
 
-            {{ allergy.value }}
-          </span>
-        </div>
-      </ng-container>
-    </div>
+              {{ allergy.value }}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+    </p-fieldset>
 
-    <div>
-      <p class="title">
-        โรคที่เป็น
-      </p>
-    </div>
-    <div class="ui-g-12">
-      <ng-container *ngFor="let disease of DISEASE">
-        <div class="ui-g-12 ui-md-4">
-          <span class="listText" [class.check]="(recieverData.diseases | includeArray: disease.key) == '/'">
-            <ng-container
-              ngSwitch="{{ recieverData.diseases | includeArray: disease.key }}"
+    <p-fieldset
+      legend="โรค ({{ recieverData?.allergies?.length }})"
+      [toggleable]="true"
+      [collapsed]="true"
+    >
+      <div class="ui-g-12">
+        <ng-container *ngFor="let disease of DISEASE">
+          <div class="ui-g-12 ui-md-4">
+            <span
+              class="listText"
+              [class.check]="
+                (recieverData.diseases | includeArray: disease.key) == '/'
+              "
             >
-              <i class="pi pi-check" *ngSwitchCase="'/'"></i>
-              <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
-              <i class="pi pi-times" *ngSwitchCase="'x'"></i>
-            </ng-container>
-            {{ disease.value }}
-          </span>
-        </div>
-      </ng-container>
-    </div>
+              <ng-container
+                ngSwitch="{{
+                  recieverData.diseases | includeArray: disease.key
+                }}"
+              >
+                <i class="pi pi-check" *ngSwitchCase="'/'"></i>
+                <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
+                <i class="pi pi-times" *ngSwitchCase="'x'"></i>
+              </ng-container>
+              {{ disease.value }}
+            </span>
+          </div>
+        </ng-container>
+      </div>
+    </p-fieldset>
 
     <div *ngIf="members">
-      <ng-container *ngFor="let member of members; let i=index">
-      <p class="title">สมาชิกคนที่ {{i+1}}</p>
+      <ng-container *ngFor="let member of members; let i = index">
+        <p class="title">สมาชิกคนที่ {{ i + 1 }}</p>
         <div class="ui-g-12">
           <div class="ui-g-12 ui-md-4">
             <p *ngIf="member?.isUsePassport">
@@ -85,8 +103,7 @@
               หมายเลขบัตรประจำตัวประชาชน:<span>{{ member?.nationalId }}</span>
             </p>
           </div>
-          <div class="ui-g-12 ui-md-4">
-          </div>
+          <div class="ui-g-12 ui-md-4"></div>
           <div class="ui-g-12 ui-md-4">
             <p>
               ชื่อ: <span>{{ member?.firstname }} {{ member?.lastname }}</span>
@@ -96,48 +113,66 @@
         <!-- <ng-container *ngFor="let member of members"> -->
         <div>
           <p class="title">
-            อาการแพ้
+            ข้อควรระวัง
           </p>
         </div>
-        <div class="ui-g-12">
-          <ng-container *ngFor="let allergy of ALLERGIES">
-            <div class="ui-g-12 ui-md-4">
-              <span class="listText" [class.check]="(member.allergies | includeArray: allergy.key) == '/'">
-                <ng-container
-                  ngSwitch="{{ member.allergies | includeArray: allergy.key }}"
+        <p-fieldset
+          legend="อาการแพ้ ({{ member?.allergies?.length }})"
+          [toggleable]="true"
+          [collapsed]="true"
+        >
+          <div class="ui-g-12">
+            <ng-container *ngFor="let allergy of ALLERGIES">
+              <div class="ui-g-12 ui-md-4">
+                <span
+                  class="listText"
+                  [class.check]="
+                    (member.allergies | includeArray: allergy.key) == '/'
+                  "
                 >
-                  <i class="pi pi-check" *ngSwitchCase="'/'"></i>
-                  <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
-                  <i class="pi pi-times" *ngSwitchCase="'x'"></i>
-                </ng-container>
+                  <ng-container
+                    ngSwitch="{{
+                      member.allergies | includeArray: allergy.key
+                    }}"
+                  >
+                    <i class="pi pi-check" *ngSwitchCase="'/'"></i>
+                    <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
+                    <i class="pi pi-times" *ngSwitchCase="'x'"></i>
+                  </ng-container>
 
-                {{ allergy.value }}
-              </span>
-            </div>
-          </ng-container>
-        </div>
-        <div>
-          <p class="title">
-            โรคที่เป็น
-          </p>
-        </div>
-
-        <div class="ui-g-12">
-          <ng-container *ngFor="let disease of DISEASE">
-            <div class="ui-g-12 ui-md-4">
-              <span class="listText" [class.check]="(member.diseases | includeArray: disease.key) == '/'" >
-                <ng-container
-                  ngSwitch="{{ member.diseases | includeArray: disease.key }}"
+                  {{ allergy.value }}
+                </span>
+              </div>
+            </ng-container>
+          </div>
+        </p-fieldset>
+        <p-fieldset
+          legend="อาการแพ้ ({{ member?.diseases?.length }})"
+          [toggleable]="true"
+          [collapsed]="member?.diseases?.length > 0 || true"
+        >
+          <div class="ui-g-12">
+            <ng-container *ngFor="let disease of DISEASE">
+              <div class="ui-g-12 ui-md-4">
+                <span
+                  class="listText"
+                  [class.check]="
+                    (member.diseases | includeArray: disease.key) == '/'
+                  "
                 >
-                  <i class="pi pi-check" *ngSwitchCase="'/'"></i>
-                  <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
-                  <i class="pi pi-times" *ngSwitchCase="'x'"></i>
-                </ng-container>
-                {{ disease.value }}
-              </span>
-            </div>
-          </ng-container>
-        </div>
+                  <ng-container
+                    ngSwitch="{{ member.diseases | includeArray: disease.key }}"
+                  >
+                    <i class="pi pi-check" *ngSwitchCase="'/'"></i>
+                    <i class="pi pi-minus" *ngSwitchCase="'-'"></i>
+                    <i class="pi pi-times" *ngSwitchCase="'x'"></i>
+                  </ng-container>
+                  {{ disease.value }}
+                </span>
+              </div>
+            </ng-container>
+          </div>
+        </p-fieldset>
       </ng-container>
       <div>
         <p class="title">
