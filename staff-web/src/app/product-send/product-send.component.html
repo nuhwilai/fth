@@ -38,10 +38,6 @@
     (scanSuccess)="scanSuccessHandler($event)"
   ></zxing-scanner>
   <br />
-  <div *ngIf="recieverInfo">
-    <app-reciever-info [recieverInfo]="recieverInfo"></app-reciever-info>
-  </div>
-  <br />
   <p-card>
     <div class="flexCenter">
       <div class="flexCenter">
@@ -66,4 +62,10 @@
       style="width: 100%;"
     ></button>
   </p-card>
+  <br />
+
+  <div *ngIf="recieverInfo">
+    <app-reciever-info [recieverInfo]="recieverInfo"></app-reciever-info>
+  </div>
+  <br />
 </div>
