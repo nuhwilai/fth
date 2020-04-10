@@ -3,7 +3,6 @@
 // The list of file replacements can be found in `angular.json`.
 
 const serverUrl = 'http://localhost:8000'
-// const serverUrl = 'http://192.168.1.10:8000'
 
 export const environment = {
   production: false,
@@ -24,6 +23,8 @@ export const environment = {
   -----END PUBLIC KEY-----
   `,
   apiEndpointUrl: serverUrl + '/api',
+  loginEndpointUrl: serverUrl + '/api/login',
+  loginValidateEndpointUrl: serverUrl + '/api/validate',
 }
 
 /*
