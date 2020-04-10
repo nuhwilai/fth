@@ -38,9 +38,13 @@
 <app-reciever-info [recieverInfo]="recieverInfo"></app-reciever-info>
 
 <p-card>
-  <p-button icon="pi pi-angle-left" (click)="decreaseFoodCount()"></p-button>
-  {{ amount }}
-  <p-button icon="pi pi-angle-right" (click)="increaseFoodCount()"></p-button>
+  <div class="flexCenter">
+    <div class="flexCenter">
+    <p-button icon="pi pi-angle-left" (click)="decreaseFoodCount()"></p-button>
+      <span class="amount">{{ amount }}</span>
+    <p-button  icon="pi pi-angle-right" (click)="increaseFoodCount()"></p-button>
+    </div>
+  </div>
   <br />
   <button
     pButton

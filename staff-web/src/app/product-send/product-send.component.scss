@@ -3,3 +3,22 @@
   width: 100vw;
   object-fit: contain;
 }
+
+:host ::ng-deep .ui-button{
+  height: 5em !important;
+}
+
+.flexCenter{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.amount{
+  font-size: 5em;
+  font-weight: bold;
+  margin: 0 1em;
+}
+.amountBtn{
+  height: 5em;
+}
