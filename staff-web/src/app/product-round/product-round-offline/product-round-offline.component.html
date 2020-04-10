@@ -1,5 +1,5 @@
 <h2>
-  รายการรอบการแจกของ
+  รายการแจกของ
   <button pButton label="Reload" (click)="refreshData()"></button>
 </h2>
 <!-- <pre>product round {{ productRound | json }}</pre>
@@ -27,7 +27,7 @@
       <td class="center">{{ rowData.roundDateTime | date: 'medium' }}</td>
       <td style="text-align: center;">
         <a [routerLink]="['/product-send', rowData._id]">
-          <p-button label="Send Spply"> </p-button>
+          <p-button label="แจกของ"> </p-button>
         </a>
       </td>
     </tr>
