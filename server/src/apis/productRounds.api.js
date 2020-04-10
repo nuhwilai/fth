@@ -6,7 +6,7 @@ const _ = require('lodash')
 router.post('/', async (req, res) => {
   try {
     if (!req.body.roundDateTime || !req.body.productName) {
-      throw new Error('invalid product round.')
+      throw new Error('invalid_product_round')
     }
 
     const productRoundCreateResult = await db.productRound.insertAsync({

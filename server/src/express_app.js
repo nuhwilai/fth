@@ -29,7 +29,7 @@ app.get('/api/qrcode', async (req, res) => {
       })
       res.end(img)
     } else {
-      throw new Error('not found text')
+      throw new Error('not_found_text')
     }
   } catch (error) {
     res.send({
