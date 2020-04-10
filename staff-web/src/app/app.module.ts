@@ -92,6 +92,4 @@ const dbConfig: DBConfig = {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-  constructor(private indexDbService: IndexDbService) {}
-}
+export class AppModule {}
