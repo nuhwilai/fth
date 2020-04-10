@@ -46,8 +46,62 @@ import { environment } from '../environments/environment'
 const dbConfig: DBConfig = {
   name: 'MyDb',
   version: 1,
-  objectStoresMeta: [productRoundIndbSchma, recieveTxn],
+  objectStoresMeta: [
+    {
+      store: 'productRound',
+      storeConfig: { keyPath: 'id', autoIncrement: true },
+      storeSchema: [
+        { name: '_id', keypath: '_id', options: { unique: true } },
+        {
+          name: 'productName',
+          keypath: 'productName',
+          options: { unique: true },
+        },
+        {
+          name: 'roundDateTime',
+          keypath: 'roundDateTime',
+          options: { unique: false },
+        },
+      ],
+    },
+    {
+      store: 'recieveTxn',
+      storeConfig: { keyPath: 'id', autoIncrement: true },
+      storeSchema: [
+        {
+          name: 'nationalId',
+          keypath: 'nationalId',
+          options: { unique: false },
+        },
+        {
+          name: 'receivedDateTime',
+          keypath: 'receivedDateTime',
+          options: { unique: false },
+        },
+        {
+          name: 'amount',
+          keypath: 'amount',
+          options: { unique: false },
+        },
+        {
+          name: 'staffId',
+          keypath: 'staffId',
+          options: { unique: false },
+        },
+        {
+          name: 'productId',
+          keypath: 'productId',
+          options: { unique: false },
+        },
+      ],
+    },
+  ],
 }
+// const dbConfig: DBConfig = {
+//   name: 'MyDb',
+//   version: 1,
+//   objectStoresMeta: [productRoundIndbSchma, recieveTxn],
+// }
 
 @NgModule({
   declarations: [
