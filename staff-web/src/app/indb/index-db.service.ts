@@ -92,7 +92,10 @@ export class IndexDbService {
       .get(environment.restEndpointUrl + '/productRounds', {
         params: new HttpParams({
           fromString: stringify({
-            roundDateTime_gt: moment().startOf('day').toISOString(),
+            roundDateTime_gt: moment()
+              .subtract('days', 7)
+              .startOf('day')
+              .toISOString(),
           }),
         }),
       })
