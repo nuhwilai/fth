@@ -13,7 +13,7 @@ export class MainComponent implements OnInit {
   sponsoredBy = [
     {imageURI: "https://www.bonmek.com/wp-content/uploads/2019/07/cropped-bonmekTransparent-1.png", link: "https://www.bonmek.com"},
   ]
-  bgImage = "http://www.karoncity.go.th/image/ratio/?file=files/com_travel/2017-09_3d79e0bfa456668.jpg&width=700&height=500"
+  bgImage = "https://www.karoncity.go.th/image/ratio/?file=files/com_travel/2017-09_3d79e0bfa456668.jpg&width=700&height=500"
   contracts = [
     {text: "07x-xxxxxxx"}
   ]

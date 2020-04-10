@@ -50,11 +50,14 @@ export class RegisterComponent implements OnInit {
         this.result['diseases'] = this.result['diseases']
           ? this.result.diseases
           : []
-          this.result['homeSubDistrict'] = "กะรน"
-          this.result['homeDistrict'] = "เมืองภูเก็ต"
-          this.result['homeProvince'] = "ภูเก็ต"
-          this.result['homePostalCode'] = "83100"
-        })
+        this.result['members'] = this.result['members']
+          ? this.result.members
+          : []
+        this.result['homeSubDistrict'] = 'กะรน'
+        this.result['homeDistrict'] = 'เมืองภูเก็ต'
+        this.result['homeProvince'] = 'ภูเก็ต'
+        this.result['homePostalCode'] = '83100'
+      })
     })
     let converter = new showdown.Converter()
     this.survey.onTextMarkdown.add(function (survey, options) {
