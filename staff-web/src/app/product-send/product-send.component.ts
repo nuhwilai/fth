@@ -22,7 +22,7 @@ export class ProductSendComponent implements OnInit {
   desiredDevice = null
   txactionRecieveForm = new FormGroup({
     nationalId: new FormControl('', Validators.required),
-    phone: new FormControl('', Validators.required),
+    phoneNumber: new FormControl('', Validators.required),
     // amount: new FormControl(1),
     timestamp: new FormControl(null),
     supplyId: new FormControl(null, Validators.required),
