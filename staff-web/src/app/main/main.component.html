@@ -1,7 +1,17 @@
-<a [routerLink]="['/product-round']">
-  Product Round online
-</a>
-<br />
-<a [routerLink]="['/product-round-offline']">
-  Product Round offline
-</a>
+
+<div class="menu">
+  <a [routerLink]="['/product-round']">
+    <p-card>
+      <i class="pi pi-cog iconTitle"></i>
+      <span class="title">จัดการรอบการแจกของ</span>
+    </p-card>
+  </a>
+  
+  <a [routerLink]="['/product-round-offline']">
+    <p-card>
+      <i class="pi pi-thumbs-up iconTitle"></i>
+      <span class="title">รายการแจกของ</span>
+    </p-card>
+  </a>
+</div>
+
