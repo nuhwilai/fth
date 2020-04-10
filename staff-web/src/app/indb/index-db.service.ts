@@ -17,16 +17,34 @@ export class IndexDbService implements OnDestroy {
     private dbService: NgxIndexedDBService,
     private http: HttpClient,
   ) {
-    // this.initDb()
-    this.runIndexDbService()
-    this.dbService.count('recieveTxn').then((number) => {
-      this.txnCount$.next(number)
-    })
+    this.checkDb()
   }
 
   initDb() {
-    this.addIndexDbToService()
     this.getServiceToIndexDb()
+  }
+
+  checkDb() {
+    Promise.all([
+      this.dbService.getAll('recieveTxn'),
+      this.dbService.getAll('productRound'),
+    ])
+      .then(() => {
+        this.runIndexDbService()
+        this.dbService.count('recieveTxn').then((number) => {
+          this.txnCount$.next(number)
+        })
+      })
+      .catch((e) => {
+        this.dbService.deleteDatabase().then(
+          () => {
+            window.location.reload()
+          },
+          (error) => {
+            console.log(error)
+          },
+        )
+      })
   }
 
   ngOnDestroy() {
