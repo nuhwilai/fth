@@ -30,6 +30,7 @@
         ข้อควรระวัง
       </p>
     </div>
+    <br />
     <p-fieldset
       legend="อาการแพ้ ({{ recieverData?.allergies?.length }})"
       [toggleable]="true"
@@ -60,9 +61,9 @@
         </ng-container>
       </div>
     </p-fieldset>
-
+    <br />
     <p-fieldset
-      legend="โรค ({{ recieverData?.allergies?.length }})"
+      legend="โรคประจำตัว ({{ recieverData?.allergies?.length }})"
       [toggleable]="true"
       [collapsed]="true"
     >
@@ -90,7 +91,7 @@
         </ng-container>
       </div>
     </p-fieldset>
-
+    <br />
     <div *ngIf="members">
       <ng-container *ngFor="let member of members; let i = index">
         <p class="title">สมาชิกคนที่ {{ i + 1 }}</p>
@@ -116,6 +117,7 @@
             ข้อควรระวัง
           </p>
         </div>
+        <br />
         <p-fieldset
           legend="อาการแพ้ ({{ member?.allergies?.length }})"
           [toggleable]="true"
@@ -146,8 +148,9 @@
             </ng-container>
           </div>
         </p-fieldset>
+        <br />
         <p-fieldset
-          legend="อาการแพ้ ({{ member?.diseases?.length }})"
+          legend="โรคประจำตัว ({{ member?.diseases?.length }})"
           [toggleable]="true"
           [collapsed]="member?.diseases?.length > 0 || true"
         >
@@ -173,6 +176,7 @@
             </ng-container>
           </div>
         </p-fieldset>
+        <br />
       </ng-container>
       <div>
         <p class="title">

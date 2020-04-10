@@ -1,5 +1,7 @@
 <div class="container">
-  <div style="font-size: 1.3em; padding: 1em 0;">รายการรอบันทึก {{ txnRequireCount }}</div>
+  <div style="font-size: 1.3em; padding: 1em 0;">
+    รายการรอบันทึก {{ txnRequireCount }}
+  </div>
 
   <button
     pButton
@@ -35,11 +37,11 @@
     (camerasNotFound)="camerasNotFoundHandler($event)"
     (scanSuccess)="scanSuccessHandler($event)"
   ></zxing-scanner>
-
-  <hr />
-
-  <app-reciever-info [recieverInfo]="recieverInfo"></app-reciever-info>
-
+  <br />
+  <div *ngIf="recieverInfo">
+    <app-reciever-info [recieverInfo]="recieverInfo"></app-reciever-info>
+  </div>
+  <br />
   <p-card>
     <div class="flexCenter">
       <div class="flexCenter">
