@@ -1,6 +1,9 @@
-.header{
+.header {
     height: 70vh;
     padding: 30vh 10vw;
+    @media only screen and (max-width: 600px) {
+        padding: 8vh 10vw;
+    }
 }
 
 .has-same-height .card {
@@ -47,18 +50,23 @@ th {
 }
 
 .register {
-    display:  flex;
+    display: flex;
     justify-content: center;
 }
 
-.overflow{
+.overflow {
     height: 250px;
     overflow-y: scroll;
     margin: 1em 0;
 }
 
-.requstQrCode{
+.requstQrCode {
     position: absolute;
-    right: 5em;
-    top: 5em;
+    width: 100%;
+    text-align: end;
+    padding-right: 20vw;
+    @media only screen and (max-width: 600px) {
+        text-align: center;
+        padding-right: 0;
+    }
 }
