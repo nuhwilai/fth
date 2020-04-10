@@ -16,16 +16,22 @@
   *ngIf="scannerEnabled"
   style="width: 100%;"
 ></button>
-<!-- <div style="height: 70vh; width: 100%;"> -->
-<zxing-scanner
+<button
   *ngIf="scannerEnabled"
-  [enable]="scannerEnabled"
-  [(device)]="desiredDevice"
-  (camerasFound)="camerasFoundHandler($event)"
-  (camerasNotFound)="camerasNotFoundHandler($event)"
-  (scanSuccess)="scanSuccessHandler($event)"
-></zxing-scanner>
-<!-- </div> -->
+  pButton
+  type="button"
+  label="Toggle"
+  (click)="toggleCamera(desiredDevice, cameras)"
+  icon="pi pi-camera"
+></button>
+  <zxing-scanner
+    *ngIf="scannerEnabled"
+    [enable]="scannerEnabled"
+    [(device)]="desiredDevice"
+    (camerasFound)="camerasFoundHandler($event)"
+    (camerasNotFound)="camerasNotFoundHandler($event)"
+    (scanSuccess)="scanSuccessHandler($event)"
+  ></zxing-scanner>
 
 <hr />
 
