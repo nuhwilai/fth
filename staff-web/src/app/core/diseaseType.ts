@@ -1,7 +1,7 @@
 export const DISEASE = [
-  { key: 'DIABETES', icon: '' },
-  { key: 'GOUT', icon: '' },
-  { key: 'HEART_DISEASE', icon: '' },
+  { key: 'DIABETES', icon: '', value: 'โรคเบาหวาน ( Diabetes )' },
+  { key: 'GOUT', icon: '', value: 'โรคเก๊า ( Gout )' },
+  { key: 'HEART_DISEASE', icon: '', value: 'โรคหัวใจ ( Heart disease )' },
 ]
 
 // export const DISEASE = {
