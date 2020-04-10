@@ -53,10 +53,10 @@ export class ProductSendComponent implements OnInit {
     })
   }
 
-  clickOpenCamera() {
+  clickOpenCamera($event) {
     this.scannerEnabled = true
   }
-  clickCloseCamera() {
+  clickCloseCamera($event) {
     this.desiredDevice = null
     this.scannerEnabled = false
     // this.scanner.reset()
@@ -76,7 +76,7 @@ export class ProductSendComponent implements OnInit {
     })
   }
   scanSuccessHandler($event) {
-    this.clickCloseCamera()
+    this.clickCloseCamera(null)
     try {
       let decoded = verifyJWTToken($event)
       this.recieverInfo = decoded
@@ -108,7 +108,7 @@ export class ProductSendComponent implements OnInit {
       this.amount--
     }
   }
-  
+
   increaseFoodCount() {
     this.amount++
   }

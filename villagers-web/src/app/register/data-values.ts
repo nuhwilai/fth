@@ -11,4 +11,5 @@ export const DISEASE = {
   DIABETES: 'โรคเบาหวาน ( Diabetes )',
   GOUT: 'โรคเก๊า ( Gout )',
   HEART_DISEASE: 'โรคหัวใจ ( Heart disease )',
+  BLOOD_PRESSURE: 'โรคความดัน ( Blood pressure )'
 }

@@ -37,6 +37,7 @@
         label="swap camera"
         (click)="toggleCamera(desiredDevice, cameras)"
         icon="pi pi-refresh"
+        id="swap"
       ></button>
     </div>
     <zxing-scanner
@@ -49,10 +50,6 @@
     ></zxing-scanner>
   </div>
 
-  <br />
-  <div *ngIf="recieverInfo">
-    <app-reciever-info [recieverInfo]="recieverInfo"></app-reciever-info>
-  </div>
   <br />
   <p-card>
     <div class="flexCenter">
@@ -78,4 +75,10 @@
       style="width: 100%;"
     ></button>
   </p-card>
+  <br />
+
+  <div *ngIf="recieverInfo">
+    <app-reciever-info [recieverInfo]="recieverInfo"></app-reciever-info>
+  </div>
+  <br />
 </div>

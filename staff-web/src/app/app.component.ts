@@ -19,7 +19,7 @@ export class AppComponent {
     })
   }
 
-  backClicked() {
+  backClicked($event) {
     this._location.back()
   }
 }

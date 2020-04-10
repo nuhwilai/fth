@@ -2,9 +2,11 @@ const router = require('express').Router()
 const mongojs = require('mongojs')
 const { db } = require('../database')
 const { generateQrToken } = require('../services/generals.service')
+const { createToken } = require('../services/tokenManager.service')
 const {
   validateUserPatternNationalId,
 } = require('../services/validateUser.service')
+const { verifyGoogleAccessToken } = require('../services/auth.service')
 const _ = require('lodash')
 
 //#region user section
@@ -21,9 +23,10 @@ router.post('/requestQrToken', async (req, res) => {
     }
     const userResult = await db.user.findOneAsync(userInput)
 
-    if(!userResult){
+    if (!userResult) {
       throw new Error('not_match')
     }
+
     const qrcodeToken = await generateQrToken(userResult)
     res.send({
       valid: true,
@@ -36,9 +39,26 @@ router.post('/requestQrToken', async (req, res) => {
 //#endregion user section
 
 //#region staff section
-router.get('/login', async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
-    res.send({ valid: true, data: {} })
+    const googleVerify = await verifyGoogleAccessToken(req.body.oauthToken)
+    if (!googleVerify.valid) {
+      throw new Error(googleVerify.reason)
+    }
+
+    console.log(googleVerify.data)
+
+    const staffCount = await db.staff.countAsync({
+      email: googleVerify.data.email,
+    })
+    if (!staffCount <= 0) {
+      throw new Error('not_found_staff_email')
+    }
+
+    res.send({
+      valid: true,
+      data: { token: createToken({ email: googleVerify.data.email }) },
+    })
   } catch (error) {
     res.send({ valid: false, reason: error.message })
   }

@@ -13,7 +13,7 @@ const publicKeyFile = config.runProd
 
 const cert = fs.readFileSync(privateKeyFile)
 
-exports.creatToken = (data) => {
+exports.createToken = (data) => {
   return jwt.sign(data, cert, {
     algorithm: 'RS256',
     expiresIn: '15d'
