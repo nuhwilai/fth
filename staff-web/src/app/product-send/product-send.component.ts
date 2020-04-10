@@ -104,8 +104,11 @@ export class ProductSendComponent implements OnInit {
   }
 
   decreaseFoodCount() {
-    this.amount--
+    if (this.amount > 0) {
+      this.amount--
+    }
   }
+  
   increaseFoodCount() {
     this.amount++
   }

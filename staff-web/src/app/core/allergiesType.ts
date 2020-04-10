@@ -1,10 +1,26 @@
 export const ALLERGIES = [
-  { key: 'NO_SEA_FOOD', icon: '' },
-  { key: 'NO_MILK', icon: '' },
-  { key: 'NO_BEAN', icon: '' },
-  { key: 'NO_PORK', icon: '' },
-  { key: 'NO_CHICKEN', icon: '' },
-  { key: 'NO_MEAT', icon: '' },
+  {
+    key: 'NO_SEA_FOOD',
+    icon: '',
+    value: 'ไม่สามารถทานอาหารทะเลได้ (  Cannot eat seafood )',
+  },
+  {
+    key: 'NO_MILK',
+    icon: '',
+    value: "แพ้อาหารที่ผสมนมวัว ( Cannot eat foods containing cow's milk )",
+  },
+  {
+    key: 'NO_BEAN',
+    icon: '',
+    value: 'ไม่สามารถทานอาหารประเภทถั่วได้ ( Cannot eat beans )',
+  },
+  { key: 'NO_PORK', icon: '', value: 'ไม่ทานเนื้อหมู ( Not eating pork )' },
+  { key: 'NO_CHICKEN', icon: '', value: 'ไม่ทานไก่ ( Not eating chicken )' },
+  {
+    key: 'NO_MEAT',
+    icon: '',
+    value: 'ไม่ทานเนื้อสัตว์ทั้งหมด ( Not eating all the meat )',
+  },
 ]
 // export const ALLERGIES = {
 //   NO_SEA_FOOD: 'ไม่สามารถทานอาหารทะเลได้ (  Cannot eat seafood )',
