@@ -1,0 +1,53 @@
+.label {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+span.label {
+  margin-right: 0.5em;
+}
+
+#row-empty {
+  text-align: center;
+  height: 5em;
+}
+
+.caption-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.star-required {
+  color: crimson;
+}
+
+:host ::ng-deep .ui-table-caption {
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+  background-color: #263238 !important;
+  border: none !important;
+}
+
+:host ::ng-deep .ui-table-thead {
+  tr {
+    th {
+      border: 1px transparent solid !important;
+    }
+  }
+}
+
+:host ::ng-deep .ui-table-tbody {
+  tr {
+    td {
+      border: 1px transparent solid !important;
+    }
+  }
+  tr.ui-state-highlight {
+    background-color: orange !important;
+  }
+}
+
+.center {
+  text-align: center;
+}

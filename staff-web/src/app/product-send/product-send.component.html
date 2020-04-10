@@ -1,0 +1,57 @@
+<div>รายการรอบันทึก {{ txnRequireCount }}</div>
+
+<button
+  pButton
+  type="button"
+  label="Scan QR "
+  (click)="clickOpenCamera($event)"
+  *ngIf="!scannerEnabled"
+  style="width: 100%;"
+></button>
+<button
+  pButton
+  type="button"
+  label="Close"
+  (click)="clickCloseCamera($event)"
+  *ngIf="scannerEnabled"
+  style="width: 100%;"
+></button>
+<button
+  *ngIf="scannerEnabled"
+  pButton
+  type="button"
+  label="Toggle"
+  (click)="toggleCamera(desiredDevice, cameras)"
+  icon="pi pi-camera"
+></button>
+<zxing-scanner
+  *ngIf="scannerEnabled"
+  [enable]="scannerEnabled"
+  [device]="desiredDevice"
+  (camerasFound)="camerasFoundHandler($event)"
+  (camerasNotFound)="camerasNotFoundHandler($event)"
+  (scanSuccess)="scanSuccessHandler($event)"
+></zxing-scanner>
+
+<hr />
+
+<app-reciever-info [recieverInfo]="recieverInfo"></app-reciever-info>
+
+<p-card>
+  <div class="flexCenter">
+    <div class="flexCenter">
+    <p-button icon="pi pi-angle-left" (click)="decreaseFoodCount()"></p-button>
+      <span class="amount">{{ amount }}</span>
+    <p-button  icon="pi pi-angle-right" (click)="increaseFoodCount()"></p-button>
+    </div>
+  </div>
+  <br />
+  <button
+    pButton
+    type="button"
+    label="Submit"
+    (click)="submit()"
+    [disabled]="txactionRecieveForm.invalid"
+    style="width: 100%;"
+  ></button>
+</p-card>

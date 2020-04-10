@@ -1,0 +1,43 @@
+<h2>
+  รายการรอบการแจกของ
+  <button pButton label="Reload" (click)="refreshData()"></button>
+</h2>
+<!-- <pre>product round {{ productRound | json }}</pre>
+  <pre>form value {{ productRoundForm.value | json }}</pre> -->
+<p-table
+  #dt
+  [lazy]="true"
+  [loading]="loading"
+  (onLazyLoad)="loadProductRoundsLazy($event)"
+  [totalRecords]="totalRecords"
+  [value]="productRoundList"
+  [paginator]="true"
+  [rows]="15"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>ชื่อรายการ</th>
+      <th>วัน เวลา</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr [pSelectableRow]="rowData">
+      <td>{{ rowData.productName }}</td>
+      <td class="center">{{ rowData.roundDateTime | date: 'medium' }}</td>
+      <td style="text-align: center;">
+        <a [routerLink]="['/product-send', rowData._id]">
+          <p-button label="Send Spply"> </p-button>
+        </a>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr id="row-empty">
+      <td [attr.colspan]="3">
+        ไม่พบข้อมูลรายการ
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
