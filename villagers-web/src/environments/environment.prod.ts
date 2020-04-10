@@ -1,3 +1,6 @@
+const serverUrl = 'http://localhost:8000'
+
 export const environment = {
-  production: true
-};
+  production: false,
+  apiUrl: serverUrl + '/api',
+}
