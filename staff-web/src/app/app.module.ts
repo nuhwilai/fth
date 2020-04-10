@@ -27,7 +27,7 @@ import { MessageService } from 'primeng/components/common/messageservice'
 import { ProductRoundModule } from './product-round/product-round.module'
 import productRoundIndbSchma from './main/product-round-indb-schma'
 import { IncludeArrayPipe } from './include-array.pipe';
-import { MainComponent } from './main/main.component'
+import { MainComponent } from './main/main.component';
 
 // const config = new AuthServiceConfig([
 //   {
