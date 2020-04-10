@@ -112,44 +112,8 @@ export const surveyJSON = {
               title: 'ถนน ( Road )',
               placeHolder: 'ถนน ( Road )',
             },
-            {
-              type: 'text',
-              name: 'homeSubDistrict',
-              title: 'ตำบล/แขวง ( Sub-district )',
-              isRequired: true,
-              requiredErrorText:
-                'กรุณากรอกตำบล/แขวง ( please fill your sub-district )',
-              placeHolder: 'ตำบล/แขวง ( Sub-district )',
-            },
-            {
-              type: 'text',
-              name: 'homeDistrict',
-              title: 'อำเภอ/เขต ( District )',
-              isRequired: true,
-              requiredErrorText:
-                'กรุณากรอกอำเภอ/เขต ( please fill your district )',
-              placeHolder: 'อำเภอ/เขต ( District )',
-            },
-            {
-              type: 'text',
-              name: 'homeProvince',
-              title: 'จังหวัด ( Province )',
-              isRequired: true,
-              requiredErrorText:
-                'กรุณากรอกจังหวัด ( please fill your province)',
-              placeHolder: 'จังหวัด ( Province )',
-            },
-            {
-              type: 'text',
-              name: 'homePostalCode',
-              title: 'รหัสไปรษณีย์ ( Postal code )',
-              isRequired: true,
-              requiredErrorText:
-                'กรุณากรอกรหัสไปรษณีย์ ( please fill your postal code )',
-              placeHolder: 'รหัสไปรษณีย์ ( Postal code )',
-            },
           ],
-          title: 'ที่อยู่ปัจจุบัน ( Current Address )',
+          title: 'ที่อยู่ปัจจุบัน ต.กะรน อ.เมืองภูเก็ต จ.ภูเก็ต ( Current Address at Karon, Phuket )',
           state: 'expanded',
         },
         {
@@ -201,6 +165,10 @@ export const surveyJSON = {
             {
               value: 'HEART_DISEASE',
               text: 'โรคหัวใจ ( Heart disease )',
+            },
+            {
+              value: 'BLOOD_PRESSURE',
+              text: 'โรคความดัน ( Blood pressure )',
             },
           ],
         },
@@ -322,6 +290,10 @@ export const surveyJSON = {
                 {
                   value: 'HEART_DISEASE',
                   text: 'โรคหัวใจ ( Heart disease )',
+                },
+                {
+                  value: 'BLOOD_PRESSURE',
+                  text: 'โรคความดัน ( Blood pressure )',
                 },
               ],
             },

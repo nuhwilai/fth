@@ -64,6 +64,6 @@ export const surveyJSON = {
   requiredText: '',
   pagePrevText: 'ย้อนกลับ',
   pageNextText: 'ถัดไป',
-  completeText: 'เสร็จสิ้น',
+  completeText: 'ร้องขอ QR code',
   showCompletedPage: false,
 }
