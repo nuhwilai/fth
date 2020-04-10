@@ -43,7 +43,7 @@ import { environment } from '../environments/environment'
 //   return config
 // }
 
-function migrationFactory() {
+export function migrationFactory() {
   // The animal table was added with version 2 but none of the existing tables or data needed
   // to be modified so a migrator for that version is not included.
   return {
@@ -56,7 +56,7 @@ function migrationFactory() {
 
 const dbConfig: DBConfig = {
   name: 'MyDb',
-  version: 1,
+  version: 2,
   objectStoresMeta: [
     {
       store: 'productRound',
