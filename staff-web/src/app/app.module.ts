@@ -41,6 +41,17 @@ import { FieldsetModule } from 'primeng/fieldset'
 //   return config
 // }
 
+function migrationFactory() {
+  // The animal table was added with version 2 but none of the existing tables or data needed
+  // to be modified so a migrator for that version is not included.
+  return {
+    1: (db, transaction) => {
+      const store1 = transaction.objectStore('productRound')
+      const store2 = transaction.objectStore('recieveTxn')
+    },
+  }
+}
+
 const dbConfig: DBConfig = {
   name: 'MyDb',
   version: 1,
@@ -94,6 +105,7 @@ const dbConfig: DBConfig = {
       ],
     },
   ],
+  migrationFactory,
 }
 // const dbConfig: DBConfig = {
 //   name: 'MyDb',
