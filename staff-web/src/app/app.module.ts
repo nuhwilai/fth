@@ -3,15 +3,10 @@ import { NgModule } from '@angular/core'
 
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import {
-  AuthServiceConfig,
-  GoogleLoginProvider,
-  SocialLoginModule,
-} from 'angularx-social-login'
+
 import { LoginComponent } from './login/login.component'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { NavBarComponent } from './nav-bar/nav-bar.component'
-import googleOauth from 'src/environments/google-oauth'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { AuthInterceptor } from './auth-interceptor'
 import { ButtonModule } from 'primeng/button'
@@ -31,7 +26,8 @@ import { MessageService } from 'primeng/components/common/messageservice'
 
 import { ProductRoundModule } from './product-round/product-round.module'
 import productRoundIndbSchma from './main/product-round-indb-schma'
-import { IncludeArrayPipe } from './include-array.pipe'
+import { IncludeArrayPipe } from './include-array.pipe';
+import { MainComponent } from './main/main.component'
 
 // const config = new AuthServiceConfig([
 //   {
@@ -58,6 +54,7 @@ const dbConfig: DBConfig = {
     RecieverInfoComponent,
     ProductSendComponent,
     IncludeArrayPipe,
+    MainComponent,
   ],
   imports: [
     BrowserAnimationsModule,
