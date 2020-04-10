@@ -30,9 +30,12 @@ p {
   margin: -8px;
   display: flex;
   align-items: center;
-  background-color: #1976d2;
+  background-color: #263238;
   color: white;
   font-weight: 600;
+  .title{
+    padding-left: 15px;
+  }
 }
 
 .toolbar img {
