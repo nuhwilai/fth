@@ -72,7 +72,7 @@ export const surveyJSON = {
             },
           ],
           maxLength: 10,
-          placeHolder: '00-00000000',
+          placeHolder: '0xxxxxxxxx',
         },
         {
           type: 'panel',
