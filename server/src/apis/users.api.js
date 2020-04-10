@@ -57,7 +57,7 @@ router.put('/:nationalId', async (req, res) => {
 router.get('/:nationalId', async (req, res) => {
   try {
     if (!req.params.nationalId) {
-      throw new Error('not found nationalId')
+      throw new Error('not_found_national_id')
     }
     const userResult = await db.user.findOneAsync({
       nationalId: req.params.nationalId,
