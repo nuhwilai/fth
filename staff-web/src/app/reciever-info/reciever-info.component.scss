@@ -13,3 +13,7 @@
 .container{
     padding: 1em;
 }
+
+:host ::ng-deep .ui-fieldset-legend >a{
+    border: none !important;
+}
