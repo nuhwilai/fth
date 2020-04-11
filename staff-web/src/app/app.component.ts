@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   user
 
   pathHideIcon = ['/home']
-  currentPath
+  currentPath = ''
   constructor(
     private authService: AuthService,
     private _location: Location,
@@ -26,8 +26,6 @@ export class AppComponent implements OnInit {
     this.authService.settingsLoaded.subscribe(() => {
       this.loading = false
     })
-    console.log(this.router)
-    this.currentPath = '/home'
   }
 
   backClicked($event) {
@@ -40,7 +38,7 @@ export class AppComponent implements OnInit {
   private subscribeCurrentPath() {
     this.router.events.subscribe((value) => {
       if (value instanceof NavigationEnd) {
-        this.currentPath = value.urlAfterRedirects
+        this.currentPath = value.url
       }
     })
   }
