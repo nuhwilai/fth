@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   private subscribeCurrentPath() {
     this.router.events.subscribe((value) => {
       if (value instanceof NavigationEnd) {
-        this.currentPath = value.url
+        this.currentPath = value.urlAfterRedirects
       }
     })
   }
