@@ -1,11 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
 * {
-    font-family: "Sarabun", sans-serif;
+  font-family: 'Sarabun', sans-serif;
 }
 
 body {
-    background-image: url("./assets/bg.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100vh;
+  background-image: url('./assets/bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+.invalid-field,
+.invalid-autocomplete-field > span > input,
+.invalid-spinner-field > span > input,
+.invalid-calendar-field > span > input,
+.invalid-dropdown-field > div {
+  border: 1px solid #dc3545 !important;
 }

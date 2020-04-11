@@ -32,19 +32,13 @@
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th>ชื่อรายการ</th>
-      <th>วันที่</th>
-      <!-- <th></th> -->
+      <th>รอบวันที่</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr [pSelectableRow]="rowData">
       <td>{{ rowData.productName }}</td>
       <td class="center">{{ rowData.roundDateTime | date: 'dd/MM/yyyy' }}</td>
-      <!-- <td style="text-align: center;">
-        <a [routerLink]="['/product-send', rowData._id]">
-          <p-button label="แจกของ"> </p-button>
-        </a>
-      </td> -->
     </tr>
   </ng-template>
 
@@ -95,6 +89,7 @@
         formControlName="roundDateTime"
         dateFormat="dd/mm/yy"
         appendTo="body"
+        [class.invalid-calendar-field]="submitted && f.roundDateTime.errors"
       ></p-calendar>
     </div>
   </div>
