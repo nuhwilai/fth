@@ -123,6 +123,16 @@ interface IProductRound {
     ```
 - [x] GET `/productRounds`
      ```ts
+        interface IProductRoundQuerystring{
+            offset?: number
+            max?: number
+            sort?: string // fieldName ex. roundDateTime
+            order?: 'desc' | 'asc'
+            // filter
+            roundDateTime?: string // ISOString
+            roundDateTime_gt?: string // ISOString
+            productName?: string
+        }
         interface IProductRoundSuccessData {
             productRounds: IProductRound[]
         }

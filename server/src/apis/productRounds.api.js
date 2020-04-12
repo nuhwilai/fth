@@ -55,6 +55,8 @@ router.get('/', async (req, res) => {
       ? Number(req.query.max)
       : config.maxRecordsPerQuery
     const skip = req.query.offset ? Number(req.query.offset) : 0
+    const sort = req.query.sort ? req.query.sort : 'roundDateTime'
+    const order = req.query.order == 'asc' ? 1 : -1
 
     if (query.roundDateTime_gt) {
       query.roundDateTime = { $gt: new Date(query.roundDateTime_gt) }
@@ -63,6 +65,7 @@ router.get('/', async (req, res) => {
 
     await db.productRound
       .find(query)
+      .sort({ [sort]: order })
       .limit(limit)
       .skip(skip)
       .toArray((err, result) => {
