@@ -3,6 +3,7 @@ const mongojs = require('mongojs')
 const { db } = require('../database')
 const _ = require('lodash')
 const config = require('../conf/config')
+const { parseDateStrToDate } = require('../services/generals.service')
 
 router.post('/', async (req, res) => {
   try {
@@ -24,7 +25,7 @@ router.put('/:id', async (req, res) => {
   try {
     await db.productRound.updateAsync(
       { _id: mongojs.ObjectId(req.params.id) },
-      { $set: req.body },
+      { $set: parseDateStrToDate(req.body) },
     )
     res.send({ valid: true, data: { _id: req.params.id } })
   } catch (error) {

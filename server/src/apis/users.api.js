@@ -7,6 +7,7 @@ const {
 const mongojs = require('mongojs')
 const router = require('express').Router()
 const _ = require('lodash')
+const { parseDateStrToDate } = require('../services/generals.service')
 
 router.post('/', async (req, res) => {
   try {
@@ -15,7 +16,9 @@ router.post('/', async (req, res) => {
     if (!validate.valid) {
       throw new Error(validate.reason)
     }
-    const userCreateResult = await db.user.insertAsync(req.body)
+    const userCreateResult = await db.user.insertAsync(
+      parseDateStrToDate(req.body),
+    )
     const qrcodeToken = await generateQrToken(userCreateResult)
 
     const nationalIdInfoes = getNationalIdInfoes(req.body)
@@ -33,14 +36,14 @@ router.post('/', async (req, res) => {
 router.put('/:nationalId', async (req, res) => {
   try {
     // TODO: handle nationalId change or add
-    const userUpdateInput = req.body
+    const userUpdateInput = parseDateStrToDate(_.omit(req.body, ['_id']))
     const validate = await validateUserPatternNationalId(userUpdateInput)
     if (!validate.valid) {
       throw new Error(validate.reason)
     }
     await db.user.updateAsync(
       { nationalId: req.params.nationalId },
-      { $set: _.omit(userUpdateInput, ['_id']) },
+      { $set: userUpdateInput },
     )
 
     res.send({
