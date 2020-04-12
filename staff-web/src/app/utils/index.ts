@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment'
 
 export const verifyJWTToken = (jwttoken: string) => {
   try {
-    const isValid = KJUR.jws.JWS.verifyJWT(jwttoken, 'bye-bye-covid19', {
+    const isValid = KJUR.jws.JWS.verifyJWT(jwttoken, environment.secretKey, {
       alg: ['HS256'],
     })
     if (isValid) {

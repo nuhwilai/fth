@@ -9,8 +9,8 @@ const keyFile = config.runProd
 
 const cert = fs.readFileSync(keyFile)
 
-exports.createToken = (data) => {
-  return jwt.sign(data, 'i-hate-you-covid19', {
+exports.createToken = (data, customSecretKey) => {
+  return jwt.sign(data, customSecretKey || keyFile, {
     algorithm: 'HS256'
   })
 }

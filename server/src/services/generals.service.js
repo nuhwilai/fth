@@ -1,10 +1,7 @@
 const _ = require('lodash')
-const { createToken: creatToken } = require('./tokenManager.service')
+const config = require('../conf/config')
+const { createToken } = require('./tokenManager.service')
 
 exports.generateQrToken = async (user) => {
-  return creatToken(
-    _.pick(user, [
-      'nationalId',
-    ]),
-  )
+  return createToken(_.pick(user, ['nationalId']), config.secretKey)
 }
