@@ -5,7 +5,7 @@ import * as showdown from 'showdown'
 import * as Survey from 'survey-angular'
 import { ERROR_MESSAGES } from '../shared/pageRestful/error-message-data'
 import { ALLERGIES, DISEASE } from './data-values'
-import { surveyJSON, mockResult } from './register-forms'
+import { surveyJSON } from './register-forms'
 import { RegisterService } from './register.service'
 import { ICreateUserResponse } from './type'
 @Component({
@@ -30,7 +30,6 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.result = mockResult
     this.doSurvey()
   }
 
