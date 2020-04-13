@@ -5,7 +5,7 @@ import * as showdown from 'showdown'
 import * as Survey from 'survey-angular'
 import { surveyJSON } from './request-qr-code-forms'
 import { RequestQrCodeService } from './request-qr-code.service'
-import { IRequestQrTokenResponse } from './type'
+import { IRequestQrTokenResponse, IUserSuccessData } from './type'
 import { ERROR_MESSAGES } from '../shared/pageRestful/error-message-data'
 @Component({
   selector: 'app-request-qr-code',
@@ -118,12 +118,31 @@ export class RequestQrCodeComponent implements OnInit {
     this.loading = true
     this.requestQrCodeService.requestQrCode(this.result).subscribe(
       (data: IRequestQrTokenResponse) => {
-        this.loading = false
         if (data.valid) {
-          this.router.navigate(['show-qr-code', { ...data.data }], {
-            replaceUrl: true,
-          })
+          this.requestQrCodeService
+            .requestUserData(this.result.nationalId, { _schema: 'short' })
+            .subscribe(
+              (user: IUserSuccessData) => {
+                this.loading = false
+                if (data.valid) {
+                  this.router.navigate(
+                    ['show-qr-code', { ...data.data, ...user.data.user }],
+                    {
+                      replaceUrl: true,
+                    },
+                  )
+                } else {
+                  if (ERROR_MESSAGES[data.reason]) {
+                    this.notificationError(ERROR_MESSAGES[data.reason])
+                  } else {
+                    this.notificationError(data.reason)
+                  }
+                }
+              },
+              (err) => {},
+            )
         } else {
+          this.loading = false
           if (ERROR_MESSAGES[data.reason]) {
             this.notificationError(ERROR_MESSAGES[data.reason])
           } else {

@@ -146,7 +146,7 @@ export class RegisterComponent implements OnInit {
     this.registerService.createUser(this.result).subscribe(
       (data: ICreateUserResponse) => {
         if (data.valid) {
-          this.router.navigate(['show-qr-code', { ...data.data }], {
+          this.router.navigate(['show-qr-code', { ...data.data, ...this.result }], {
             replaceUrl: true,
           })
         } else {
