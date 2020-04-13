@@ -42,6 +42,19 @@
         }[]
         remark?: string
     }
+
+    interface IUserSchemaShort {
+        firstname: string
+        lastname: string
+        phoneNumber: string
+        homeNumber: string
+        homeMoo?: string
+        homeMooban?: string
+        homePostalCode: string
+        homeSubDistrict: string
+        homeDistrict: string
+        homeProvince: string
+    }
 ```
 
 - [x] POST `/users`
@@ -56,8 +69,11 @@
     ```
 - [x] GET `/users/:nationalId`
     ```ts
+        interface IUserQuerystring{
+            _schema?: 'short'
+        }
         interface IUserSuccessData {
-            user: IUser
+            user: IUser | IUserSchemaShort
         }
     ```
 - [x] PUT `/users/:nationalId`
@@ -123,6 +139,16 @@ interface IProductRound {
     ```
 - [x] GET `/productRounds`
      ```ts
+        interface IProductRoundQuerystring{
+            offset?: number
+            max?: number
+            sort?: string // fieldName ex. roundDateTime
+            order?: 'desc' | 'asc'
+            // filter
+            roundDateTime?: string // ISOString
+            roundDateTime_gt?: string // ISOString
+            productName?: string
+        }
         interface IProductRoundSuccessData {
             productRounds: IProductRound[]
         }

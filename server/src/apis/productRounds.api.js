@@ -3,6 +3,7 @@ const mongojs = require('mongojs')
 const { db } = require('../database')
 const _ = require('lodash')
 const config = require('../conf/config')
+const { parseDateStrToDate } = require('../services/generals.service')
 
 router.post('/', async (req, res) => {
   try {
@@ -24,7 +25,7 @@ router.put('/:id', async (req, res) => {
   try {
     await db.productRound.updateAsync(
       { _id: mongojs.ObjectId(req.params.id) },
-      { $set: req.body },
+      { $set: parseDateStrToDate(req.body) },
     )
     res.send({ valid: true, data: { _id: req.params.id } })
   } catch (error) {
@@ -55,6 +56,8 @@ router.get('/', async (req, res) => {
       ? Number(req.query.max)
       : config.maxRecordsPerQuery
     const skip = req.query.offset ? Number(req.query.offset) : 0
+    const sort = req.query.sort ? req.query.sort : 'roundDateTime'
+    const order = req.query.order == 'asc' ? 1 : -1
 
     if (query.roundDateTime_gt) {
       query.roundDateTime = { $gt: new Date(query.roundDateTime_gt) }
@@ -63,6 +66,7 @@ router.get('/', async (req, res) => {
 
     await db.productRound
       .find(query)
+      .sort({ [sort]: order })
       .limit(limit)
       .skip(skip)
       .toArray((err, result) => {

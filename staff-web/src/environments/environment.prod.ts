@@ -1,9 +1,12 @@
-
 const serverUrl = ''
 
 export const environment = {
   production: true,
   restEndpointUrl: serverUrl + '/api',
+  apiEndpointUrl: serverUrl + '/api',
+  loginEndpointUrl: serverUrl + '/api/login',
+  loginValidateEndpointUrl: serverUrl + '/api/validate',
+  secretKey: 'bye-bye-covid19',
   serverPubKey: `-----BEGIN PUBLIC KEY-----
   MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2VO6BGTgz0tkrDYEABUN
   syxLLOfE0yrly8F5usSFp3240qzqOHugOPgAYD0wTlv+WMiu4u8JEs3F3tQjE/c4
@@ -19,7 +22,4 @@ export const environment = {
   dJGPZLG7oP+zLZKANd5WyRkCAwEAAQ==
   -----END PUBLIC KEY-----
   `,
-  apiEndpointUrl: serverUrl + '/api',
-  loginEndpointUrl: serverUrl + '/api/login',
-  loginValidateEndpointUrl: serverUrl + '/api/validate',
 }

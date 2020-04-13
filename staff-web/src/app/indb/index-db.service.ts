@@ -17,16 +17,34 @@ export class IndexDbService implements OnDestroy {
     private dbService: NgxIndexedDBService,
     private http: HttpClient,
   ) {
-    // this.initDb()
-    this.runIndexDbService()
-    this.dbService.count('recieveTxn').then((number) => {
-      this.txnCount$.next(number)
-    })
+    this.checkDb()
   }
 
   initDb() {
-    this.addIndexDbToService()
     this.getServiceToIndexDb()
+  }
+
+  checkDb() {
+    Promise.all([
+      this.dbService.getAll('recieveTxn'),
+      this.dbService.getAll('productRound'),
+    ])
+      .then(() => {
+        this.runIndexDbService()
+        this.dbService.count('recieveTxn').then((number) => {
+          this.txnCount$.next(number)
+        })
+      })
+      .catch((e) => {
+        this.dbService.deleteDatabase().then(
+          () => {
+            window.location.reload()
+          },
+          (error) => {
+            console.log(error)
+          },
+        )
+      })
   }
 
   ngOnDestroy() {
@@ -39,7 +57,12 @@ export class IndexDbService implements OnDestroy {
 
   async addTxnIndexDb(data) {
     try {
-      await this.dbService.add('recieveTxn', data)
+      await this.dbService.add('recieveTxn', data).then(
+        () => {},
+        (error) => {
+          console.log('Add recieveTxn error', error)
+        },
+      )
       const number = await this.dbService.count('recieveTxn')
       this.txnCount$.next(number)
     } catch (e) {}
@@ -112,7 +135,12 @@ export class IndexDbService implements OnDestroy {
           this.dbService.clear('productRound').then(
             () => {
               _.each(productRoundsData, (data) => {
-                this.dbService.add('productRound', data)
+                this.dbService.add('productRound', data).then(
+                  () => {},
+                  (error) => {
+                    console.log('Add product round error', error)
+                  },
+                )
               })
             },
             (error) => {

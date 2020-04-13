@@ -11,6 +11,7 @@ const conf = {
   dbUrl: isProd
     ? `mongodb://${mongo_host}:27017/fth`
     : `mongodb://localhost:27017/fth_dev`,
+  secretKey: 'bye-bye-covid19',
 }
 
 module.exports = conf

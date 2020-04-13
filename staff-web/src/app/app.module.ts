@@ -30,6 +30,8 @@ import { IncludeArrayPipe } from './include-array.pipe'
 import { MainComponent } from './main/main.component'
 import { AccordionModule } from 'primeng/accordion'
 import { FieldsetModule } from 'primeng/fieldset'
+import { ServiceWorkerModule } from '@angular/service-worker'
+import { environment } from '../environments/environment'
 // const config = new AuthServiceConfig([
 //   {
 //     id: GoogleLoginProvider.PROVIDER_ID,
@@ -43,9 +45,63 @@ import { FieldsetModule } from 'primeng/fieldset'
 
 const dbConfig: DBConfig = {
   name: 'MyDb',
-  version: 1,
-  objectStoresMeta: [productRoundIndbSchma, recieveTxn],
+  version: 2,
+  objectStoresMeta: [
+    {
+      store: 'productRound',
+      storeConfig: { keyPath: 'id', autoIncrement: true },
+      storeSchema: [
+        { name: '_id', keypath: '_id', options: { unique: true } },
+        {
+          name: 'productName',
+          keypath: 'productName',
+          options: { unique: true },
+        },
+        {
+          name: 'roundDateTime',
+          keypath: 'roundDateTime',
+          options: { unique: false },
+        },
+      ],
+    },
+    {
+      store: 'recieveTxn',
+      storeConfig: { keyPath: 'id', autoIncrement: true },
+      storeSchema: [
+        {
+          name: 'nationalId',
+          keypath: 'nationalId',
+          options: { unique: false },
+        },
+        {
+          name: 'receivedDateTime',
+          keypath: 'receivedDateTime',
+          options: { unique: false },
+        },
+        {
+          name: 'amount',
+          keypath: 'amount',
+          options: { unique: false },
+        },
+        {
+          name: 'staffId',
+          keypath: 'staffId',
+          options: { unique: false },
+        },
+        {
+          name: 'productId',
+          keypath: 'productId',
+          options: { unique: false },
+        },
+      ],
+    },
+  ],
 }
+// const dbConfig: DBConfig = {
+//   name: 'MyDb',
+//   version: 1,
+//   objectStoresMeta: [productRoundIndbSchma, recieveTxn],
+// }
 
 @NgModule({
   declarations: [
@@ -77,6 +133,9 @@ const dbConfig: DBConfig = {
     ProductRoundModule,
     AccordionModule,
     FieldsetModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+    }),
   ],
   providers: [
     // {
@@ -92,6 +151,4 @@ const dbConfig: DBConfig = {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-  constructor(private indexDbService: IndexDbService) {}
-}
+export class AppModule {}

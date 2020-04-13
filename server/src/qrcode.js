@@ -10,7 +10,6 @@ exports.createQrCode = function (str, logoFile) {
   const options = {
     errorCorrectionLevel: 'H',
     scale: 15,
-    version:35,
     mode: 'alphanumeric',
   }
 
