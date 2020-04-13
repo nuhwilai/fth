@@ -10,4 +10,8 @@ export class RequestQrCodeService {
   requestQrCode(data) {
     return this.pRfS.createPagedRestful('requestQrToken', data)
   }
+
+  requestUserData(nationalId, params) {
+    return this.pRfS.loadPagedRestful('users', nationalId, params)
+  }
 }
