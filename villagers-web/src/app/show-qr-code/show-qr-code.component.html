@@ -15,6 +15,18 @@
     Please keep the QR code confidential. Do not give to others.
   </h4>
   <div class="qrCode" *ngIf="_id">
-    <img [src]="apiUrl+'/qrcode?text='+qrcodeToken"/>
+    <img [src]="apiUrl + '/qrcode?text=' + qrcodeToken" />
+  </div>
+  <div class="infomaion">
+    <h4 class="title is-5 header">
+      <b>{{ data?.firstname }} {{ data?.lastname }}</b> โทร. {{
+        data?.phoneNumber
+      }}
+    </h4>
+    <h4 class="title is-5 header">
+      ที่อยู่ : {{ data?.homeNumber }} หมู่ {{ data?.homeMoo }}
+      {{ data?.homeMooban }} ต.{{ data?.homeSubDistrict }}
+      อ.{{ data?.homeDistrict }} จ.{{ data?.homeProvince }} {{data?.homePostalCode}}
+    </h4>
   </div>
 </div>
