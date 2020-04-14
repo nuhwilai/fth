@@ -4,6 +4,12 @@ import * as moment from 'moment'
 import * as _ from 'lodash'
 import { ReceiveTxnService } from 'src/app/receive-txn/receive-txn.service'
 
+interface FILE_META {
+  fileName: string
+  date: string
+  totalAmount: number
+  cols: any
+}
 @Component({
   selector: 'app-product-round-report',
   templateUrl: './product-round-report.component.html',
@@ -19,6 +25,33 @@ export class ProductRoundReportComponent implements OnInit {
   exportColumns: any[]
   currentOption: any = {}
   exporting: boolean = false
+
+  receiveTxnCols = [
+    {
+      field: 'name',
+      header: 'ชื่อ-สกุล',
+    },
+    {
+      field: 'address',
+      header: 'ที่อยู่',
+    },
+    {
+      field: 'nationalId',
+      header: 'หมายเลขบัตร',
+    },
+    {
+      field: 'phoneNumber',
+      header: 'เบอร์โทรศัพท์',
+    },
+    {
+      field: 'amount',
+      header: 'จำนวน',
+    },
+    {
+      field: 'receivedDateTime',
+      header: 'เวลารับของ',
+    },
+  ]
 
   constructor(
     private productRoundService: ProductRoundService,
@@ -114,55 +147,61 @@ export class ProductRoundReportComponent implements OnInit {
     // TODO: fetch receive txn by product round
     const { _id, roundDate, productName } = productRound
     this.receiveTxnService
-      .listReceiveTxns({ productId: _id })
+      .listReceiveTxns({ productId: _id, __withUserSchema: 'short' })
       .subscribe((res: IResponseSuccess) => {
         if (res.valid) {
-          // console.log('xxxxxx', res.data)
+          console.log('receiveTxns', res.data)
           let txns = _.chain(res.data.receiveTxns)
-            .map((it) =>
-              _.pick(it, [
-                'nationalId',
-                'phoneNumber',
-                'amount',
-                'receivedDateTime',
-              ]),
-            )
-            .map((it) => ({
-              ...it,
-              receivedDateTime: moment(it.receivedDateTime).format(
-                'DD-MM-YYYY HH:ss',
-              ),
-            }))
+            .map((it) => {
+              const _name = `${_.get(it.user, 'firstname', '')} ${_.get(
+                it.user,
+                'lastname',
+                '',
+              )}`
+              const _address = `${_.get(
+                it.user,
+                'homeNumber',
+                '-',
+              )} หมู่ ${_.get(it.user, 'homeMoo', '-')} หมู่บ้าน ${_.get(
+                it.user,
+                'homeMooban',
+                '-',
+              )} ต. ${_.get(it.user, 'homeSubDistrict', '-')} อ. ${_.get(
+                it.user,
+                'homeDistrict',
+                '-',
+              )} จ. ${_.get(it.user, 'homeProvince', '-')} ${_.get(
+                it.user,
+                'homePostalCode',
+                '-',
+              )}
+              `
+              return {
+                name: _name,
+                address: _address,
+                nationalId: _.get(it, 'nationalId', ''),
+                phoneNumber: _.get(it, 'phoneNumber', ''),
+                amount: _.get(it, 'amount', ''),
+                receivedDateTime: moment(it.receivedDateTime).format(
+                  'DD-MM-YYYY HH:ss',
+                ),
+              }
+            })
             .value()
+          let totalAmount = _.sumBy(txns, (it) => it.amount)
           console.log('txts', txns)
-          this.exportExcel(
-            txns,
-            productName,
-            moment(roundDate).format('DD-MM-YYYY'),
-          )
+          let meta = {
+            fileName: productName,
+            date: moment(roundDate).format('DD-MM-YYYY'),
+            totalAmount: totalAmount,
+            cols: this.receiveTxnCols,
+          }
+          this.exportExcel(txns, meta)
         }
       })
   }
 
-  exportExcel(entries: any, fileName: string, date: string) {
-    const cols = [
-      {
-        field: 'nationalId',
-        header: 'หมายเลขบัตร',
-      },
-      {
-        field: 'phoneNumber',
-        header: 'เบอร์โทรศัพท์',
-      },
-      {
-        field: 'amount',
-        header: 'จำนวน',
-      },
-      {
-        field: 'receivedDateTime',
-        header: 'เวลารับของ',
-      },
-    ]
+  exportExcel(entries: any, meta: FILE_META) {
     import('xlsx').then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(entries)
       var range = xlsx.utils.decode_range(worksheet['!ref'])
@@ -170,7 +209,7 @@ export class ProductRoundReportComponent implements OnInit {
         var address = xlsx.utils.encode_col(C) + '1' // <-- first row, column number C
         if (!worksheet[address]) continue
         const v = worksheet[address].v
-        const _address = _.chain(cols)
+        const _address = _.chain(meta.cols)
           .find((col: any) => col.field === v)
           .get('header', '')
           .value()
@@ -184,11 +223,12 @@ export class ProductRoundReportComponent implements OnInit {
         bookType: 'xlsx',
         type: 'array',
       })
-      this.saveAsExcelFile(excelBuffer, fileName, date)
+      this.saveAsExcelFile(excelBuffer, meta)
     })
   }
 
-  saveAsExcelFile(buffer: any, fileName: string, date: string): void {
+  saveAsExcelFile(buffer: any, meta: FILE_META): void {
+    const { fileName, date, totalAmount } = meta
     import('file-saver').then((FileSaver) => {
       let EXCEL_TYPE =
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
@@ -196,7 +236,10 @@ export class ProductRoundReportComponent implements OnInit {
       const data: Blob = new Blob([buffer], {
         type: EXCEL_TYPE,
       })
-      FileSaver.saveAs(data, fileName + '_' + date + EXCEL_EXTENSION)
+      FileSaver.saveAs(
+        data,
+        fileName + '_' + date + '_' + `จำนวน_${totalAmount}` + EXCEL_EXTENSION,
+      )
       this.exporting = false
     })
   }
