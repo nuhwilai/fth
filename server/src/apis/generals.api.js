@@ -1,7 +1,10 @@
 const router = require('express').Router()
 const mongojs = require('mongojs')
 const { db } = require('../database')
-const { generateQrToken } = require('../services/generals.service')
+const {
+  generateQrToken,
+  transformReceiveTxns,
+} = require('../services/generals.service')
 const { createToken } = require('../services/tokenManager.service')
 const {
   validateUserPatternNationalId,
@@ -74,7 +77,7 @@ router.post('/receiveTxnSyncUp', async (req, res) => {
       )
     }
     const receiveTxnResults = await db.receiveTxn.insertManyAsync(
-      req.body.receiveTxns,
+      transformReceiveTxns(req.body.receiveTxns),
     )
     res.send({ valid: true, data: { _ids: _.map(receiveTxnResults, '_id') } })
   } catch (error) {

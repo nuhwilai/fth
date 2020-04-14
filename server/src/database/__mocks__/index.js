@@ -1,6 +1,19 @@
+const rootLogger = require('../../conf/logger')
+const logger = rootLogger.get('main')
+
 exports.loadMockData = (db) => {
-  // db.user.remove()
-  // users.forEach(user => {
-  //   db.user.insert(user)
-  // })
+  upsertCollection(db, 'receiveTxn', require('./receiveTxns'))
+  upsertCollection(db, 'productRound', require('./productRounds'))
+}
+
+function upsertCollection(db, store, items) {
+  items.forEach((item) => {
+    const _id = item._id
+    delete item._id
+    db.collection(store)
+      .updateAsync({ _id }, { $set: item }, { upsert: true })
+      .then((res) => {
+        logger.debug(`loading mockup:${store}, ${_id}`)
+      })
+  })
 }

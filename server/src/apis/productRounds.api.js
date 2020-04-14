@@ -1,9 +1,10 @@
-const router = require('express').Router()
-const mongojs = require('mongojs')
-const { db } = require('../database')
 const _ = require('lodash')
-const config = require('../conf/config')
+const { db } = require('../database')
 const { parseDateStrToDate } = require('../services/generals.service')
+const config = require('../conf/config')
+const moment = require('moment')
+const mongojs = require('mongojs')
+const router = require('express').Router()
 
 router.post('/', async (req, res) => {
   try {
@@ -14,6 +15,7 @@ router.post('/', async (req, res) => {
     const productRoundCreateResult = await db.productRound.insertAsync({
       productName: req.body.productName,
       roundDateTime: new Date(req.body.roundDateTime),
+      roundDate: moment(req.body.roundDateTime).format('YYYY-MM-DD'),
     })
     res.send({ valid: true, data: { _id: productRoundCreateResult._id } })
   } catch (error) {
@@ -25,7 +27,7 @@ router.put('/:id', async (req, res) => {
   try {
     await db.productRound.updateAsync(
       { _id: mongojs.ObjectId(req.params.id) },
-      { $set: parseDateStrToDate(req.body) },
+      { $set: parseDateStrToDate(req.body, ['roundDate']) },
     )
     res.send({ valid: true, data: { _id: req.params.id } })
   } catch (error) {
@@ -50,6 +52,7 @@ router.get('/', async (req, res) => {
       'roundDateTime',
       'roundDateTime_gt',
       'productName',
+      'roundDate',
     ])
 
     const limit = req.query.max

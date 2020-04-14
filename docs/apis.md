@@ -102,6 +102,7 @@ interface IReceiveTxn {
     _id: string
     nationalId: string
     receivedDateTime: Date
+    receivedDate: string // YYYY-MM-DD
     amount: number
     staffId: string
     productId: string
@@ -116,6 +117,7 @@ interface IReceiveTxn {
 interface IProductRound {
     _id: string
    roundDateTime: Date
+   roundDate: string // YYYY-MM-DD
    productName: string
 }
 ```

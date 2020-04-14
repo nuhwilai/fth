@@ -19,6 +19,7 @@
     "moment": "^2.24.0",
     "mongojs": "^3.1.0",
     "qrcode": "^1.4.4",
-    "traverse": "^0.6.6"
+    "traverse": "^0.6.6",
+    "winston": "^3.2.1"
   }
 }
