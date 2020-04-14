@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import {
   AuthService as OAuthService,
@@ -15,7 +15,7 @@ import { Router } from '@angular/router'
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   signinForm: FormGroup
   user: SocialUser
   loggedIn: boolean
@@ -58,6 +58,10 @@ export class LoginComponent implements OnInit {
     this.oAuthService.signOut()
   }
 
+  ngOnDestroy() {
+    this.authStateSub.unsubscribe()
+  }
+
   onSuccess = () => {
     this.messageService.add({
       severity: 'success',
@@ -67,12 +71,11 @@ export class LoginComponent implements OnInit {
     this.oAuthService.signOut(true)
   }
 
-  onError(error) {
+  onError = (error: string) => {
+    console.log('error :', error)
     this.messageService.add({
       severity: 'error',
-      summary: 'ลงชื่อเข้าใช้งาน',
-      detail: `มีข้อผิดพลาดในการลงชื่อเข้าใช้ ${error}`,
+      detail: `เข้าสู้ระบบไม่สำเร็จ ${error || 'ไม่ทราบสาเหตุ'}`,
     })
-    console.log('error :', error)
   }
 }

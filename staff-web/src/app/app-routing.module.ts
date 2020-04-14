@@ -6,9 +6,19 @@ import { MainComponent } from './main/main.component'
 import { ProductSendComponent } from './product-send/product-send.component'
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'login' },
-  { path: 'product-send/:id', component: ProductSendComponent },
-  { path: 'home', component: MainComponent, canActivate: [AuthGuard] },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  {
+    path: 'product-send/:id',
+    component: ProductSendComponent,
+    canActivate: [AuthGuard],
+    data: { ifAnyGranted: ['ADMIN', 'STAFF'] },
+  },
+  {
+    path: 'home',
+    component: MainComponent,
+    canActivate: [AuthGuard],
+    data: { ifAnyGranted: ['ADMIN', 'STAFF'] },
+  },
   {
     component: LoginComponent,
     path: 'login',
