@@ -9,11 +9,13 @@ const routes: Routes = [
     path: 'product-round',
     component: ProductRoundCrudComponent,
     canActivate: [AuthGuardService],
-    data: { ifAnyGranted: ['ADMIN'] },
+    data: { ifAnyGranted: ['ADMIN', 'STAFF'] },
   },
   {
     component: ProductRoundOfflineComponent,
+    canActivate: [AuthGuardService],
     path: 'product-round-offline',
+    data: { ifAnyGranted: ['ADMIN', 'STAFF'] },
   },
 ]
 

@@ -53,7 +53,7 @@ export class AuthService {
       this.authData = {
         isAuthenticated: true,
         email: decoded.email,
-        role: decoded.role || '',
+        role: decoded.role,
         token,
       }
     } catch (e) {
