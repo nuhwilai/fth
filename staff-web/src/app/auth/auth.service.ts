@@ -117,7 +117,7 @@ export class AuthService {
       if (this.loginSub) {
         this.loginSub.unsubscribe()
       }
-      this.router.navigate(['/'])
+      this.router.navigate(['/login'])
     })
   }
 }

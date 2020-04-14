@@ -13,7 +13,7 @@
     </p-card>
   </a>
   <br />
-  <a [routerLink]="['/product-round-report']">
+  <a [routerLink]="['/product-round-report']" *ifAnyGranted="['ADMIN','STAFF']">
     <p-card>
       <i class="pi pi-thumbs-up iconTitle"></i>
       <span class="title">รายงานการแจกของ</span>
