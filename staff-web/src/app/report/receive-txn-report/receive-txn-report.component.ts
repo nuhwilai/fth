@@ -44,14 +44,15 @@ export class ReceiveTxnReportComponent implements OnInit {
     this.receiveTxnService
       .listReceiveTxns({
         __withUserSchema: 'short',
+        __withProductRoundSchema: 'full',
         receivedDate: moment(date).format('YYYY-MM-DD'),
       })
       .subscribe((res: IResponseSuccess) => {
         if (res.valid) {
           console.log('receiveTxns', res.data.receiveTxns)
           let products = _.chain(res.data.receiveTxns)
-            .map('productId')
-            .uniq()
+            .map('productRound')
+            .uniqBy('_id')
             .value()
           let users = _.chain(res.data.receiveTxns)
             .map((it) => it.user)
@@ -62,8 +63,8 @@ export class ReceiveTxnReportComponent implements OnInit {
             (it: any) => it.nationalId,
           )
           let productCols = _.map(products, (it) => ({
-            field: it,
-            header: it,
+            field: _.get(it, '_id'),
+            header: _.get(it, 'productName'),
           }))
 
           this.cols = _.concat(this.cols, productCols)
@@ -85,7 +86,7 @@ export class ReceiveTxnReportComponent implements OnInit {
                 .filter((txn) => txn.productId === col.field)
                 .sumBy('amount')
                 .value()
-              console.log('--> amount', amount)
+              console.log(`${col.header} จำนวน ${amount}`)
               rowTotalAmount += amount
               result = _.assignIn(result, { [col.field]: amount })
             })

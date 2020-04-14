@@ -1,28 +1,34 @@
 <div class="menu">
-  <a [routerLink]="['/product-round']" *ifAnyGranted="['ADMIN','STAFF']">
+  <a [routerLink]="['/product-round']" *ifAnyGranted="['ADMIN', 'STAFF']">
     <p-card>
       <i class="pi pi-cog iconTitle"></i>
       <span class="title">จัดการรอบการแจกของ</span>
     </p-card>
   </a>
-  <br>
-  <a [routerLink]="['/product-round-offline']"  *ifAnyGranted="['ADMIN','STAFF']">
+  <br />
+  <a
+    [routerLink]="['/product-round-offline']"
+    *ifAnyGranted="['ADMIN', 'STAFF']"
+  >
     <p-card>
       <i class="pi pi-thumbs-up iconTitle"></i>
       <span class="title">รายการแจกของ</span>
     </p-card>
   </a>
   <br />
-  <a [routerLink]="['/product-round-report']" *ifAnyGranted="['ADMIN','STAFF']">
+  <a
+    [routerLink]="['/product-round-report']"
+    *ifAnyGranted="['ADMIN', 'STAFF']"
+  >
     <p-card>
-      <i class="pi pi-thumbs-up iconTitle"></i>
+      <i class="pi pi-download iconTitle"></i>
       <span class="title">รายงานการแจกของ</span>
     </p-card>
   </a>
   <br />
-  <a [routerLink]="['/receive-txn-report']">
+  <a [routerLink]="['/receive-txn-report']" *ifAnyGranted="['ADMIN', 'STAFF']">
     <p-card>
-      <i class="pi pi-thumbs-up iconTitle"></i>
+      <i class="pi pi-download iconTitle"></i>
       <span class="title">รายงานการรับของรายบุคคล</span>
     </p-card>
   </a>
