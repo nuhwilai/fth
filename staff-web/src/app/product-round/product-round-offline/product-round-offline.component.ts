@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ProductRoundService } from '../product-round.service'
+import { MessageService } from 'primeng/components/common/messageservice'
 
 @Component({
   selector: 'app-product-round-offline',
@@ -26,7 +27,10 @@ export class ProductRoundOfflineComponent implements OnInit {
     roundDate: null,
     roundDateTime: null,
   }
-  constructor(private productRoundService: ProductRoundService) {}
+  constructor(
+    private productRoundService: ProductRoundService,
+    private messaageService: MessageService,
+  ) {}
 
   ngOnInit() {
     this.productRoundForm = new FormGroup({
@@ -44,10 +48,39 @@ export class ProductRoundOfflineComponent implements OnInit {
       // if (res.valid) {
       this.productRoundList = this.prepareProductRounds(res)
       this.totalRecords = this.productRoundList.length
-      console.log('this.productRoundList', this.productRoundList)
       // }
       this.loading = false
     })
+  }
+
+  syncDownProductRound() {
+    this.loading = true
+    this.productRoundService
+      .syncDownProductRound()
+      .then((result: any) => {
+        if (result && result.valid) {
+          this.productRoundList = this.prepareProductRounds(result.data.productRounds)
+          this.totalRecords = this.productRoundList.length
+          this.messaageService.add({
+            severity: 'success',
+            detail: `สามารถโหลดข้อมูลสำเร็จ`,
+          })
+        } else {
+          this.messaageService.add({
+            severity: 'error',
+            detail: `ไม่สามารถโหลดข้อมูลได้ ${result.reason || 'ไม่พบสาเหตุ'}`,
+          })
+        }
+      })
+      .catch((error) => {
+        this.messaageService.add({
+          severity: 'error',
+          detail: `ไม่สามารถโหลดข้อมูลได้ ${error.message || error}`,
+        })
+      })
+      .finally(() => {
+        this.loading = false
+      })
   }
 
   private loadProductRounds(

@@ -26,6 +26,10 @@ export const environment = {
   dJGPZLG7oP+zLZKANd5WyRkCAwEAAQ==
   -----END PUBLIC KEY-----
   `,
+  googleApi: {
+    key:
+      '927878481877-9qfk03uc0tmfkdl948781qpvg836cu8m.apps.googleusercontent.com',
+  },
 }
 
 /*

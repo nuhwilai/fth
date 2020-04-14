@@ -32,18 +32,27 @@ import { AccordionModule } from 'primeng/accordion'
 import { FieldsetModule } from 'primeng/fieldset'
 import { ServiceWorkerModule } from '@angular/service-worker'
 import { environment } from '../environments/environment'
+import {
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  SocialLoginModule,
+} from 'angularx-social-login'
+import { AuthService } from './auth/auth.service'
+import { NavBarModule } from './nav-bar/nav-bar.module'
+import { AuthModule } from './auth/auth.module'
 import { ReportModule } from './report/report.module'
 import { ReceiveTxnModule } from './receive-txn/receive-txn.module'
-// const config = new AuthServiceConfig([
-//   {
-//     id: GoogleLoginProvider.PROVIDER_ID,
-//     provider: new GoogleLoginProvider(googleOauth.key),
-//   },
-// ])
 
-// export function provideConfig() {
-//   return config
-// }
+const config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider(environment.googleApi.key),
+  },
+])
+
+export function provideConfig() {
+  return config
+}
 
 export function migrationFactory() {
   return {
@@ -70,7 +79,6 @@ const dbConfig: DBConfig = {
   declarations: [
     AppComponent,
     LoginComponent,
-    NavBarComponent,
     RecieverInfoComponent,
     ProductSendComponent,
     IncludeArrayPipe,
@@ -82,7 +90,7 @@ const dbConfig: DBConfig = {
     FormsModule,
     BrowserModule,
     AppRoutingModule,
-    // SocialLoginModule,
+    SocialLoginModule,
     ReactiveFormsModule,
     HttpClientModule,
     ButtonModule,
@@ -96,17 +104,19 @@ const dbConfig: DBConfig = {
     ProductRoundModule,
     AccordionModule,
     FieldsetModule,
+    NavBarModule,
     ReportModule,
     ReceiveTxnModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
+    AuthModule,
   ],
   providers: [
-    // {
-    //   provide: AuthServiceConfig,
-    //   useFactory: provideConfig,
-    // },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -116,4 +126,6 @@ const dbConfig: DBConfig = {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private authService: AuthService) {}
+}
