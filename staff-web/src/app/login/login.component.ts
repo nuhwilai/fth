@@ -9,7 +9,7 @@ import { AuthService } from '../auth/auth.service'
 import { MessageService } from 'primeng/api'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-import { Router } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -22,24 +22,27 @@ export class LoginComponent implements OnInit, OnDestroy {
   authStateSub: any
   unsubscribe$ = new Subject()
   isAuthenticated: boolean
+
+  backToRoute: string
   constructor(
     private router: Router,
     private oAuthService: OAuthService,
     private authService: AuthService,
     private messageService: MessageService,
+    private route: ActivatedRoute,
   ) {}
   ngOnInit() {
     this.signinForm = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     })
-
+    this.route.queryParams.subscribe(params => this.backToRoute = params['backTo'])
     this.authService.authData$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((authData) => {
-        this.isAuthenticated = authData.isAuthenticated
-        if (this.isAuthenticated) {
-          this.router.navigate(['/home'])
+        // this.isAuthenticated = authData.isAuthenticated
+        if (authData.isAuthenticated && this.backToRoute) {
+          this.router.navigateByUrl(this.backToRoute)
         }
       })
 
