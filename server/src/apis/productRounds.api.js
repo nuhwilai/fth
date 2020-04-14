@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const { db } = require('../database')
 const { parseDateStrToDate } = require('../services/generals.service')
+const { createFilterConditions } = require('../services/apiHandler.service')
 const config = require('../conf/config')
 const moment = require('moment')
 const mongojs = require('mongojs')
@@ -14,7 +15,7 @@ router.post('/', async (req, res) => {
 
     const productRoundCreateResult = await db.productRound.insertAsync({
       productName: req.body.productName,
-      roundDateTime: new Date(req.body.roundDateTime),
+      roundDateTime: moment(req.body.roundDateTime).toDate(),
       roundDate: moment(req.body.roundDateTime).format('YYYY-MM-DD'),
     })
     res.send({ valid: true, data: { _id: productRoundCreateResult._id } })
@@ -48,7 +49,7 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const query = _.pick(req.query, [
+    let query = _.pick(req.query, [
       'roundDateTime',
       'roundDateTime_gt',
       'productName',
@@ -56,17 +57,19 @@ router.get('/', async (req, res) => {
       'productName_like',
     ])
 
+    if (query.roundDateTime_gt) {
+      query.roundDateTime = { $gt: new Date(query.roundDateTime_gt) }
+      delete query.roundDateTime_gt
+    }
+
+    query = createFilterConditions(query)
+
     const limit = req.query.max
       ? Number(req.query.max)
       : config.maxRecordsPerQuery
     const skip = req.query.offset ? Number(req.query.offset) : 0
     const sort = req.query.sort ? req.query.sort : 'roundDateTime'
     const order = req.query.order == 'asc' ? 1 : -1
-
-    if (query.roundDateTime_gt) {
-      query.roundDateTime = { $gt: new Date(query.roundDateTime_gt) }
-      delete query.roundDateTime_gt
-    }
 
     await db.productRound
       .find(query)

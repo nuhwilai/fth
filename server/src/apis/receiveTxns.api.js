@@ -15,10 +15,15 @@ router.get('/', async (req, res) => {
       'nationalId_like',
       'productId',
       '__withUserSchema',
+      '__withProductRoundSchema',
     ])
 
     const __withUserSchemaShort = query.__withUserSchema === 'short'
     delete query.__withUserSchema
+
+    const __witthProductRoundSchemaFull =
+      query.__withProductRoundSchema === 'full'
+    delete query.__withProductRoundSchema
 
     query = createFilterConditions(query)
 
@@ -49,20 +54,32 @@ router.get('/', async (req, res) => {
         })
     })
 
-    const receiveTxns = []
+    let users = []
     if (__withUserSchemaShort) {
       const nationalIds = _.map(receiveTxnResults, 'nationalId')
-      const users = await db.user.findAsync(
+      users = await db.user.findAsync(
         {
           nationalId: { $in: nationalIds },
         },
         userShortSchema,
       )
-      for (const receiveTxn of receiveTxnResults) {
-        const user = _.find(users, { nationalId: receiveTxn.nationalId })
-        receiveTxn.user = user
-        receiveTxns.push(receiveTxn)
-      }
+    }
+
+    let productRounds = []
+    if (__witthProductRoundSchemaFull) {
+      const productRoundIds = _.map(receiveTxnResults, 'productId')
+      productRounds = await db.productRound.findAsync({
+        _id: { $in: productRoundIds },
+      })
+    }
+
+    const receiveTxns = []
+    for (const receiveTxn of receiveTxnResults) {
+      const user = _.find(users, { nationalId: receiveTxn.nationalId })
+      const productRound = _.find(productRounds, { _id: receiveTxn.productId })
+      receiveTxn.user = user
+      receiveTxn.productRound = productRound
+      receiveTxns.push(receiveTxn)
     }
 
     res.send({

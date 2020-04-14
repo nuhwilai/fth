@@ -19,6 +19,7 @@ const authMiddleware = (req, res, next) => {
   return jwtMiddleware(req, res, next)
 }
 
+// TODO: rewrite code.
 const userPermission = async (req, res, next) => {
   try {
     // performance but risk

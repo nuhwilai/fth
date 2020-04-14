@@ -127,6 +127,7 @@ interface IReceiveTxn {
             productId ?: string
             // embeded filter
             __withUserSchema ?: 'short' // 
+            __withProductRoundSchema ?: 'full'
         }
         interface ICustomRecieveTxn extends IReceiveTxn {
             user ?: IUserSchemaShort // show when __withUserSchema = 'short'
