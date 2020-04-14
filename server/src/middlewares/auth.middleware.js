@@ -27,8 +27,14 @@ const userPermission = async (req, res, next) => {
       return
     }
 
+    // protected route
     if (
-      !(req.path.startsWith('/receiveTxns') || req.path.startsWith('/staffs'))
+      !(
+        req.path.startsWith('/receiveTxns') || 
+        req.path.startsWith('/staffs') ||
+        req.path.startsWith('/receiveTxnSyncUp') ||
+        req.path.startsWith('/receiveTxns')
+      )
     ) {
       next()
       return
