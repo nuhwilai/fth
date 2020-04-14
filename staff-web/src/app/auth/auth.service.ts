@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs'
 import { SocialUser } from 'angularx-social-login'
 import { environment } from 'src/environments/environment'
 import { LocalStorage } from '@ngx-pwa/local-storage'
+import { intersection } from 'lodash'
 
 export type AuthData = {
   isAuthenticated: boolean
@@ -52,7 +53,7 @@ export class AuthService {
       this.authData = {
         isAuthenticated: true,
         email: decoded.email,
-        role: decoded.role,
+        role: decoded.role || '',
         token,
       }
     } catch (e) {
@@ -64,6 +65,14 @@ export class AuthService {
     if (this.authDataSubject) {
       this.authDataSubject.next(this.authData)
     }
+  }
+
+  isGranted(ifAnyGranted: any): boolean {
+    if (!this.authData.isAuthenticated) return false
+    if (!ifAnyGranted) {
+      return true
+    }
+    return intersection([this.authData.role], ifAnyGranted).length > 0
   }
 
   loginWithSocialUser(socialUser: SocialUser, onSucces?: any, onError?: any) {

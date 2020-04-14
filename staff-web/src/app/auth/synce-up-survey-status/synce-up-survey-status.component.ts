@@ -29,7 +29,6 @@ export class SynceUpSurveyStatusComponent implements OnInit {
       .getSyncUpTxn$()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((surveySubjectResult: ITxnSubject) => {
-        console.log('surveySubjectResult :', surveySubjectResult)
         this.status = surveySubjectResult.status
         this.serveyLocalCount = surveySubjectResult.txnCount
       })

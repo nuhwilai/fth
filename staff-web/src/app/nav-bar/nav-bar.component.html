@@ -13,7 +13,7 @@
   <div *ngIf="isAuth" class="topbar-menu pointer is-desktop" [ngClass]="{ 'active-menu': isShowPanel }" (click)="showPanel()">
     {{ authData }}
     &nbsp;
-    <app-synce-up-survey-status></app-synce-up-survey-status>
+    <!-- <app-synce-up-survey-status></app-synce-up-survey-status> -->
     <br />
     <div *ngIf="isShowPanel" class="menu-list pointer">
       <span (click)="logout()" style="padding: 1em;">
@@ -25,7 +25,7 @@
   <div *ngIf="!isAuth" class="menu login-menu pointer "
     style="height: 100%; box-shadow: 0px 15px 28px rgba(0, 0, 0, 0.1);">
     <app-auth-login></app-auth-login>&nbsp;
-    <app-synce-up-survey-status></app-synce-up-survey-status>
+    <!-- <app-synce-up-survey-status></app-synce-up-survey-status> -->
   </div>
 </div>
 <div *ngIf="isAuth && showPanelMobile" class="menu-list-mobile pointer"
