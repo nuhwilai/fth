@@ -3,6 +3,10 @@ import { ProductRoundService } from 'src/app/product-round/product-round.service
 import * as moment from 'moment'
 import * as _ from 'lodash'
 import { ReceiveTxnService } from 'src/app/receive-txn/receive-txn.service'
+import {
+  createUserFullNameStr,
+  createUserAddressStr,
+} from 'src/app/shared/models/extra'
 
 interface FILE_META {
   fileName: string
@@ -153,29 +157,10 @@ export class ProductRoundReportComponent implements OnInit {
           console.log('receiveTxns', res.data)
           let txns = _.chain(res.data.receiveTxns)
             .map((it) => {
-              const _name = `${_.get(it.user, 'firstname', '')} ${_.get(
-                it.user,
-                'lastname',
-                '',
-              )}`
-              const _address = `${_.get(
-                it.user,
-                'homeNumber',
-                '-',
-              )} หมู่ ${_.get(it.user, 'homeMoo', '-')} หมู่บ้าน ${_.get(
-                it.user,
-                'homeMooban',
-                '-',
-              )} ต. ${_.get(it.user, 'homeSubDistrict', '-')} อ. ${_.get(
-                it.user,
-                'homeDistrict',
-                '-',
-              )} จ. ${_.get(it.user, 'homeProvince', '-')} ${_.get(
-                it.user,
-                'homePostalCode',
-                '-',
-              )}
-              `
+              const { user } = it
+              const _name = createUserFullNameStr(user)
+              const _address = createUserAddressStr(user)
+
               return {
                 name: _name,
                 address: _address,

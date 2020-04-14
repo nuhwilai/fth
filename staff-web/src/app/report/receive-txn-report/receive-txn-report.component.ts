@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core'
 import { ReceiveTxnService } from 'src/app/receive-txn/receive-txn.service'
 import * as _ from 'lodash'
+import * as moment from 'moment'
+import {
+  createUserFullNameStr,
+  createUserAddressStr,
+} from 'src/app/shared/models/extra'
 @Component({
   selector: 'app-receive-txn-report',
   templateUrl: './receive-txn-report.component.html',
@@ -8,6 +13,7 @@ import * as _ from 'lodash'
 })
 export class ReceiveTxnReportComponent implements OnInit {
   constructor(private receiveTxnService: ReceiveTxnService) {}
+  today: Date = new Date()
   exporting: boolean = false
   cols = [
     {
@@ -22,11 +28,24 @@ export class ReceiveTxnReportComponent implements OnInit {
       field: 'address',
       header: 'ที่อยู่',
     },
+    {
+      field: 'totalAmount',
+      header: 'รวม',
+    },
   ]
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  exportExcelByFilter(date: any) {
+    if (!date) {
+      console.log('date is null')
+      return
+    }
     this.receiveTxnService
-      .listReceiveTxns({ __withUserSchema: 'short' })
+      .listReceiveTxns({
+        __withUserSchema: 'short',
+        receivedDate: moment(date).format('YYYY-MM-DD'),
+      })
       .subscribe((res: IResponseSuccess) => {
         if (res.valid) {
           console.log('receiveTxns', res.data.receiveTxns)
@@ -47,42 +66,53 @@ export class ReceiveTxnReportComponent implements OnInit {
             header: it,
           }))
 
+          this.cols = _.concat(this.cols, productCols)
           let results = _.map(userByTxns, (v, k) => {
             console.log('k', k, 'v', v)
             const _user = _.find(users, (it) => it.nationalId === k)
-            const _name = this.createUserFullNameStr(_user)
+            const _name = createUserFullNameStr(_user)
             const _phoneNumber = _.get(_user, 'phoneNumber', '-')
-            const _address = this.createUserAddressStr(_user)
+            const _address = createUserAddressStr(_user)
             let result = {
               name: _name,
               phoneNumber: _phoneNumber,
               address: _address,
             }
 
+            let rowTotalAmount = 0
             _.each(productCols, (col) => {
               const amount = _.chain(v)
                 .filter((txn) => txn.productId === col.field)
                 .sumBy('amount')
                 .value()
               console.log('--> amount', amount)
-              result = _.assignIn(result, { [col.header]: amount })
+              rowTotalAmount += amount
+              result = _.assignIn(result, { [col.field]: amount })
             })
+
+            result = _.assignIn(result, { totalAmount: rowTotalAmount })
 
             return result
           })
 
           console.log('products', products)
           console.log('product cols', productCols)
+          console.log('this.cols', this.cols)
           console.log('users', users)
           console.log('userByTxns', userByTxns)
           console.log('results', results)
 
-          this.exportExcel(results, 'x', this.cols)
+          this.exportExcel(
+            results,
+            'รายงานการรับของรายบุคคล',
+            moment(date).format('DD-MM-YYYY'),
+            this.cols,
+          )
         }
       })
   }
 
-  exportExcel(entries: any, fileName: string, cols) {
+  exportExcel(entries: any, fileName: string, date: string, cols: any) {
     import('xlsx').then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(entries)
       var range = xlsx.utils.decode_range(worksheet['!ref'])
@@ -92,7 +122,7 @@ export class ReceiveTxnReportComponent implements OnInit {
         const v = worksheet[address].v
         const _address = _.chain(cols)
           .find((col: any) => col.field === v)
-          .get('header', '')
+          .get('header', '-')
           .value()
         worksheet[address].v = _address
       }
@@ -104,11 +134,11 @@ export class ReceiveTxnReportComponent implements OnInit {
         bookType: 'xlsx',
         type: 'array',
       })
-      this.saveAsExcelFile(excelBuffer, fileName, new Date().toISOString())
+      this.saveAsExcelFile(excelBuffer, fileName, date)
     })
   }
 
-  saveAsExcelFile(buffer: any, fileName, date): void {
+  saveAsExcelFile(buffer: any, fileName: string, date: string): void {
     import('file-saver').then((FileSaver) => {
       let EXCEL_TYPE =
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
@@ -119,28 +149,5 @@ export class ReceiveTxnReportComponent implements OnInit {
       FileSaver.saveAs(data, fileName + '_' + date + EXCEL_EXTENSION)
       this.exporting = false
     })
-  }
-
-  createUserAddressStr(user: any) {
-    if (!user) return '-'
-    return `${_.get(user, 'homeNumber', '-')} หมู่ ${_.get(
-      user,
-      'homeMoo',
-      '-',
-    )} หมู่บ้าน ${_.get(user, 'homeMooban', '-')} ต. ${_.get(
-      user,
-      'homeSubDistrict',
-      '-',
-    )} อ. ${_.get(user, 'homeDistrict', '-')} จ. ${_.get(
-      user,
-      'homeProvince',
-      '-',
-    )} ${_.get(user, 'homePostalCode', '-')}
-    `
-  }
-
-  createUserFullNameStr(user) {
-    if (!user) return '-'
-    return `${_.get(user, 'firstname', '')} ${_.get(user, 'lastname', '')}`
   }
 }
