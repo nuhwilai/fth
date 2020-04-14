@@ -8,7 +8,7 @@ import * as _ from 'lodash'
 })
 export class ReceiveTxnReportComponent implements OnInit {
   constructor(private receiveTxnService: ReceiveTxnService) {}
-
+  exporting: boolean = false
   cols = [
     {
       field: 'name',
@@ -77,12 +77,12 @@ export class ReceiveTxnReportComponent implements OnInit {
           console.log('userByTxns', userByTxns)
           console.log('results', results)
 
-          this.exportExcel(results, this.cols)
+          this.exportExcel(results, 'x', this.cols)
         }
       })
   }
 
-  exportExcel(entries: any, cols) {
+  exportExcel(entries: any, fileName: string, cols) {
     import('xlsx').then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(entries)
       var range = xlsx.utils.decode_range(worksheet['!ref'])
@@ -104,7 +104,20 @@ export class ReceiveTxnReportComponent implements OnInit {
         bookType: 'xlsx',
         type: 'array',
       })
-      this.saveAsExcelFile(excelBuffer, meta)
+      this.saveAsExcelFile(excelBuffer, fileName, new Date().toISOString())
+    })
+  }
+
+  saveAsExcelFile(buffer: any, fileName, date): void {
+    import('file-saver').then((FileSaver) => {
+      let EXCEL_TYPE =
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
+      let EXCEL_EXTENSION = '.xlsx'
+      const data: Blob = new Blob([buffer], {
+        type: EXCEL_TYPE,
+      })
+      FileSaver.saveAs(data, fileName + '_' + date + EXCEL_EXTENSION)
+      this.exporting = false
     })
   }
 
