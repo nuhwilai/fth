@@ -20,7 +20,14 @@ export class MainComponent implements OnInit {
   ]
   bgImage =
     'https://www.karoncity.go.th/image/ratio/?file=files/com_travel/2017-09_3d79e0bfa456668.jpg&width=700&height=500'
-  contracts = [{ text: '07x-xxxxxxx' }]
+  contracts = [
+    { text: 'Winai Chidchiew' },
+    { text: 'matilphuket@gmail.com' },
+    { text: '083-1758822' },
+    { text: 'Manosit Jangjob' },
+    { text: 'manositjangjob@gmail.com' },
+    { text: '098-7894191' },
+  ]
 
   sponsoredGoogleSpreadSheetDatas: any[]
   constructor(private router: Router, private _ngZone: NgZone) {}
