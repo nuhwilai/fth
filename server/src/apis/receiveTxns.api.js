@@ -3,6 +3,7 @@ const mongojs = require('mongojs')
 const { db } = require('../database')
 const _ = require('lodash')
 const config = require('../conf/config')
+const { userShortSchema } = require('../conf/schema')
 const { createFilterConditions } = require('../services/apiHandler.service')
 const rootLogger = require('../conf/logger')
 
@@ -10,7 +11,14 @@ const logger = rootLogger.get('main')
 
 router.get('/', async (req, res) => {
   try {
-    let query = _.pick(req.query, ['nationalId_like', 'productId'])
+    let query = _.pick(req.query, [
+      'nationalId_like',
+      'productId',
+      '__withUserSchema',
+    ])
+
+    const __withUserSchemaShort = query.__withUserSchema === 'short'
+    delete query.__withUserSchema
 
     query = createFilterConditions(query)
 
@@ -29,20 +37,40 @@ router.get('/', async (req, res) => {
       receiveTxnQuery.limit(limit)
     }
 
-    await receiveTxnQuery
-      .sort({ [sort]: order })
-      .skip(skip)
-      .toArray((err, result) => {
-        if (err) {
-          throw err
-        }
-        res.send({
-          valid: true,
-          data: {
-            receiveTxns: result,
-          },
+    const receiveTxnResults = await new Promise((resolve, reject) => {
+      receiveTxnQuery
+        .sort({ [sort]: order })
+        .skip(skip)
+        .toArray((err, result) => {
+          if (err) {
+            reject(err)
+          }
+          resolve(result)
         })
-      })
+    })
+
+    const receiveTxns = []
+    if (__withUserSchemaShort) {
+      const nationalIds = _.map(receiveTxnResults, 'nationalId')
+      const users = await db.user.findAsync(
+        {
+          nationalId: { $in: nationalIds },
+        },
+        userShortSchema,
+      )
+      for (const receiveTxn of receiveTxnResults) {
+        const user = _.find(users, { nationalId: receiveTxn.nationalId })
+        receiveTxn.user = user
+        receiveTxns.push(receiveTxn)
+      }
+    }
+
+    res.send({
+      valid: true,
+      data: {
+        receiveTxns,
+      },
+    })
   } catch (error) {
     logger.error(error)
     res.send({ valid: false, reason: error.message })
