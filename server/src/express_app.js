@@ -10,6 +10,7 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
+app.use('/api', require('./middlewares/auth.middleware'))
 app.get('/api/ping', function (req, res) {
   res.send({ ok: 1, response: new Date() })
 })
@@ -44,6 +45,14 @@ app.use('/api', require('./apis/generals.api'))
 _.each(apis, (api, name) => {
   console.info('registering routes for %s', [name])
   app.use(`/api/${name}`, api)
+})
+
+app.use(function (err, req, res, next) {
+  if (err.name === 'UnauthorizedError') {
+    res.send({ valid: false, reason: 'invalid_token' })
+    return
+  }
+  next()
 })
 
 module.exports = app
