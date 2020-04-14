@@ -111,6 +111,26 @@ interface IReceiveTxn {
 ~~- POST `/receiveTxns`~~  
     - use `/receiveTxnSyncUp` instead
  
+- [x] GET `/receiveTxns`
+     ```ts
+        interface IReceiveTxnQuerystring{
+            offset?: number
+            max?: number
+            sort?: string // fieldName ex. roundDateTime
+            order?: 'desc' | 'asc'
+            // filter
+            nationalId_like ?: string
+            productId ?: string
+            // embeded filter
+            __withUserSchema ?: 'short' // 
+        }
+        interface ICustomRecieveTxn extends IReceiveTxn {
+            user ?: IUserSchemaShort // show when __withUserSchema = 'short'
+        }
+        interface IReceiveTxnSuccessData {
+            receiveTxns: ICustomRecieveTxn[]
+        }
+    ```
 
 # Product Round
 ```ts
@@ -150,6 +170,7 @@ interface IProductRound {
             roundDateTime?: string // ISOString
             roundDateTime_gt?: string // ISOString
             productName?: string
+            productName_like?: string
         }
         interface IProductRoundSuccessData {
             productRounds: IProductRound[]
