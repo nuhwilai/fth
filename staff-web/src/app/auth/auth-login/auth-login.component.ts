@@ -21,7 +21,7 @@ export class AuthLoginComponent implements OnInit, OnDestroy {
     this.authStateSub = this.oAuthService.authState.subscribe((data) => {
       if (data) {
         this.authService.loginWithSocialUser(data, this.onSuccess, this.onError)
-        this.oAuthService.signOut(true)
+        this.oAuthService.signOut()
       }
     })
   }
