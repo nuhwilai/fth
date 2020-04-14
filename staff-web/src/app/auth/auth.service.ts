@@ -64,6 +64,7 @@ export class AuthService {
   private handleAuthChanged() {
     if (this.authDataSubject) {
       this.authDataSubject.next(this.authData)
+      this.router.navigate(['/home'])
     }
   }
 
