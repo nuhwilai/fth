@@ -1,5 +1,8 @@
 # APIs
-- using `http://SERVER_NAME/api/<api-name>`
+- Using `http://SERVER_NAME/api/<api-name>`
+- If those API is marked that "requires authorization". should setting headers `"Authorization": "Bearer <TOKEN>"` 
+- In development, If you want disable authorization. You can set config `disableAuth` is `true`. in `/src/conf/config.js`
+
 # HTTP Response
 ```ts
     interface IResponseSuccess {
@@ -97,6 +100,7 @@
     ```  
 
 # Receive Txn
+*Requires Authorization*
 ```ts
 interface IReceiveTxn {
     _id: string
@@ -111,8 +115,29 @@ interface IReceiveTxn {
 ~~- POST `/receiveTxns`~~  
     - use `/receiveTxnSyncUp` instead
  
+  - [x] GET `/receiveTxns`
+     ```ts
+        interface IReceiveTxnQuerystring{
+            offset?: number
+            max?: number
+            sort?: string // fieldName ex. roundDateTime
+            order?: 'desc' | 'asc'
+            // filter
+            nationalId_like ?: string
+            productId ?: string
+            // embeded filter
+            __withUserSchema ?: 'short' // 
+        }
+        interface ICustomRecieveTxn extends IReceiveTxn {
+            user ?: IUserSchemaShort // show when __withUserSchema = 'short'
+        }
+        interface IReceiveTxnSuccessData {
+            receiveTxns: ICustomRecieveTxn[]
+        }
+    ```
 
 # Product Round
+*Requires Authorization*
 ```ts
 interface IProductRound {
     _id: string
@@ -150,6 +175,7 @@ interface IProductRound {
             roundDateTime?: string // ISOString
             roundDateTime_gt?: string // ISOString
             productName?: string
+            productName_like?: string
         }
         interface IProductRoundSuccessData {
             productRounds: IProductRound[]
@@ -182,7 +208,54 @@ interface IProductRound {
         _ids: string[]
     }
     ```
+*Requires Authorization*
+- **Model**
+    ```ts
+        interface IStaff {
+            email: string
+            role: 'ADMIN'
+        }
+    ```
 
+- [ ] POST `/staffs`
+    ```ts
+        interface ICreateStaffRequestBody extends IStaff {}
+        interface ICreateStaffSuccessData {
+            _id: string
+        }
+    ```
+- [ ] PUT `/staffs/:id`
+    ```ts
+        interface IUpdateStaffRequestBody extends IStaff {}
+        interface IUpdateStaffSuccessData {
+            _id: string
+        }
+    ```
+- [ ] DELETE `/staffs/:id`
+    ```ts
+        interface IDeleteStaffSuccessData {
+            _id: string
+        }
+    ```
+- [ ] GET `/staffs`
+     ```ts
+        interface IStaffQuerystring{
+            offset?: number
+            max?: number
+            sort?: string // fieldName ex. _id
+            order?: 'desc' | 'asc'
+        }
+        interface IStaffSuccessData {
+            staffs: IStaff[]
+        }
+    ```
+- [ ] GET `/staffs/:id`
+     ```ts
+        interface IListStaffSuccessData {
+            staff: IStaff
+        }
+        
+    ```
 # QR
 - [x] GET `/qrcode?text=&imageUrl=`
 

@@ -52,59 +52,23 @@ export function provideConfig() {
   return config
 }
 
+export function migrationFactory() {
+  return {
+    3: (db, transaction) => {
+      const store = transaction.objectStore('recieveTxn')
+      store.createIndex('receivedDate', 'receivedDate', { unique: false })
+    },
+  }
+}
+
 const dbConfig: DBConfig = {
   name: 'MyDb',
-  version: 2,
+  version: 3,
   objectStoresMeta: [
-    {
-      store: 'productRound',
-      storeConfig: { keyPath: 'id', autoIncrement: true },
-      storeSchema: [
-        { name: '_id', keypath: '_id', options: { unique: true } },
-        {
-          name: 'productName',
-          keypath: 'productName',
-          options: { unique: true },
-        },
-        {
-          name: 'roundDateTime',
-          keypath: 'roundDateTime',
-          options: { unique: false },
-        },
-      ],
-    },
-    {
-      store: 'recieveTxn',
-      storeConfig: { keyPath: 'id', autoIncrement: true },
-      storeSchema: [
-        {
-          name: 'nationalId',
-          keypath: 'nationalId',
-          options: { unique: false },
-        },
-        {
-          name: 'receivedDateTime',
-          keypath: 'receivedDateTime',
-          options: { unique: false },
-        },
-        {
-          name: 'amount',
-          keypath: 'amount',
-          options: { unique: false },
-        },
-        {
-          name: 'staffId',
-          keypath: 'staffId',
-          options: { unique: false },
-        },
-        {
-          name: 'productId',
-          keypath: 'productId',
-          options: { unique: false },
-        },
-      ],
-    },
+   productRoundIndbSchma,
+    recieveTxn
   ],
+  migrationFactory
 }
 // const dbConfig: DBConfig = {
 //   name: 'MyDb',
