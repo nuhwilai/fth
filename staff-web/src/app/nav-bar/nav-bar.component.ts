@@ -11,6 +11,9 @@ import { takeUntil } from 'rxjs/operators'
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss'],
+  host: {
+    '(document:click)': 'onClick($event)',
+  },
 })
 export class NavBarComponent implements OnInit {
   public unsubscribe$ = new Subject()
@@ -20,7 +23,7 @@ export class NavBarComponent implements OnInit {
 
   pathHideIcon = ['/home']
   currentPath = ''
-
+  showPanelMobile: boolean = false
   isAuth = true
   authData = ''
 
@@ -82,5 +85,9 @@ export class NavBarComponent implements OnInit {
 
   backClicked($event) {
     this._location.back()
+  }
+
+  functionShowPanelMobile() {
+    this.showPanelMobile = !this.showPanelMobile
   }
 }
