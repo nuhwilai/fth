@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ProductRoundService } from '../product-round.service'
-
+import * as _ from 'lodash'
+import * as moment from 'moment'
+import { LazyLoadEvent } from 'primeng/api'
 @Component({
   selector: 'app-product-round-crud',
   templateUrl: './product-round-crud.component.html',
@@ -26,6 +28,7 @@ export class ProductRoundCrudComponent implements OnInit {
     roundDate: null,
     roundDateTime: null,
   }
+  currentLazyLoadEvent: LazyLoadEvent
   constructor(private productRoundService: ProductRoundService) {}
 
   ngOnInit() {
@@ -57,15 +60,16 @@ export class ProductRoundCrudComponent implements OnInit {
   private loadProductRounds(
     offset: number,
     max: number,
-    filter?: any,
+    filters?: any,
     sort?: string,
     order?: number,
   ) {
     this.loading = true
-    console.log('load product round')
+    let _filters = this.prepareFilters(filters)
+    console.log('load product rounds with filters', _filters)
     setTimeout(() => {
       this.productRoundService
-        .listProductRounds({})
+        .listProductRounds(_filters)
         .subscribe((res: IResponseSuccess) => {
           if (res.valid) {
             this.productRoundList = this.prepareProductRounds(
@@ -79,8 +83,8 @@ export class ProductRoundCrudComponent implements OnInit {
     }, 0)
   }
 
-  loadProductRoundsLazy($event: any) {
-    // loadRefPersonsLazy($event: LazyLoadEvent) {
+  loadProductRoundsLazy($event: LazyLoadEvent) {
+    this.currentLazyLoadEvent = $event
     this.loadProductRounds(
       $event.first,
       $event.rows,
@@ -94,10 +98,28 @@ export class ProductRoundCrudComponent implements OnInit {
     return this.productRoundForm.controls
   }
 
-  private initFilters() {}
+  private initFilters() {
+    this.currentOption.productName_like = null
+    this.currentOption.roundDate = null
+  }
 
   onResetFilter(dt) {
     this.initFilters()
+    dt.reset()
+  }
+
+  prepareFilters(filters: any) {
+    let _filters = {}
+    _.each(filters, (it: any) => {
+      let matchMode = it['matchMode']
+      let value = it['value']
+      if (value && value instanceof Date) {
+        value = moment(value).format('YYYY-MM-DD')
+      }
+      _.assignIn(_filters, { [matchMode]: value })
+    })
+
+    return _.pickBy(_filters, _.identity)
   }
 
   showDialogToAdd() {
@@ -132,6 +154,8 @@ export class ProductRoundCrudComponent implements OnInit {
             console.log(`product round ${res.data._id} has been created`)
           } else {
           }
+          // this.loadProductRoundsLazy(this.currentLazyLoadEvent)
+          this.initFilters()
           this.refreshData()
         })
     } else {
@@ -144,6 +168,8 @@ export class ProductRoundCrudComponent implements OnInit {
           if (res.valid) {
             console.log(`product round ${res.data._id} has been updated.`)
           }
+          // this.loadProductRoundsLazy(this.currentLazyLoadEvent)
+          this.initFilters()
           this.refreshData()
         })
     }
@@ -160,6 +186,8 @@ export class ProductRoundCrudComponent implements OnInit {
           console.log(`product round id ${res.data._id} has been deleted.`)
         } else {
         }
+        // this.loadProductRoundsLazy(this.currentLazyLoadEvent)
+        this.initFilters()
         this.refreshData()
         delete this.productRound
       })
