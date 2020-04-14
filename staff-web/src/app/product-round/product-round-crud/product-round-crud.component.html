@@ -17,22 +17,58 @@
 >
   <ng-template pTemplate="caption">
     <div class="caption-container">
-      <div>
-        <button
-          class="ui-button-success"
-          type="button"
-          pButton
-          icon="pi pi-plus"
-          (click)="showDialogToAdd()"
-          label="เพิ่ม"
-        ></button>
-      </div>
+      <button
+        type="button"
+        pButton
+        icon="pi pi-undo"
+        iconPos="left"
+        label="คืนค่า"
+        (click)="onResetFilter(dt)"
+        style="margin-right: 1em;"
+        class="ui-button-primary"
+      ></button>
+      <button
+        class="ui-button-success"
+        type="button"
+        pButton
+        icon="pi pi-plus"
+        (click)="showDialogToAdd()"
+        label="เพิ่ม"
+      ></button>
     </div>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th>ชื่อรายการ</th>
       <th>รอบวันที่</th>
+    </tr>
+    <tr class="ui-fluid">
+      <th>
+        <input
+          [style]="{ width: '100%', minWidth: 0 }"
+          type="text"
+          pInputText
+          [(ngModel)]="currentOption.productName_like"
+          (input)="
+            dt.filter(
+              $event.target.value,
+              'productName_like',
+              'productName_like'
+            )
+          "
+          placeholder="กรองโดยชื่อรายการ"
+          appendTo="body"
+        />
+      </th>
+      <th>
+        <p-calendar
+          [(ngModel)]="currentOption.roundDate"
+          (onSelect)="dt.filter($event, 'rounddate', 'roundDate')"
+          dateFormat="dd/mm/yy"
+          appendTo="body"
+          placeholder="กรองโดยรอบวันที่"
+        ></p-calendar>
+      </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
@@ -44,7 +80,7 @@
 
   <ng-template pTemplate="emptymessage">
     <tr id="row-empty">
-      <td [attr.colspan]="3">
+      <td [attr.colspan]="2">
         ไม่พบข้อมูลรายการ
       </td>
     </tr>
