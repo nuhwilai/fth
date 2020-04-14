@@ -16,7 +16,8 @@
   [totalRecords]="totalRecords"
   [value]="productRoundList"
   [paginator]="true"
-  [rows]="15"
+  [rows]="max"
+  [lazyLoadOnInit]="false"
 >
   <ng-template pTemplate="header" let-columns>
     <tr>
