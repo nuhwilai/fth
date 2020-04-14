@@ -77,8 +77,10 @@ export class NavBarComponent implements OnInit {
   }
 
   onClick(event) {
-    if (!this._eref.nativeElement.contains(event.target))
+    if (!this._eref.nativeElement.contains(event.target)) {
       this.isShowPanel = false
+      this.showPanelMobile = false
+    }
   }
 
   logout() {
