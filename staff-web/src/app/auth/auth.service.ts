@@ -53,9 +53,11 @@ export class AuthService {
       this.authData = {
         isAuthenticated: true,
         email: decoded.email,
-        role: decoded.role || '',
+        role: decoded.role,
         token,
       }
+
+      console.log('this.authData :', this.authData)
     } catch (e) {
       this.authData = { isAuthenticated: false }
     }

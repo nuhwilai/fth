@@ -20,7 +20,7 @@ export interface ITxnSubject {
 export class IndexDbService implements OnDestroy {
   unsubscribe$ = new Subject()
   private intervalInstance = null
-  private intervalTime = 10000
+  private intervalTime = 15000
   private syncUpTxn$ = new BehaviorSubject<ITxnSubject>({
     status: null,
     txnCount: null,
@@ -41,29 +41,6 @@ export class IndexDbService implements OnDestroy {
   initDb() {
     this.getServiceToIndexDb()
   }
-
-  // checkDb() {
-  //   Promise.all([
-  //     this.dbService.getAll('recieveTxn'),
-  //     this.dbService.getAll('productRound'),
-  //   ])
-  //     .then(() => {
-  //       this.runIndexDbService()
-  //       this.dbService.count('recieveTxn').then((number) => {
-  //         this.txnCount$.next(number)
-  //       })
-  //     })
-  //     .catch((e) => {
-  //       this.dbService.deleteDatabase().then(
-  //         () => {
-  //           window.location.reload()
-  //         },
-  //         (error) => {
-  //           console.log(error)
-  //         },
-  //       )
-  //     })
-  // }
 
   run() {
     this.dbService
@@ -121,7 +98,7 @@ export class IndexDbService implements OnDestroy {
   async addTxnIndexDb(data) {
     try {
       const date = moment()
-      await this.dbService
+      return this.dbService
         .add('recieveTxn', {
           ...data,
           receivedDateTime: date.toISOString(),
@@ -200,6 +177,9 @@ export class IndexDbService implements OnDestroy {
   }
 
   getServiceToIndexDb() {
+    if (!this.isAuth) {
+      return
+    }
     this.http
       .get(environment.restEndpointUrl + '/productRounds', {
         params: new HttpParams({
