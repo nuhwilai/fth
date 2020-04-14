@@ -18,7 +18,10 @@ exports.parseDateStrToDate = (source, excludes = []) => {
 }
 
 exports.generateQrToken = async (user) => {
-  return createToken(_.pick(user, ['nationalId']), config.secretKey)
+  return createToken(_.pick(user, ['nationalId']), {
+    secretKey: config.secretKey,
+    algorithm: 'HS256',
+  })
 }
 
 exports.transformReceiveTxns = (receiveTxns, user) => {

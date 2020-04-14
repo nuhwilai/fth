@@ -120,10 +120,12 @@ export class IndexDbService implements OnDestroy {
 
   async addTxnIndexDb(data) {
     try {
-      return this.dbService
+      const date = moment()
+      await this.dbService
         .add('recieveTxn', {
           ...data,
-          receivedDateTime: moment().toISOString(),
+          receivedDateTime: date.toISOString(),
+          receivedDate: date.format('YYYY-MM-DD'),
         })
         .then(async () => {
           const number = await this.dbService.count('recieveTxn')

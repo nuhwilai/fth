@@ -1,5 +1,5 @@
 const mongojs = require('mongojs')
-
+const fixture = require('./__fixtures__')
 const mock = require('./__mocks__')
 const mainConf = require('../conf/config')
 const Promise = require('bluebird')
@@ -15,7 +15,7 @@ var database = mongojs(mainConf.dbUrl, [
   'staff',
   'roundProduct',
   'receiveTxn',
-  'nationalIdInfo'
+  'nationalIdInfo',
 ])
 
 exports.initializeDatabase = () => {
@@ -23,6 +23,10 @@ exports.initializeDatabase = () => {
 
   if (mainConf.isLoadMockData) {
     mock.loadMockData(database)
+  }
+
+  if (mainConf.isLoadFixtureData) {
+    fixture.loadFixtureData(database)
   }
 
   database.on('error', (error) => {

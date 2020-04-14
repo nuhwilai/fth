@@ -11,6 +11,9 @@ const {
 } = require('../services/validateUser.service')
 const { verifyGoogleAccessToken } = require('../services/auth.service')
 const _ = require('lodash')
+const rootLogger = require('../conf/logger')
+
+const logger = rootLogger.get('main')
 
 //#region user section
 router.post('/requestQrToken', async (req, res) => {
@@ -41,7 +44,7 @@ router.post('/requestQrToken', async (req, res) => {
 })
 //#endregion user section
 
-//#region staff section
+//#region auth section
 router.post('/login', async (req, res) => {
   try {
     const googleVerify = await verifyGoogleAccessToken(req.body.oauthToken)
@@ -49,23 +52,24 @@ router.post('/login', async (req, res) => {
       throw new Error(googleVerify.reason)
     }
 
-    console.log(googleVerify.data)
-
-    const staffCount = await db.staff.countAsync({
+    const staff = await db.staff.findOneAsync({
       email: googleVerify.data.email,
     })
-    if (!staffCount <= 0) {
-      throw new Error('not_found_staff_email')
+    if (!staff) {
+      throw new Error('not_found_user_email')
     }
 
     res.send({
       valid: true,
-      data: { token: createToken({ email: googleVerify.data.email }) },
+      data: { token: createToken(_.pick(staff, ['_id', 'email', 'role'])) },
     })
   } catch (error) {
+    logger.error(error)
     res.send({ valid: false, reason: error.message })
   }
 })
+//#endregion auth section
+//#region staff section
 
 router.post('/receiveTxnSyncUp', async (req, res) => {
   try {
