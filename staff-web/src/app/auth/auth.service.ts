@@ -104,6 +104,7 @@ export class AuthService {
     this.asyncLocalStorage
       .setItem('access_token', result.token)
       .subscribe(() => {
+        this.router.navigate(['/home'])
         this.assignAuthDataIfApplicable(result.token)
       })
     // localStorage.setItem('access_token', result.token)

@@ -1,9 +1,11 @@
-<p>login works!</p>
-
-<button
-  pButton
-  type="button"
-  label="Login"
-  (click)="signInWithGoogle()"
-></button>
-<button pButton type="button" label="Logout" (click)="signOut()"></button>
+<div class="layout">
+  <div class="container">
+    <div>
+      <h1 style="text-align: center;">ระบบเจ้าหน้าที่ <br class="is-mobile"/>Food To Home</h1>
+    </div>
+    <div style="text-align: center; padding-top: 5em; display: flex;  justify-content: center;">
+      <span class="google-btn" (click)="signInWithGoogle()"><img src="../../assets/google-brands.png"
+          style="color: white;" width="60">&nbsp;<strong style="padding-right: 1em">ลงชื่อเข้าใช้ด้วย Google</strong></span>
+    </div>
+  </div>
+</div>

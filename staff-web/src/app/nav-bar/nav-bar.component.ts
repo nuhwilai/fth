@@ -22,7 +22,7 @@ export class NavBarComponent implements OnInit {
   loading = true
   user
 
-  pathHideIcon = ['/home']
+  pathHideIcon = ['/home', '/login']
   currentPath = ''
   showPanelMobile: boolean = false
   isAuth = true
