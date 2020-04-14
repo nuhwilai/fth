@@ -1,4 +1,3 @@
-
 <div class="menu">
   <a [routerLink]="['/product-round']" *ifAnyGranted="['ADMIN','STAFF']">
     <p-card>
@@ -13,5 +12,11 @@
       <span class="title">รายการแจกของ</span>
     </p-card>
   </a>
+  <br />
+  <a [routerLink]="['/product-round-report']">
+    <p-card>
+      <i class="pi pi-thumbs-up iconTitle"></i>
+      <span class="title">รายงานการแจกของ</span>
+    </p-card>
+  </a>
 </div>
-

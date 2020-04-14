@@ -19,6 +19,7 @@ const authMiddleware = (req, res, next) => {
   return jwtMiddleware(req, res, next)
 }
 
+// TODO: rewrite code.
 const userPermission = async (req, res, next) => {
   try {
     // performance but risk
@@ -28,36 +29,30 @@ const userPermission = async (req, res, next) => {
     }
 
     if (
-      !(req.path.startsWith('/receiveTxns') || req.path.startsWith('/staffs'))
+      req.user &&
+      req.user.role === 'STAFF' &&
+      (req.path.startsWith('/productRounds') ||
+        req.path.startsWith('/receiveTxnSyncUp') ||
+        req.path.startsWith('/receiveTxns'))
+    ) {
+      next()
+      return
+    }
+
+    // protected route
+    if (
+      !(
+        req.path.startsWith('/productRounds') ||
+        req.path.startsWith('/receiveTxnSyncUp') ||
+        req.path.startsWith('/receiveTxns') ||
+        req.path.startsWith('/staffs')
+      )
     ) {
       next()
       return
     }
     res.send({ valid: false, reason: 'permission_denied' })
     return
-
-    // secure but low performance
-    // if (req.user) {
-    //   const user = await db.user.findOneAsync({
-    //     _id: mongojs.ObjectId(req.user._id),
-    //   })
-    //   if ((user && user.role === 'ADMIN') || config.disableAuth) {
-    //     next()
-    //     return
-    //   }
-
-    //   if (
-    //     !(
-    //       req.path.startsWith('/surveyEntries') || req.path.startsWith('/users')
-    //     )
-    //   ) {
-    //     next()
-    //     return
-    //   }
-    //   res.send({ valid: false, reason: 'permission_denied' })
-    //   return
-    // }
-    // next()
   } catch (error) {
     logger.error(error)
     res.send({ valid: false, reason: error.messenger })

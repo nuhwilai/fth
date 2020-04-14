@@ -127,6 +127,7 @@ interface IReceiveTxn {
             productId ?: string
             // embeded filter
             __withUserSchema ?: 'short' // 
+            __withProductRoundSchema ?: 'full'
         }
         interface ICustomRecieveTxn extends IReceiveTxn {
             user ?: IUserSchemaShort // show when __withUserSchema = 'short'
@@ -189,7 +190,7 @@ interface IProductRound {
     ```
 
 # Staff
-- [ ] POST `/login`
+- [x] POST `/login`
    ```ts
     interface ILoginBody{
         oauthToken: string
@@ -217,27 +218,27 @@ interface IProductRound {
         }
     ```
 
-- [ ] POST `/staffs`
+- [x] POST `/staffs`
     ```ts
         interface ICreateStaffRequestBody extends IStaff {}
         interface ICreateStaffSuccessData {
             _id: string
         }
     ```
-- [ ] PUT `/staffs/:id`
+- [x] PUT `/staffs/:id`
     ```ts
         interface IUpdateStaffRequestBody extends IStaff {}
         interface IUpdateStaffSuccessData {
             _id: string
         }
     ```
-- [ ] DELETE `/staffs/:id`
+- [x] DELETE `/staffs/:id`
     ```ts
         interface IDeleteStaffSuccessData {
             _id: string
         }
     ```
-- [ ] GET `/staffs`
+- [x] GET `/staffs`
      ```ts
         interface IStaffQuerystring{
             offset?: number
@@ -249,7 +250,7 @@ interface IProductRound {
             staffs: IStaff[]
         }
     ```
-- [ ] GET `/staffs/:id`
+- [x] GET `/staffs/:id`
      ```ts
         interface IListStaffSuccessData {
             staff: IStaff

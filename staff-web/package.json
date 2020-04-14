@@ -26,6 +26,7 @@
     "@ngx-pwa/local-storage": "8.2.4",
     "@zxing/ngx-scanner": "^3.0.0",
     "angularx-social-login": "^2.2.1",
+    "file-saver": "^2.0.2",
     "jsrsasign": "^8.0.13",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
@@ -36,6 +37,7 @@
     "qs": "^6.9.3",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
+    "xlsx": "^0.15.6",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

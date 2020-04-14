@@ -40,6 +40,8 @@ import {
 import { AuthService } from './auth/auth.service'
 import { NavBarModule } from './nav-bar/nav-bar.module'
 import { AuthModule } from './auth/auth.module'
+import { ReportModule } from './report/report.module'
+import { ReceiveTxnModule } from './receive-txn/receive-txn.module'
 
 const config = new AuthServiceConfig([
   {
@@ -64,11 +66,8 @@ export function migrationFactory() {
 const dbConfig: DBConfig = {
   name: 'MyDb',
   version: 3,
-  objectStoresMeta: [
-   productRoundIndbSchma,
-    recieveTxn
-  ],
-  migrationFactory
+  objectStoresMeta: [productRoundIndbSchma, recieveTxn],
+  migrationFactory,
 }
 // const dbConfig: DBConfig = {
 //   name: 'MyDb',
@@ -106,6 +105,8 @@ const dbConfig: DBConfig = {
     AccordionModule,
     FieldsetModule,
     NavBarModule,
+    ReportModule,
+    ReceiveTxnModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),

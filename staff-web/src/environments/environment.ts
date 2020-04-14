@@ -1,5 +1,3 @@
-import googleOauth from './google-oauth'
-
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
@@ -29,7 +27,8 @@ export const environment = {
   -----END PUBLIC KEY-----
   `,
   googleApi: {
-    key: googleOauth.key,
+    key:
+      '927878481877-9qfk03uc0tmfkdl948781qpvg836cu8m.apps.googleusercontent.com',
   },
 }
 
