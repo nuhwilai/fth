@@ -57,12 +57,17 @@ export class IndexDbService implements OnDestroy {
 
   async addTxnIndexDb(data) {
     try {
-      await this.dbService.add('recieveTxn', data).then(
-        () => {},
-        (error) => {
-          console.log('Add recieveTxn error', error)
-        },
-      )
+      await this.dbService
+        .add('recieveTxn', {
+          ...data,
+          receivedDateTime: moment().toISOString(),
+        })
+        .then(
+          () => {},
+          (error) => {
+            console.log('Add recieveTxn error', error)
+          },
+        )
       const number = await this.dbService.count('recieveTxn')
       this.txnCount$.next(number)
     } catch (e) {}
