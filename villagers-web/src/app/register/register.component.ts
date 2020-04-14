@@ -30,16 +30,15 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.doSurvey()
+    this.initSurvey()
   }
 
   back() {
     this._location.back()
   }
 
-  doSurvey() {
+  initSurvey() {
     this.survey = new Survey.Model(surveyJSON)
-    this.survey.data = this.result
     this.result = null //reset result
     this.survey.onComplete.add((result) => {
       this._ngZone.run(() => {
@@ -57,6 +56,7 @@ export class RegisterComponent implements OnInit {
         this.result['homeDistrict'] = 'เมืองภูเก็ต'
         this.result['homeProvince'] = 'ภูเก็ต'
         this.result['homePostalCode'] = '83100'
+        this.survey = result
       })
     })
     let converter = new showdown.Converter()
@@ -128,6 +128,13 @@ export class RegisterComponent implements OnInit {
     Survey.SurveyNG.render('surveyElement', { model: this.survey })
   }
 
+  editSurvey(){
+    this.survey.clear()
+    this.survey.data = this.result
+    this.result = null
+    this.survey.render()
+  }
+
   notificationError(text) {
     this.error = true
     this.errorText = text
@@ -155,7 +162,7 @@ export class RegisterComponent implements OnInit {
           } else {
             this.notificationError(data.reason)
           }
-          this.doSurvey()
+          this.initSurvey()
         }
       },
       (err) => {
