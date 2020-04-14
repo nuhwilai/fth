@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { environment } from 'src/environments/environment'
 import { NgxIndexedDBService } from 'ngx-indexed-db'
-
+import { stringify } from 'qs'
 @Injectable({
   providedIn: 'root',
 })
@@ -13,7 +13,11 @@ export class ProductRoundService {
   ) {}
 
   listProductRounds = (params: any) => {
-    return this.http.get(`${environment.apiEndpointUrl}/productRounds`)
+    return this.http.get(`${environment.apiEndpointUrl}/productRounds`, {
+      params: new HttpParams({
+        fromString: stringify(params, { allowDots: true }),
+      }),
+    })
   }
 
   listProductRoundOffline = (params: any) => {

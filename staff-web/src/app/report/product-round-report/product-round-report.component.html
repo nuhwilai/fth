@@ -1,0 +1,102 @@
+<div
+  style="display: flex; justify-content: space-between; align-items: center;"
+>
+  <h2>รายงานการแจกของ</h2>
+  <!-- <button
+    type="button"
+    pButton
+    icon="pi pi-file-excel"
+    iconPos="left"
+    label="ออกรายงานตามด่าน"
+    (click)="onDialogDisplay()"
+    style="margin-right: 0.5em;"
+    class="ui-button-success"
+  ></button> -->
+</div>
+<p-table
+  #dt
+  [loading]="loading"
+  [value]="productRounds"
+  [lazy]="true"
+  (onLazyLoad)="loadProductRoundsLazy($event)"
+  [paginator]="true"
+  [rows]="rows"
+  [rowsPerPageOptions]="rowsPerPageOptions"
+  [columns]="cols"
+  [totalRecords]="totalRecords"
+  [filterDelay]="1000"
+  [rowHover]="true"
+>
+  <ng-template pTemplate="caption">
+    <div class="ui-helper-clearfix" style="text-align: right;">
+      <button
+        type="button"
+        pButton
+        icon="pi pi-undo"
+        iconPos="left"
+        label="คืนค่า"
+        (click)="onResetFilter(dt)"
+        style="margin-right: 1em;"
+        class="ui-button-primary"
+      ></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th>ชื่อรายการ</th>
+      <th>รอบวันที่</th>
+      <th>รายงาน</th>
+    </tr>
+    <tr>
+      <th class="ui-fluid">
+        <input
+          [style]="{ width: '100%', minWidth: 0 }"
+          type="text"
+          pInputText
+          [(ngModel)]="currentOption.productName"
+          (input)="dt.filter($event.target.value, 'productName', 'productName')"
+          placeholder="กรองโดยชื่อรายการ"
+          appendTo="body"
+        />
+      </th>
+      <th>
+        <p-calendar
+          [style]="{ width: '100%', 'min-width': '0' }"
+          [inputStyle]="{ width: '100%' }"
+          [(ngModel)]="currentOption.roundDate"
+          (onSelect)="dt.filter($event, 'rounddate', 'roundDate')"
+          dateFormat="dd/mm/yy"
+          appendTo="body"
+          placeholder="กรองโดยรอบวันที่"
+        ></p-calendar>
+      </th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr [pSelectableRow]="rowData">
+      <td>{{ rowData.productName }}</td>
+      <td class="center">{{ rowData.roundDateTime }}</td>
+      <td style="text-align: center;">
+        <button
+          [disabled]="exporting"
+          type="button"
+          pButton
+          icon="pi pi-file-excel"
+          iconPos="left"
+          label="รายงาน"
+          (click)="exportExcelByFilter(rowData)"
+          style="margin-right: 0.5em;"
+          class="ui-button-success"
+        ></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr id="row-empty">
+      <td [attr.colspan]="3">
+        ไม่พบข้อมูลรายการ
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
