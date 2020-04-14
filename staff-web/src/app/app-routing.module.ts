@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core'
-import { Routes, RouterModule } from '@angular/router'
+import { RouterModule, Routes } from '@angular/router'
+import { AuthGuardService as AuthGuard } from './auth/auth-guard.service'
 import { LoginComponent } from './login/login.component'
-import { ProductSendComponent } from './product-send/product-send.component'
-import { ProductRoundCrudComponent } from './product-round/product-round-crud/product-round-crud.component'
 import { MainComponent } from './main/main.component'
-import { ProductRoundOfflineComponent } from './product-round/product-round-offline/product-round-offline.component'
+import { ProductSendComponent } from './product-send/product-send.component'
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
-  { path: 'product-send/:id', component: ProductSendComponent },
-  { path: 'home', component: MainComponent },
   {
-    component: ProductRoundCrudComponent,
-    path: 'product-round',
+    path: 'product-send/:id',
+    component: ProductSendComponent,
+    canActivate: [AuthGuard],
+    data: { ifAnyGranted: ['ADMIN', 'STAFF'] },
   },
   {
-    component: ProductRoundOfflineComponent,
-    path: 'product-round-offline',
+    path: 'home',
+    component: MainComponent,
+    canActivate: [AuthGuard],
+    data: { ifAnyGranted: ['ADMIN', 'STAFF'] },
   },
   {
     component: LoginComponent,

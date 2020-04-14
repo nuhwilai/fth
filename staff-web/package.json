@@ -23,6 +23,7 @@
     "@angular/pwa": "^0.901.1",
     "@angular/router": "~8.2.14",
     "@angular/service-worker": "~8.2.14",
+    "@ngx-pwa/local-storage": "8.2.4",
     "@zxing/ngx-scanner": "^3.0.0",
     "angularx-social-login": "^2.2.1",
     "file-saver": "^2.0.2",

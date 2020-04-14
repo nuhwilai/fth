@@ -1,0 +1,33 @@
+<div *ngIf="status && isAuth" style="display: flex;">
+  <ng-container [ngSwitch]="status">
+    <div
+      class="circle"
+      style="background-color: green;"
+      *ngSwitchCase="'COMPLETED'"
+    ></div>
+    <div
+      class="circle"
+      style="background-color: orange;"
+      *ngSwitchCase="'PROCESSING'"
+    >
+      <span *ngIf="serveyLocalCount && serveyLocalCount > 0">
+        {{ serveyLocalCount }}
+      </span>
+    </div>
+    <div class="circle" style="background-color: red;" *ngSwitchCase="'ERRORR'">
+      <span *ngIf="serveyLocalCount && serveyLocalCount > 0">
+        {{ serveyLocalCount }}
+      </span>
+    </div>
+  </ng-container>
+</div>
+<div *ngIf="status && !isAuth" style="display: flex;">
+  <div class="circle" style="background-color: red;">
+    <span
+      class="subtitle is-6"
+      *ngIf="serveyLocalCount && serveyLocalCount > 0"
+    >
+      {{ serveyLocalCount }}
+    </span>
+  </div>
+</div>

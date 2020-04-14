@@ -22,4 +22,7 @@ export const environment = {
   dJGPZLG7oP+zLZKANd5WyRkCAwEAAQ==
   -----END PUBLIC KEY-----
   `,
+  googleApi: {
+    key: '',
+  },
 }
