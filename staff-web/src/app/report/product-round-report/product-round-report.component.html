@@ -1,18 +1,4 @@
-<div
-  style="display: flex; justify-content: space-between; align-items: center;"
->
-  <h2>รายงานการแจกของ</h2>
-  <!-- <button
-    type="button"
-    pButton
-    icon="pi pi-file-excel"
-    iconPos="left"
-    label="ออกรายงานตามด่าน"
-    (click)="onDialogDisplay()"
-    style="margin-right: 0.5em;"
-    class="ui-button-success"
-  ></button> -->
-</div>
+<h2>รายงานการแจกของ</h2>
 <p-table
   #dt
   [loading]="loading"
@@ -53,8 +39,14 @@
           [style]="{ width: '100%', minWidth: 0 }"
           type="text"
           pInputText
-          [(ngModel)]="currentOption.productName"
-          (input)="dt.filter($event.target.value, 'productName', 'productName')"
+          [(ngModel)]="currentOption.productName_like"
+          (input)="
+            dt.filter(
+              $event.target.value,
+              'productName_like',
+              'productName_like'
+            )
+          "
           placeholder="กรองโดยชื่อรายการ"
           appendTo="body"
         />

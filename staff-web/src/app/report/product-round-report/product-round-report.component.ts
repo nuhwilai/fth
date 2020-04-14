@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core'
-import { ProductRoundService } from 'src/app/product-round/product-round.service'
-import * as moment from 'moment'
 import * as _ from 'lodash'
+import * as moment from 'moment'
+import { LazyLoadEvent } from 'primeng/api'
+import { ProductRoundService } from 'src/app/product-round/product-round.service'
 import { ReceiveTxnService } from 'src/app/receive-txn/receive-txn.service'
 import {
-  createUserFullNameStr,
   createUserAddressStr,
+  createUserFullNameStr,
 } from 'src/app/shared/models/extra'
 
 interface FILE_META {
@@ -65,7 +66,6 @@ export class ProductRoundReportComponent implements OnInit {
       { field: 'productName', header: 'ชื่อรายการ	' },
       { field: 'roundDateTime', header: 'รอบวันที่' },
     ]
-    // console.log('selected columns', this.selectedColumns)
   }
 
   ngOnInit(): void {
@@ -73,7 +73,7 @@ export class ProductRoundReportComponent implements OnInit {
   }
 
   private initFilters() {
-    this.currentOption.productName = null
+    this.currentOption.productName_like = null
     this.currentOption.roundDate = null
   }
   onResetFilter(dt: any) {
@@ -110,8 +110,7 @@ export class ProductRoundReportComponent implements OnInit {
     }, 0)
   }
 
-  loadProductRoundsLazy($event: any) {
-    // loadRefPersonsLazy($event: LazyLoadEvent) {
+  loadProductRoundsLazy($event: LazyLoadEvent) {
     this.loadProductRounds(
       $event.first,
       $event.rows,
@@ -148,7 +147,6 @@ export class ProductRoundReportComponent implements OnInit {
   }
 
   exportExcelByFilter(productRound: IProductRound) {
-    // TODO: fetch receive txn by product round
     const { _id, roundDate, productName } = productRound
     this.receiveTxnService
       .listReceiveTxns({ productId: _id, __withUserSchema: 'short' })
