@@ -37,6 +37,19 @@
           <div class="content">
             <div class="overflow">
               <h4 class="title is-12">
+                1. ผู้รับอาหารหรือถุงยังชีพต้องแสดง
+                บัตรประจำตัวของผู้ที่มีสิทธิ์รับอาหาร แก่เจ้าหน้าที่
+                หลังจากนั้นเจ้าหน้าที่จะ scan QR Code เพื่อยืนยันการรับอาหาร
+              </h4>
+              <h4 class="title is-12">
+                2. การรับถุงยังชีพ ให้สิทธิ์ในการรับหลังคาเรือนละ 1 ถุง/ครั้ง
+              </h4>
+              <h4 class="title is-12">3. การรับอาหารกล่องคนละ 1 กล่อง/ครั้ง</h4>
+              <h4 class="title is-12">
+                เงื่อนไขอาจปรับเปลี่ยนตามความเหมาะสม ตามสภาพการ โปรดเก็บรักษา QR
+                Code ของท่าน เพื่อนำมาใช้รับอาหารในครั้งต่อไป
+              </h4>
+              <h4 class="title is-12">
                 1. Food or survival bags recipients must show personal
                 Identification card that eligible to receive food to staffs.
                 After that, the staffs will scan the QR Code to confirm the
@@ -51,19 +64,6 @@
               <h4 class="title is-12">
                 This may change as appropriate according to the conditions.
                 Please keep you QR Code in order to get your food in the future
-              </h4>
-              <h4 class="title is-12">
-                1. ผู้รับอาหารหรือถุงยังชีพต้องแสดง
-                บัตรประจำตัวของผู้ที่มีสิทธิ์รับอาหาร แก่เจ้าหน้าที่
-                หลังจากนั้นเจ้าหน้าที่จะ scan QR Code เพื่อยืนยันการรับอาหาร
-              </h4>
-              <h4 class="title is-12">
-                2. การรับถุงยังชีพ ให้สิทธิ์ในการรับหลังคาเรือนละ 1 ถุง/ครั้ง
-              </h4>
-              <h4 class="title is-12">3. การรับอาหารกล่องคนละ 1 กล่อง/ครั้ง</h4>
-              <h4 class="title is-12">
-                เงื่อนไขอาจปรับเปลี่ยนตามความเหมาะสม ตามสภาพการ โปรดเก็บรักษา QR
-                Code ของท่าน เพื่อนำมาใช้รับอาหารในครั้งต่อไป
               </h4>
             </div>
             <label class="checkbox">
@@ -84,33 +84,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="column">
-        <div class="box">
-          <div class="content">
-            <div class="overflow">
-              <h4 class="title is-12">1. ENG</h4>
-              <h4 class="title is-12">2. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
-              <h4 class="title is-12">3. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
-              <h4 class="title is-12">4. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
-              <h4 class="title is-12">5. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</h4>
-            </div>
-            <label class="checkbox">
-              <input type="checkbox" [(ngModel)]="isAccept" />
-              I agree to the <a>terms and conditions</a>
-            </label>
-          </div>
-
-          <div class="register">
-            <button
-              (click)="goToRegister()"
-              class="button is-large is-link"
-              [disabled]="!isAccept"
-            >
-              Register
-            </button>
-          </div>
-        </div>
-      </div> -->
     </div>
   </div>
 </section>
@@ -132,17 +105,30 @@
 <!-- Sponsored by -->
 <section class="section" id="resume">
   <div class="section-heading">
-    <!-- <h3 class="title is-2">สนับสนุนโดย</h3>
-    <h4 class="subtitle is-5">Sponsored by</h4> -->
+    <h3 class="title is-2">สนับสนุนโดย</h3>
+    <h4 class="subtitle is-5">Sponsored by</h4>
   </div>
-  <nav class="level">
+  <!-- <nav class="level">
     <div
       class="level-item has-text-centered"
       *ngFor="let sponsered of sponsoredBy"
     >
       <a [href]="sponsered.link"><img [src]="sponsered.imageURI" /></a>
     </div>
-  </nav>
+  </nav> -->
+  <div *ngIf="sponsoredGoogleSpreadSheetDatas">
+    <div class="content">
+      <h4
+        class="title is-12 textCenter"
+        *ngFor="let value of sponsoredGoogleSpreadSheetDatas"
+      >
+        <div class="sponsered">
+          <span>{{ value[0] }}</span>
+          <span>{{ value[1] }}</span>
+        </div>
+      </h4>
+    </div>
+  </div>
 </section>
 
 <section class="section"></section>

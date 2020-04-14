@@ -51,3 +51,17 @@ th {
     overflow-y: scroll;
     margin: 1em 0;
 }
+
+.textCenter{
+    display: flex;
+    justify-content: center;
+}
+
+.sponsered{
+    width: 50vw;
+    display: flex;
+    justify-content: space-between;
+    @media only screen and (max-width: 600px) {
+        width: 100vw
+    }
+}
