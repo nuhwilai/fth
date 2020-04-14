@@ -32,6 +32,7 @@ import { AccordionModule } from 'primeng/accordion'
 import { FieldsetModule } from 'primeng/fieldset'
 import { ServiceWorkerModule } from '@angular/service-worker'
 import { environment } from '../environments/environment'
+import { ReportModule } from './report/report.module'
 // const config = new AuthServiceConfig([
 //   {
 //     id: GoogleLoginProvider.PROVIDER_ID,
@@ -133,6 +134,7 @@ const dbConfig: DBConfig = {
     ProductRoundModule,
     AccordionModule,
     FieldsetModule,
+    ReportModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
