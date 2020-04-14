@@ -3,8 +3,9 @@
   <button
     pButton
     label="Reload"
-    (click)="refreshData()"
+    (click)="syncDownProductRound()"
     icon="pi pi-refresh"
+    [disabled]="loading"
   ></button>
 </h2>
 <p-table

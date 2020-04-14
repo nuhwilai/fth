@@ -26,6 +26,8 @@ export class IndexDbService implements OnDestroy {
     txnCount: null,
   })
   isAuth = false
+
+  authData = {}
   constructor(
     private dbService: NgxIndexedDBService,
     private http: HttpClient,
@@ -35,6 +37,7 @@ export class IndexDbService implements OnDestroy {
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((auth: AuthData) => {
         this.isAuth = auth.isAuthenticated
+        this.authData = auth
       })
   }
 
@@ -135,7 +138,7 @@ export class IndexDbService implements OnDestroy {
   }
 
   addIndexDbToService() {
-    if (!this.isAuth) {
+    if (!this.authService.isGranted(['ADMIN', 'STAFF'])) {
       return
     }
     this.dbService.getAll('recieveTxn').then(
@@ -177,7 +180,7 @@ export class IndexDbService implements OnDestroy {
   }
 
   getServiceToIndexDb() {
-    if (!this.isAuth) {
+    if (!this.authService.isGranted(['ADMIN', 'STAFF'])) {
       return
     }
     this.http
@@ -211,5 +214,36 @@ export class IndexDbService implements OnDestroy {
           )
         }
       })
+  }
+
+  reloadProductRound() {
+    try {
+      return this.http
+        .get(environment.restEndpointUrl + '/productRounds')
+        .toPromise()
+        .then((data: any) => {
+          if (data.valid) {
+            const productRoundsData = data.data.productRounds
+            this.dbService.clear('productRound').then(
+              () => {
+                _.each(productRoundsData, (data) => {
+                  if (data) {
+                    this.dbService.add('productRound', data)
+                  }
+                })
+              },
+              (error) => {
+                console.log(error)
+              },
+            )
+            return Promise.resolve(data)
+          } else {
+            return Promise.reject(new Error(data.reason))
+          }
+        })
+        .catch((error) => {
+          return Promise.reject(error)
+        })
+    } catch (e) {}
   }
 }
