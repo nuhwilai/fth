@@ -70,6 +70,7 @@ router.get('/', async (req, res) => {
     const skip = req.query.offset ? Number(req.query.offset) : 0
     const sort = req.query.sort ? req.query.sort : 'roundDateTime'
     const order = req.query.order == 'asc' ? 1 : -1
+    const totalCount = await db.productRound.countAsync(query)
 
     await db.productRound
       .find(query)
@@ -83,6 +84,7 @@ router.get('/', async (req, res) => {
         res.send({
           valid: true,
           data: {
+            totalCount,
             productRounds: result,
           },
         })
