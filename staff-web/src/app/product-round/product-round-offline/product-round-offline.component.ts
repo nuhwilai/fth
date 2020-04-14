@@ -30,7 +30,7 @@ export class ProductRoundOfflineComponent implements OnInit {
   }
   
   productRoundInint
-  max = 3
+  max = 15
   constructor(
     private productRoundService: ProductRoundService,
     private messaageService: MessageService,
