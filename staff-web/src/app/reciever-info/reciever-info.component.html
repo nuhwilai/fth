@@ -185,15 +185,16 @@
         <br />
       </ng-container>
     </div>
-    <div>
+    <div *ngIf="recieverData.members && recieverData.members.length >= 0">
       <p class="title">
-        จำนวนอาหาร: <span>{{ recieverData?.amount }}</span>
+        จำนวนอาหาร: <span>{{ (recieverData?.members?.length || 0) + 1 }}</span>
       </p>
     </div>
-    <div>
+    <div *ngIf="recieverData.members && recieverData.members.length >= 0">
       <p class="title">
         คำขออื่นๆ : <span>{{ recieverData?.remark }}</span>
       </p>
     </div>
   </div>
+  <br />
 </p-card>

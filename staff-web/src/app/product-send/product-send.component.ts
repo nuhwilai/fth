@@ -22,10 +22,8 @@ export class ProductSendComponent implements OnInit {
   desiredDevice = null
   txactionRecieveForm = new FormGroup({
     nationalId: new FormControl('', Validators.required),
-    phoneNumber: new FormControl('', Validators.required),
-    // amount: new FormControl(1),
-    timestamp: new FormControl(null),
-    supplyId: new FormControl(null, Validators.required),
+    receivedDateTime: new FormControl(null),
+    productId: new FormControl(null, Validators.required),
   })
   amount = 1
   supplyId
@@ -45,7 +43,7 @@ export class ProductSendComponent implements OnInit {
     this.scannerEnabled = false
     this.supplyId = this.route.snapshot.paramMap.get('id')
     this.txactionRecieveForm.patchValue({
-      supplyId: this.supplyId,
+      productId: this.supplyId,
     })
 
     this.indexDbService.getTxnCount().subscribe((number: number) => {
@@ -121,7 +119,6 @@ export class ProductSendComponent implements OnInit {
       .createRecieveTxn({
         ...this.txactionRecieveForm.value,
         amount: this.amount,
-        timestamp: new Date(),
       })
       .then(
         () => {
@@ -138,7 +135,7 @@ export class ProductSendComponent implements OnInit {
     this.recieverInfo = null
     this.txactionRecieveForm.reset()
     this.txactionRecieveForm.patchValue({
-      supplyId: this.supplyId,
+      productId: this.supplyId,
     })
   }
   toggleCamera = (
