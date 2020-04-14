@@ -39,6 +39,7 @@ import {
 } from 'angularx-social-login'
 import { AuthService } from './auth/auth.service'
 import { NavBarModule } from './nav-bar/nav-bar.module'
+import { AuthModule } from './auth/auth.module'
 
 const config = new AuthServiceConfig([
   {
@@ -144,6 +145,7 @@ const dbConfig: DBConfig = {
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
+    AuthModule,
   ],
   providers: [
     {

@@ -11,14 +11,6 @@ const routes: Routes = [
   { path: 'product-send/:id', component: ProductSendComponent },
   { path: 'home', component: MainComponent },
   {
-    component: ProductRoundCrudComponent,
-    path: 'product-round',
-  },
-  {
-    component: ProductRoundOfflineComponent,
-    path: 'product-round-offline',
-  },
-  {
     component: LoginComponent,
     path: 'login',
   },
