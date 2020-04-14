@@ -1,0 +1,26 @@
+<h2>
+  รายงานการรับของรายบุคคล
+</h2>
+
+<div class="ui-g">
+  <div class="ui-g-12 ui-md-3">
+    <p-calendar
+      #date
+      [style]="{ width: '100%', 'min-width': '0' }"
+      [inputStyle]="{ width: '100%' }"
+      dateFormat="dd/mm/yy"
+      appendTo="body"
+      placeholder="เลือกวันที่"
+      [(ngModel)]="today"
+    ></p-calendar>
+  </div>
+  <div class="ui-g-12 ui-md-3">
+    <button
+      [disabled]="!date.value"
+      type="button"
+      pButton
+      label="ออกรายงาน"
+      (click)="exportExcelByFilter(date.value)"
+    ></button>
+  </div>
+</div>
