@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { AuthService as OAuthService, GoogleLoginProvider, SocialUser } from 'angularx-social-login'
+import {
+  AuthService as OAuthService,
+  GoogleLoginProvider,
+  SocialUser,
+} from 'angularx-social-login'
 import { AuthService } from '../auth/auth.service'
 import { MessageService } from 'primeng/api'
+import { takeUntil } from 'rxjs/operators'
+import { Subject } from 'rxjs'
+import { Router } from '@angular/router'
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,16 +20,29 @@ export class LoginComponent implements OnInit {
   user: SocialUser
   loggedIn: boolean
   authStateSub: any
+  unsubscribe$ = new Subject()
+  isAuthenticated: boolean
   constructor(
+    private router: Router,
     private oAuthService: OAuthService,
     private authService: AuthService,
-    private messageService: MessageService
+    private messageService: MessageService,
   ) {}
   ngOnInit() {
     this.signinForm = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
     })
+
+    this.authService.authData$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((authData) => {
+        this.isAuthenticated = authData.isAuthenticated
+        if (this.isAuthenticated) {
+          this.router.navigate(['/home'])
+        }
+      })
+
     this.authStateSub = this.oAuthService.authState.subscribe((user) => {
       if (user) {
         this.authService.loginWithSocialUser(user, this.onSuccess, this.onError)
