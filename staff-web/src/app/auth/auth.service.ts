@@ -104,7 +104,9 @@ export class AuthService {
     this.authData = { isAuthenticated: false }
     this.handleAuthChanged()
     this.asyncLocalStorage.removeItem('access_token').subscribe(() => {
-      this.loginSub.unsubscribe()
+      if (this.loginSub) {
+        this.loginSub.unsubscribe()
+      }
       this.router.navigate(['/'])
     })
   }

@@ -15,36 +15,9 @@ export class AppComponent implements OnInit {
 
   pathHideIcon = ['/home']
   currentPath = ''
-  constructor(
-    private _location: Location,
-    private indexDbService: IndexDbService,
-    private router: Router,
-  ) {
+  constructor(private indexDbService: IndexDbService) {
     this.indexDbService.run()
   }
 
-  backClicked($event) {
-    this._location.back()
-  }
-
-  ngOnInit() {
-    this.subscribeCurrentPath()
-  }
-  private subscribeCurrentPath() {
-    this.router.events.subscribe((value) => {
-      if (value instanceof NavigationEnd) {
-        this.currentPath = value.urlAfterRedirects
-      }
-    })
-  }
-  get isHideBackButton(): boolean {
-    return _.chain(this.pathHideIcon)
-      .map((it) => {
-        return this.currentPath.search(it) >= 0
-      })
-      .reduce((bool = false, it) => {
-        return bool || it
-      })
-      .value()
-  }
+  ngOnInit() {}
 }

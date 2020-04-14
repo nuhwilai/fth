@@ -1,37 +1,28 @@
 <div class="toolbar" role="banner">
-  <span *ngIf="!isHideBackButton" class="back-button">
+  <span *ngIf="!isHideBackButton" class="back-button pointer">
     <i class="pi pi-arrow-left title" (click)="backClicked($event)"></i>
   </span>
   <p class="title">Food To Home : Staff</p>
-  <div class="spacer"></div>
 
-  <a
+  <div class="spacer"></div>
+  <div *ngIf="isAuth" class="topbar-menu pointer" (mouseenter)="showPanel()">
+    {{ authData }}
+    &nbsp;
+    <app-synce-up-survey-status></app-synce-up-survey-status>
+    <br />
+    <div *ngIf="isShowPanel" class="menu-list pointer" (mouseleave)="hideAll()">
+      <span (click)="logout()" style="padding: 1em;">
+        Logout
+      </span>
+    </div>
+  </div>
+
+  <div
     *ngIf="!isAuth"
-    class="menu title is-4 login-menu"
+    class="menu title is-4 login-menu pointer"
     style="height: 100%; box-shadow: 0px 15px 28px rgba(0, 0, 0, 0.1);"
   >
     <app-auth-login></app-auth-login>&nbsp;
     <app-synce-up-survey-status></app-synce-up-survey-status>
-  </a>
-  <a *ngIf="isAuth" class="menu">
-    <div s>
-      <button class="button" style="height: auto;" (click)="showPanel($event)">
-        <!-- <figure class="image is-48x48">
-              <img src="https://ui-avatars.com/api/?length=1" class="is-rounded" />
-            </figure> -->
-        &nbsp;
-        <span>{{ authData }}</span>
-        &nbsp;
-        <app-synce-up-survey-status></app-synce-up-survey-status>
-        <br />
-      </button>
-      <div
-        *ngIf="isShowPanel"
-        class="subtitle is-5 panal-logout"
-        (click)="logout()"
-      >
-        ลงชื่อออก
-      </div>
-    </div>
-  </a>
+  </div>
 </div>

@@ -27,7 +27,6 @@ export class NavBarComponent implements OnInit {
   isShowPanel = false
   constructor(
     private _location: Location,
-    private indexDbService: IndexDbService,
     private router: Router,
     private _eref: ElementRef,
     private authService: AuthService,
@@ -38,7 +37,6 @@ export class NavBarComponent implements OnInit {
     this.authService.authData$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((authData) => {
-        console.log('authData :', authData)
         if (authData) {
           this.isAuth = authData.isAuthenticated
           this.authData = authData.email
@@ -50,6 +48,9 @@ export class NavBarComponent implements OnInit {
   }
   showPanel() {
     this.isShowPanel = !this.isShowPanel
+  }
+  hideAll(): void {
+    this.isShowPanel = false
   }
 
   private subscribeCurrentPath() {
@@ -72,7 +73,6 @@ export class NavBarComponent implements OnInit {
 
   onClick(event) {
     if (!this._eref.nativeElement.contains(event.target))
-      // or some similar check
       this.isShowPanel = false
   }
 
@@ -80,7 +80,7 @@ export class NavBarComponent implements OnInit {
     this.authService.logout()
   }
 
-  refreshPage() {
-    window.location.reload()
+  backClicked($event) {
+    this._location.back()
   }
 }
