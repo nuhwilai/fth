@@ -1,19 +1,19 @@
 <div class="menu">
-  <a [routerLink]="['/product-round']">
+  <a [routerLink]="['/product-round']" *ifAnyGranted="['ADMIN','STAFF']">
     <p-card>
       <i class="pi pi-cog iconTitle"></i>
       <span class="title">จัดการรอบการแจกของ</span>
     </p-card>
   </a>
-  <br />
-  <a [routerLink]="['/product-round-offline']">
+  <br>
+  <a [routerLink]="['/product-round-offline']"  *ifAnyGranted="['ADMIN','STAFF']">
     <p-card>
       <i class="pi pi-thumbs-up iconTitle"></i>
       <span class="title">รายการแจกของ</span>
     </p-card>
   </a>
   <br />
-  <a [routerLink]="['/product-round-report']">
+  <a [routerLink]="['/product-round-report']" *ifAnyGranted="['ADMIN','STAFF']">
     <p-card>
       <i class="pi pi-thumbs-up iconTitle"></i>
       <span class="title">รายงานการแจกของ</span>

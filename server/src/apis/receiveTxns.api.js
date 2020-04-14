@@ -14,6 +14,7 @@ router.get('/', async (req, res) => {
     let query = _.pick(req.query, [
       'nationalId_like',
       'productId',
+      'receivedDate',
       '__withUserSchema',
       '__withProductRoundSchema',
     ])

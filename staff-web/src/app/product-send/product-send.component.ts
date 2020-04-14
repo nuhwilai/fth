@@ -5,8 +5,10 @@ import { ActivatedRoute } from '@angular/router'
 import * as _ from 'lodash'
 import { MessageService } from 'primeng/components/common/messageservice'
 import { verifyJWTToken } from '../utils'
-import { IndexDbService } from '../indb/index-db.service'
+import { IndexDbService, ITxnSubject } from '../indb/index-db.service'
 import { ZXingScannerComponent } from '@zxing/ngx-scanner'
+import { takeUntil } from 'rxjs/operators'
+import { Subject } from 'rxjs'
 
 @Component({
   selector: 'app-product-send',
@@ -16,7 +18,7 @@ import { ZXingScannerComponent } from '@zxing/ngx-scanner'
 export class ProductSendComponent implements OnInit {
   @ViewChild('scanner', { static: true })
   scanner: ZXingScannerComponent
-
+  unsubscribe$ = new Subject()
   recieverInfo: any
   scannerEnabled = false
   desiredDevice = null
@@ -28,10 +30,8 @@ export class ProductSendComponent implements OnInit {
   amount = 1
   supplyId
   staffData
-
-  txnRequireCount = 0
   cameras: any
-
+  txnRequireCount
   constructor(
     private recieverService: RecieverService,
     private route: ActivatedRoute,
@@ -45,10 +45,12 @@ export class ProductSendComponent implements OnInit {
     this.txactionRecieveForm.patchValue({
       productId: this.supplyId,
     })
-
-    this.indexDbService.getTxnCount().subscribe((number: number) => {
-      this.txnRequireCount = number
-    })
+    this.indexDbService
+      .getSyncUpTxn$()
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((surveySubjectResult: ITxnSubject) => {
+        this.txnRequireCount = surveySubjectResult.txnCount
+      })
   }
 
   clickOpenCamera($event) {
@@ -121,11 +123,28 @@ export class ProductSendComponent implements OnInit {
         amount: this.amount,
       })
       .then(
-        () => {
-          this.clearData()
+        (result) => {
+          if (result && result.valid) {
+            this.messageService.add({
+              severity: 'success',
+              detail: 'บันทึกสำเร็จ',
+            })
+            this.clearData()
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              detail: `บันทึกไม่สำเร็จ ${
+                result.reason ? result.reason : 'ไม่พบสาเหตุ'
+              }`,
+            })
+          }
         },
         (error) => {
           console.log('error :', error)
+          this.messageService.add({
+            severity: 'error',
+            detail: `บันทึกไม่สำเร็จ ${error.message}`,
+          })
         },
       )
   }
