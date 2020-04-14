@@ -1,10 +1,8 @@
-import { Component, OnInit } from '@angular/core'
-import { Router, NavigationEnd } from '@angular/router'
-import { AuthService as OAuthService } from 'angularx-social-login'
-import { AuthService } from './auth.service'
 import { Location } from '@angular/common'
-import { IndexDbService } from './indb/index-db.service'
+import { Component, OnInit } from '@angular/core'
+import { NavigationEnd, Router } from '@angular/router'
 import * as _ from 'lodash'
+import { IndexDbService } from './indb/index-db.service'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,20 +10,17 @@ import * as _ from 'lodash'
 })
 export class AppComponent implements OnInit {
   title = 'staff-web'
-  loading = true
+  loading = false
   user
 
   pathHideIcon = ['/home']
   currentPath = ''
   constructor(
-    private authService: AuthService,
     private _location: Location,
     private indexDbService: IndexDbService,
     private router: Router,
   ) {
-    this.authService.settingsLoaded.subscribe(() => {
-      this.loading = false
-    })
+    this.indexDbService.run()
   }
 
   backClicked($event) {

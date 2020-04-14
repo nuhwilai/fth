@@ -32,16 +32,24 @@ import { AccordionModule } from 'primeng/accordion'
 import { FieldsetModule } from 'primeng/fieldset'
 import { ServiceWorkerModule } from '@angular/service-worker'
 import { environment } from '../environments/environment'
-// const config = new AuthServiceConfig([
-//   {
-//     id: GoogleLoginProvider.PROVIDER_ID,
-//     provider: new GoogleLoginProvider(googleOauth.key),
-//   },
-// ])
+import {
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  SocialLoginModule,
+} from 'angularx-social-login'
+import { AuthService } from './auth/auth.service'
+import { NavBarModule } from './nav-bar/nav-bar.module'
 
-// export function provideConfig() {
-//   return config
-// }
+const config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider(environment.googleApi.key),
+  },
+])
+
+export function provideConfig() {
+  return config
+}
 
 const dbConfig: DBConfig = {
   name: 'MyDb',
@@ -107,7 +115,6 @@ const dbConfig: DBConfig = {
   declarations: [
     AppComponent,
     LoginComponent,
-    NavBarComponent,
     RecieverInfoComponent,
     ProductSendComponent,
     IncludeArrayPipe,
@@ -119,7 +126,7 @@ const dbConfig: DBConfig = {
     FormsModule,
     BrowserModule,
     AppRoutingModule,
-    // SocialLoginModule,
+    SocialLoginModule,
     ReactiveFormsModule,
     HttpClientModule,
     ButtonModule,
@@ -133,15 +140,16 @@ const dbConfig: DBConfig = {
     ProductRoundModule,
     AccordionModule,
     FieldsetModule,
+    NavBarModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
   ],
   providers: [
-    // {
-    //   provide: AuthServiceConfig,
-    //   useFactory: provideConfig,
-    // },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -151,4 +159,6 @@ const dbConfig: DBConfig = {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private authService: AuthService) {}
+}

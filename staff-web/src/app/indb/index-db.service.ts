@@ -3,9 +3,15 @@ import { NgxIndexedDBService } from 'ngx-indexed-db'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
 import * as _ from 'lodash'
-import { Subject } from 'rxjs'
+import { Subject, BehaviorSubject } from 'rxjs'
 import { stringify } from 'qs'
 import * as moment from 'moment'
+
+export type ITxnSubjectStatus = 'COMPLETED' | 'PROCESSING' | 'ERRORR'
+export interface ITxnSubject {
+  status: ITxnSubjectStatus | null
+  txnCount: number | null
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -13,37 +19,60 @@ export class IndexDbService implements OnDestroy {
   private intervalInstance = null
   private intervalTime = 20000
   public txnCount$ = new Subject()
+  private syncUpTxn$ = new BehaviorSubject<ITxnSubject>({
+    status: null,
+    txnCount: null,
+  })
   constructor(
     private dbService: NgxIndexedDBService,
     private http: HttpClient,
-  ) {
-    this.checkDb()
-  }
+  ) {}
 
   initDb() {
     this.getServiceToIndexDb()
   }
 
-  checkDb() {
-    Promise.all([
-      this.dbService.getAll('recieveTxn'),
-      this.dbService.getAll('productRound'),
-    ])
-      .then(() => {
+  // checkDb() {
+  //   Promise.all([
+  //     this.dbService.getAll('recieveTxn'),
+  //     this.dbService.getAll('productRound'),
+  //   ])
+  //     .then(() => {
+  //       this.runIndexDbService()
+  //       this.dbService.count('recieveTxn').then((number) => {
+  //         this.txnCount$.next(number)
+  //       })
+  //     })
+  //     .catch((e) => {
+  //       this.dbService.deleteDatabase().then(
+  //         () => {
+  //           window.location.reload()
+  //         },
+  //         (error) => {
+  //           console.log(error)
+  //         },
+  //       )
+  //     })
+  // }
+
+  run() {
+    this.dbService
+      .count('recieveTxn')
+      .then((number) => {
         this.runIndexDbService()
-        this.dbService.count('recieveTxn').then((number) => {
-          this.txnCount$.next(number)
-        })
+        this.updateStatus(number)
       })
       .catch((e) => {
-        this.dbService.deleteDatabase().then(
-          () => {
-            window.location.reload()
-          },
-          (error) => {
-            console.log(error)
-          },
-        )
+        if (e.includes('objectStore does not exists')) {
+          this.dbService.deleteDatabase().then(
+            () => {
+              window.location.reload()
+            },
+            (error) => {
+              console.log(error)
+            },
+          )
+        }
       })
   }
 
@@ -53,6 +82,34 @@ export class IndexDbService implements OnDestroy {
 
   getTxnCount() {
     return this.txnCount$.asObservable()
+  }
+
+  updateStatus(number?: number, isError = false) {
+    if (number && isError) {
+      this.syncUpTxn$.next({
+        txnCount: number,
+        status: 'ERRORR',
+      })
+    } else if (number > 0) {
+      this.syncUpTxn$.next({
+        txnCount: number,
+        status: 'PROCESSING',
+      })
+    } else if (number == 0) {
+      this.syncUpTxn$.next({
+        txnCount: number,
+        status: 'COMPLETED',
+      })
+    } else {
+      this.syncUpTxn$.next({
+        txnCount: null,
+        status: 'ERRORR',
+      })
+    }
+  }
+
+  getSyncUpTxn$() {
+    return this.syncUpTxn$.asObservable()
   }
 
   async addTxnIndexDb(data) {

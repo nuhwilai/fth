@@ -1,1 +1,37 @@
-<p>nav-bar works!</p>
+<div class="toolbar" role="banner">
+  <span *ngIf="!isHideBackButton" class="back-button">
+    <i class="pi pi-arrow-left title" (click)="backClicked($event)"></i>
+  </span>
+  <p class="title">Food To Home : Staff</p>
+  <div class="spacer"></div>
+
+  <a
+    *ngIf="!isAuth"
+    class="menu title is-4 login-menu"
+    style="height: 100%; box-shadow: 0px 15px 28px rgba(0, 0, 0, 0.1);"
+  >
+    <app-auth-login></app-auth-login>&nbsp;
+    <app-synce-up-survey-status></app-synce-up-survey-status>
+  </a>
+  <a *ngIf="isAuth" class="menu">
+    <div s>
+      <button class="button" style="height: auto;" (click)="showPanel($event)">
+        <!-- <figure class="image is-48x48">
+              <img src="https://ui-avatars.com/api/?length=1" class="is-rounded" />
+            </figure> -->
+        &nbsp;
+        <span>{{ authData }}</span>
+        &nbsp;
+        <app-synce-up-survey-status></app-synce-up-survey-status>
+        <br />
+      </button>
+      <div
+        *ngIf="isShowPanel"
+        class="subtitle is-5 panal-logout"
+        (click)="logout()"
+      >
+        ลงชื่อออก
+      </div>
+    </div>
+  </a>
+</div>

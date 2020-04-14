@@ -1,0 +1,70 @@
+.toolbar {
+  height: 60px;
+  margin: -8px;
+  display: flex;
+  align-items: center;
+  background-color: #263238;
+  color: white;
+  font-weight: 600;
+  .title {
+    padding-left: 15px;
+  }
+}
+
+.toolbar img {
+  margin: 0 16px;
+}
+
+.toolbar #twitter-logo {
+  height: 40px;
+  margin: 0 16px;
+}
+
+.toolbar #twitter-logo:hover {
+  opacity: 0.8;
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1em;
+}
+
+.is-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-menu {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+.login-menu:hover {
+  background-color: rgb(105, 105, 105, 0.5);
+  color: white;
+}
+.panal-logout {
+  position: absolute;
+  background-color: white;
+  text-align: center;
+  right: 2rem;
+  top: 50px;
+  width: 10em;
+  padding: 0.3em;
+  border-radius: 0.1em;
+  -webkit-transition: 0.1s ease-out;
+  transition: 0.1s ease-out;
+}
+
+.panal-logout:hover {
+  background-color: rgb(105, 105, 105, 0.5);
+  color: white;
+}
