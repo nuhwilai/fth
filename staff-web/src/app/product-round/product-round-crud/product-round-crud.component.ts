@@ -26,6 +26,7 @@ export class ProductRoundCrudComponent implements OnInit {
     roundDate: null,
     roundDateTime: null,
   }
+  max = 15
   constructor(private productRoundService: ProductRoundService) {}
 
   ngOnInit() {
@@ -47,7 +48,7 @@ export class ProductRoundCrudComponent implements OnInit {
           this.productRoundList = this.prepareProductRounds(
             res.data.productRounds,
           )
-          this.totalRecords = this.productRoundList.length
+          this.totalRecords = res.data.totalCount
           console.log('this.productRoundList', this.productRoundList)
         }
         this.loading = false
@@ -62,17 +63,19 @@ export class ProductRoundCrudComponent implements OnInit {
     order?: number,
   ) {
     this.loading = true
-    console.log('load product round')
     setTimeout(() => {
       this.productRoundService
-        .listProductRounds({})
+        .listProductRounds({
+          offset,
+          max,
+        })
         .subscribe((res: IResponseSuccess) => {
+          console.log('res :', res)
           if (res.valid) {
             this.productRoundList = this.prepareProductRounds(
               res.data.productRounds,
             )
-            this.totalRecords = this.productRoundList.length
-            console.log('this.productRoundList', this.productRoundList)
+            this.totalRecords = res.data.totalCount
           }
           this.loading = false
         })
