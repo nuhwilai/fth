@@ -58,7 +58,10 @@ export class IndexDbService implements OnDestroy {
   async addTxnIndexDb(data) {
     try {
       await this.dbService
-        .add('recieveTxn', { ...data, receivedDateTime: new Date() })
+        .add('recieveTxn', {
+          ...data,
+          receivedDateTime: moment().toISOString(),
+        })
         .then(
           () => {},
           (error) => {

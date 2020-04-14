@@ -43,7 +43,7 @@ export class ProductSendComponent implements OnInit {
     this.scannerEnabled = false
     this.supplyId = this.route.snapshot.paramMap.get('id')
     this.txactionRecieveForm.patchValue({
-      supplyId: this.supplyId,
+      productId: this.supplyId,
     })
 
     this.indexDbService.getTxnCount().subscribe((number: number) => {
