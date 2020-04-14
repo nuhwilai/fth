@@ -35,18 +35,17 @@ export class AuthLoginComponent implements OnInit, OnDestroy {
   }
 
   onSuccess = () => {
-    console.log('login success :')
     this.messageService.add({
       severity: 'success',
       detail: 'เข้าสู้ระบบสำเร็จ',
     })
   }
 
-  onError(error: string) {
+  onError = (error: string) => {
     console.log('error :', error)
     this.messageService.add({
-      severity: 'success',
-      detail: 'เข้าสู้ระบบไม่สำเร็จ',
+      severity: 'error',
+      detail: `เข้าสู้ระบบไม่สำเร็จ ${error || 'ไม่ทราบสาเหตุ'}`,
     })
   }
 }
