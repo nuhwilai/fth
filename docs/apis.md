@@ -125,6 +125,7 @@ interface IReceiveTxn {
             // filter
             nationalId_like ?: string
             productId ?: string
+            receivedDate ?: string
             // embeded filter
             __withUserSchema ?: 'short' // 
             __withProductRoundSchema ?: 'full'
