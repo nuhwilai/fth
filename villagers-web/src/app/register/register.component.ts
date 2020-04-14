@@ -134,7 +134,7 @@ export class RegisterComponent implements OnInit {
     this.result = null
     this.survey.render()
   }
-
+  
   notificationError(text) {
     this.error = true
     this.errorText = text
@@ -162,7 +162,7 @@ export class RegisterComponent implements OnInit {
           } else {
             this.notificationError(data.reason)
           }
-          this.initSurvey()
+          this.editSurvey()
         }
       },
       (err) => {
