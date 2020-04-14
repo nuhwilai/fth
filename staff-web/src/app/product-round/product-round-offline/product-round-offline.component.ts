@@ -23,7 +23,8 @@ export class ProductRoundOfflineComponent implements OnInit {
   formInitialValue: IProductRound = {
     _id: null,
     productName: null,
-    roundDateTime: new Date(),
+    roundDate: null,
+    roundDateTime: null,
   }
   constructor(private productRoundService: ProductRoundService) {}
 
