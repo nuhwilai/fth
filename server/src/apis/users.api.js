@@ -7,6 +7,7 @@ const {
 const mongojs = require('mongojs')
 const router = require('express').Router()
 const _ = require('lodash')
+const { userShortSchema } = require('../conf/schema')
 const { parseDateStrToDate } = require('../services/generals.service')
 
 router.post('/', async (req, res) => {
@@ -66,20 +67,7 @@ router.get('/:nationalId', async (req, res) => {
     let projection = {}
 
     if (req.query._schema === 'short') {
-      projection = {
-        _id: 0,
-        nationalId: 1,
-        firstname: 1,
-        lastname: 1,
-        phoneNumber: 1,
-        homeNumber: 1,
-        homeMoo: 1,
-        homeMooban: 1,
-        homePostalCode: 1,
-        homeSubDistrict: 1,
-        homeDistrict: 1,
-        homeProvince: 1,
-      }
+      projection = userShortSchema
     }
 
     const userResult = await db.user.findOneAsync(

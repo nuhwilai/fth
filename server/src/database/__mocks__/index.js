@@ -2,6 +2,7 @@ const rootLogger = require('../../conf/logger')
 const logger = rootLogger.get('main')
 
 exports.loadMockData = (db) => {
+  upsertCollection(db, 'user', require('./users'))
   upsertCollection(db, 'receiveTxn', require('./receiveTxns'))
   upsertCollection(db, 'productRound', require('./productRounds'))
 }
