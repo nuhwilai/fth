@@ -8,10 +8,11 @@ import { DialogModule } from 'primeng/dialog'
 import { InputTextModule } from 'primeng/inputtext'
 import { TableModule } from 'primeng/table'
 import { ProductRoundReportComponent } from './product-round-report/product-round-report.component'
-import { ReportRoutingModule } from './report-routing.module'
+import { ReportRoutingModule } from './report-routing.module';
+import { ReceiveTxnReportComponent } from './receive-txn-report/receive-txn-report.component'
 
 @NgModule({
-  declarations: [ProductRoundReportComponent],
+  declarations: [ProductRoundReportComponent, ReceiveTxnReportComponent],
   imports: [
     CommonModule,
     ReportRoutingModule,
