@@ -33,6 +33,7 @@ import { FieldsetModule } from 'primeng/fieldset'
 import { ServiceWorkerModule } from '@angular/service-worker'
 import { environment } from '../environments/environment'
 import { ReportModule } from './report/report.module'
+import { ReceiveTxnModule } from './receive-txn/receive-txn.module'
 // const config = new AuthServiceConfig([
 //   {
 //     id: GoogleLoginProvider.PROVIDER_ID,
@@ -56,11 +57,8 @@ export function migrationFactory() {
 const dbConfig: DBConfig = {
   name: 'MyDb',
   version: 3,
-  objectStoresMeta: [
-   productRoundIndbSchma,
-    recieveTxn
-  ],
-  migrationFactory
+  objectStoresMeta: [productRoundIndbSchma, recieveTxn],
+  migrationFactory,
 }
 // const dbConfig: DBConfig = {
 //   name: 'MyDb',
@@ -99,6 +97,7 @@ const dbConfig: DBConfig = {
     AccordionModule,
     FieldsetModule,
     ReportModule,
+    ReceiveTxnModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),

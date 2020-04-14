@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { ProductRoundService } from 'src/app/product-round/product-round.service'
 import * as moment from 'moment'
 import * as _ from 'lodash'
+import { ReceiveTxnService } from 'src/app/receive-txn/receive-txn.service'
 
 @Component({
   selector: 'app-product-round-report',
@@ -19,7 +20,10 @@ export class ProductRoundReportComponent implements OnInit {
   currentOption: any = {}
   exporting: boolean = false
 
-  constructor(private productRoundService: ProductRoundService) {
+  constructor(
+    private productRoundService: ProductRoundService,
+    private receiveTxnService: ReceiveTxnService,
+  ) {
     this.cols = [
       { field: 'productName', header: 'ชื่อรายการ	' },
       { field: 'roundDateTime', header: 'รอบวันที่' },
@@ -108,9 +112,57 @@ export class ProductRoundReportComponent implements OnInit {
 
   exportExcelByFilter(productRound: IProductRound) {
     // TODO: fetch receive txn by product round
+    const { _id, roundDate, productName } = productRound
+    this.receiveTxnService
+      .listReceiveTxns({ productId: _id })
+      .subscribe((res: IResponseSuccess) => {
+        if (res.valid) {
+          // console.log('xxxxxx', res.data)
+          let txns = _.chain(res.data.receiveTxns)
+            .map((it) =>
+              _.pick(it, [
+                'nationalId',
+                'phoneNumber',
+                'amount',
+                'receivedDateTime',
+              ]),
+            )
+            .map((it) => ({
+              ...it,
+              receivedDateTime: moment(it.receivedDateTime).format(
+                'DD-MM-YYYY HH:ss',
+              ),
+            }))
+            .value()
+          console.log('txts', txns)
+          this.exportExcel(
+            txns,
+            productName,
+            moment(roundDate).format('DD-MM-YYYY'),
+          )
+        }
+      })
   }
 
-  exportExcel(entries: any, fileName: string, date: Date) {
+  exportExcel(entries: any, fileName: string, date: string) {
+    const cols = [
+      {
+        field: 'nationalId',
+        header: 'หมายเลขบัตร',
+      },
+      {
+        field: 'phoneNumber',
+        header: 'เบอร์โทรศัพท์',
+      },
+      {
+        field: 'amount',
+        header: 'จำนวน',
+      },
+      {
+        field: 'receivedDateTime',
+        header: 'เวลารับของ',
+      },
+    ]
     import('xlsx').then((xlsx) => {
       const worksheet = xlsx.utils.json_to_sheet(entries)
       var range = xlsx.utils.decode_range(worksheet['!ref'])
@@ -118,7 +170,7 @@ export class ProductRoundReportComponent implements OnInit {
         var address = xlsx.utils.encode_col(C) + '1' // <-- first row, column number C
         if (!worksheet[address]) continue
         const v = worksheet[address].v
-        const _address = _.chain(this.cols)
+        const _address = _.chain(cols)
           .find((col: any) => col.field === v)
           .get('header', '')
           .value()
@@ -136,7 +188,7 @@ export class ProductRoundReportComponent implements OnInit {
     })
   }
 
-  saveAsExcelFile(buffer: any, fileName: string, date: Date): void {
+  saveAsExcelFile(buffer: any, fileName: string, date: string): void {
     import('file-saver').then((FileSaver) => {
       let EXCEL_TYPE =
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8'
@@ -144,10 +196,7 @@ export class ProductRoundReportComponent implements OnInit {
       const data: Blob = new Blob([buffer], {
         type: EXCEL_TYPE,
       })
-      FileSaver.saveAs(
-        data,
-        fileName + '_' + moment(date).format('DD-MM-YYYY') + EXCEL_EXTENSION,
-      )
+      FileSaver.saveAs(data, fileName + '_' + date + EXCEL_EXTENSION)
       this.exporting = false
     })
   }
