@@ -10,7 +10,8 @@ interface IResponseFail {
 
 interface IProductRound {
   _id: string
-  roundDateTime: Date
+  roundDateTime: string
+  roundDate: string // YYYY-MM-DD
   productName: string
 }
 
