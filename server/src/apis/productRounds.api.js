@@ -53,6 +53,7 @@ router.get('/', async (req, res) => {
       'roundDateTime_gt',
       'productName',
       'roundDate',
+      'productName_like',
     ])
 
     const limit = req.query.max
