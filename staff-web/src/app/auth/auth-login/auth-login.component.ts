@@ -4,6 +4,7 @@ import {
   GoogleLoginProvider,
 } from 'angularx-social-login'
 import { AuthService } from '../auth.service'
+import { MessageService } from 'primeng/components/common/messageservice'
 @Component({
   selector: 'app-auth-login',
   templateUrl: './auth-login.component.html',
@@ -13,12 +14,13 @@ export class AuthLoginComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private oAuthService: OAuthService,
+    private messageService: MessageService,
   ) {}
   authStateSub
   ngOnInit() {
     this.authStateSub = this.oAuthService.authState.subscribe((data) => {
       if (data) {
-        this.authService.loginWithSocialUser(data)
+        this.authService.loginWithSocialUser(data, this.onSuccess, this.onError)
         this.oAuthService.signOut(true)
       }
     })
@@ -34,9 +36,17 @@ export class AuthLoginComponent implements OnInit, OnDestroy {
 
   onSuccess = () => {
     console.log('login success :')
+    this.messageService.add({
+      severity: 'success',
+      detail: 'เข้าสู้ระบบสำเร็จ',
+    })
   }
 
   onError(error: string) {
     console.log('error :', error)
+    this.messageService.add({
+      severity: 'success',
+      detail: 'เข้าสู้ระบบไม่สำเร็จ',
+    })
   }
 }

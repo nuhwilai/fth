@@ -6,6 +6,7 @@ import { Location } from '@angular/common'
 import { AuthService } from '../auth/auth.service'
 import { Subject } from 'rxjs'
 import { takeUntil } from 'rxjs/operators'
+import { MessageService } from 'primeng/components/common/messageservice'
 
 @Component({
   selector: 'app-nav-bar',
@@ -30,6 +31,7 @@ export class NavBarComponent implements OnInit {
     private router: Router,
     private _eref: ElementRef,
     private authService: AuthService,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit() {
@@ -78,6 +80,10 @@ export class NavBarComponent implements OnInit {
 
   logout() {
     this.authService.logout()
+    this.messageService.add({
+      severity: 'success',
+      detail: 'ออกจากระบบสำเร็จ',
+    })
   }
 
   backClicked($event) {

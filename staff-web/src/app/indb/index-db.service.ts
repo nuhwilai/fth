@@ -6,6 +6,8 @@ import * as _ from 'lodash'
 import { Subject, BehaviorSubject } from 'rxjs'
 import { stringify } from 'qs'
 import * as moment from 'moment'
+import { AuthService, AuthData } from '../auth/auth.service'
+import { takeUntil } from 'rxjs/operators'
 
 export type ITxnSubjectStatus = 'COMPLETED' | 'PROCESSING' | 'ERRORR'
 export interface ITxnSubject {
@@ -16,17 +18,25 @@ export interface ITxnSubject {
   providedIn: 'root',
 })
 export class IndexDbService implements OnDestroy {
+  unsubscribe$ = new Subject()
   private intervalInstance = null
-  private intervalTime = 20000
-  public txnCount$ = new Subject()
+  private intervalTime = 10000
   private syncUpTxn$ = new BehaviorSubject<ITxnSubject>({
     status: null,
     txnCount: null,
   })
+  isAuth = false
   constructor(
     private dbService: NgxIndexedDBService,
     private http: HttpClient,
-  ) {}
+    private authService: AuthService,
+  ) {
+    this.authService.authData$
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe((auth: AuthData) => {
+        this.isAuth = auth.isAuthenticated
+      })
+  }
 
   initDb() {
     this.getServiceToIndexDb()
@@ -80,10 +90,6 @@ export class IndexDbService implements OnDestroy {
     this.unRegisterDbService()
   }
 
-  getTxnCount() {
-    return this.txnCount$.asObservable()
-  }
-
   updateStatus(number?: number, isError = false) {
     if (number && isError) {
       this.syncUpTxn$.next({
@@ -114,20 +120,27 @@ export class IndexDbService implements OnDestroy {
 
   async addTxnIndexDb(data) {
     try {
-      await this.dbService
+      return this.dbService
         .add('recieveTxn', {
           ...data,
           receivedDateTime: moment().toISOString(),
         })
-        .then(
-          () => {},
-          (error) => {
-            console.log('Add recieveTxn error', error)
-          },
-        )
-      const number = await this.dbService.count('recieveTxn')
-      this.txnCount$.next(number)
-    } catch (e) {}
+        .then(async () => {
+          const number = await this.dbService.count('recieveTxn')
+          this.updateStatus(number)
+          const result: any = {
+            valid: true,
+          }
+          return Promise.resolve(result)
+        })
+    } catch (e) {
+      this.updateStatus(null, true)
+      const result: any = {
+        valid: false,
+        reason: e.message,
+      }
+      return Promise.resolve(result)
+    }
   }
 
   runIndexDbService() {
@@ -143,6 +156,9 @@ export class IndexDbService implements OnDestroy {
   }
 
   addIndexDbToService() {
+    if (!this.isAuth) {
+      return
+    }
     this.dbService.getAll('recieveTxn').then(
       (recieveTxn) => {
         if (_.isEmpty(recieveTxn)) {
@@ -154,22 +170,24 @@ export class IndexDbService implements OnDestroy {
             receiveTxns: newRecieveTxn,
           })
           .subscribe(
-            (data) => {
-              if (data) {
+            (data: any) => {
+              if (data && data.valid) {
                 console.log('save success')
                 this.dbService.clear('recieveTxn').then(
                   () => {
                     console.log('clear :')
-                    this.txnCount$.next(0)
+                    this.updateStatus(0)
                   },
                   (error) => {
                     console.log(error)
                   },
                 )
+              } else {
+                this.updateStatus(newRecieveTxn.length, true)
               }
             },
             (error) => {
-              this.txnCount$.next(newRecieveTxn.length)
+              this.updateStatus(newRecieveTxn.length, true)
             },
           )
       },
