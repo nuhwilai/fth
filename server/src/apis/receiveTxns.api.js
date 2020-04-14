@@ -36,6 +36,7 @@ router.get('/', async (req, res) => {
     const skip = req.query.offset ? Number(req.query.offset) : 0
     const sort = req.query.sort ? req.query.sort : '_id'
     const order = req.query.order == 'asc' ? 1 : -1
+    const totalCount = await db.receiveTxn.countAsync(query)
 
     const receiveTxnQuery = db.receiveTxn.find(query)
 
@@ -86,6 +87,7 @@ router.get('/', async (req, res) => {
     res.send({
       valid: true,
       data: {
+        totalCount,
         receiveTxns,
       },
     })

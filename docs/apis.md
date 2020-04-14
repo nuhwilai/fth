@@ -181,6 +181,7 @@ interface IProductRound {
         }
         interface IProductRoundSuccessData {
             productRounds: IProductRound[]
+            totalCount: number
         }
     ```
 - [x] GET `/productRounds/:id`
@@ -205,6 +206,7 @@ interface IProductRound {
     ```ts
     interface IReceiveTxnSyncUpBody{
         receiveTxns: IReceiveTxn[]
+        totalCount: number
     }
     interface IReceiveTxnSyncUpSuccessData{
         _ids: string[]
@@ -249,6 +251,7 @@ interface IProductRound {
         }
         interface IStaffSuccessData {
             staffs: IStaff[]
+            totalCount: number
         }
     ```
 - [x] GET `/staffs/:id`
