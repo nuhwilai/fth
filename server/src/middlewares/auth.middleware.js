@@ -27,13 +27,24 @@ const userPermission = async (req, res, next) => {
       return
     }
 
+    if (
+      req.user &&
+      req.user.role === 'STAFF' &&
+      (req.path.startsWith('/productRounds') ||
+        req.path.startsWith('/receiveTxnSyncUp') ||
+        req.path.startsWith('/receiveTxns'))
+    ) {
+      next()
+      return
+    }
+
     // protected route
     if (
       !(
-        req.path.startsWith('/receiveTxns') || 
-        req.path.startsWith('/staffs') ||
+        req.path.startsWith('/productRounds') ||
         req.path.startsWith('/receiveTxnSyncUp') ||
-        req.path.startsWith('/receiveTxns')
+        req.path.startsWith('/receiveTxns') ||
+        req.path.startsWith('/staffs')
       )
     ) {
       next()
@@ -41,29 +52,6 @@ const userPermission = async (req, res, next) => {
     }
     res.send({ valid: false, reason: 'permission_denied' })
     return
-
-    // secure but low performance
-    // if (req.user) {
-    //   const user = await db.user.findOneAsync({
-    //     _id: mongojs.ObjectId(req.user._id),
-    //   })
-    //   if ((user && user.role === 'ADMIN') || config.disableAuth) {
-    //     next()
-    //     return
-    //   }
-
-    //   if (
-    //     !(
-    //       req.path.startsWith('/surveyEntries') || req.path.startsWith('/users')
-    //     )
-    //   ) {
-    //     next()
-    //     return
-    //   }
-    //   res.send({ valid: false, reason: 'permission_denied' })
-    //   return
-    // }
-    // next()
   } catch (error) {
     logger.error(error)
     res.send({ valid: false, reason: error.messenger })
