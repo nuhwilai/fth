@@ -7,6 +7,8 @@ const mongo_host = process.env.MONGO_HOST || 'localhost'
 const conf = {
   isProd,
   port: 8000,
+  disableAuth: false,
+  isLoadFixtureData: true,
   isLoadMockData: false,
   maxRecordsPerQuery: 15,
   dbUrl: isProd

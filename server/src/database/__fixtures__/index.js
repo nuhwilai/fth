@@ -1,11 +1,10 @@
+const config = require('../../conf/config')
 const rootLogger = require('../../conf/logger')
 const logger = rootLogger.get('main')
 
-exports.loadMockData = (db) => {
-  logger.info('loading mock...')
-  upsertCollection(db, 'user', require('./users'))
-  upsertCollection(db, 'receiveTxn', require('./receiveTxns'))
-  upsertCollection(db, 'productRound', require('./productRounds'))
+exports.loadFixtureData = async (db) => {
+  logger.info('loading fixtures...')
+  upsertCollection(db, 'staff', require('./staffs'))
 }
 
 function upsertCollection(db, store, items) {
@@ -15,7 +14,7 @@ function upsertCollection(db, store, items) {
     db.collection(store)
       .updateAsync({ _id }, { $set: item }, { upsert: true })
       .then((res) => {
-        logger.debug(`loading mockup:${store}, ${_id}`)
+        logger.debug(`loading fixture:${store}, ${_id}`)
       })
   })
 }
