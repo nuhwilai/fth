@@ -12,7 +12,7 @@ export class SyncableDataService {
     ){                
     }
 
-    async init(dbName: string, stores: [string]){
+    async init(dbName: string, stores: string[]){
         this.db = await this.dataIndexedDbService.useDb(dbName, stores)
     }
 
