@@ -2,12 +2,7 @@ import { Injectable } from '@angular/core'
 import * as _ from 'lodash'
 
 import { openDB } from 'idb'
-// import { openDB } from 'idb/with-async-ittr.js';
-// import {} from 'idb/with-async-ittr-cjs'
-// import {} from 'idb/with-async-ittr'
 
-// import * as async from 'idb/with-async-ittr'
-// console.log('async :', async);
 @Injectable({
   providedIn: 'root',
 })
@@ -57,4 +52,5 @@ export class DataIndexedDbService {
   async countRecords(storeName): Promise<number> {
     return this.db.count(storeName)
   }
+
 }

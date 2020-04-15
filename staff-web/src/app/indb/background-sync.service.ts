@@ -4,7 +4,10 @@ import { HttpClient } from '@angular/common/http'
 import { takeUntil } from 'rxjs/operators'
 import { AuthService, AuthData } from '../auth/auth.service'
 import { SyncableDataService } from './syncable-data.service'
-import { ReceiveTxnService, ITxnSubject } from '../receive-txn/receive-txn.service'
+import {
+  ReceiveTxnService,
+  ITxnSubject,
+} from '../receive-txn/receive-txn.service'
 import { ProductRoundService } from '../product-round/product-round.service'
 import * as _ from 'lodash'
 @Injectable({
@@ -60,7 +63,7 @@ export class BackgroundSyncService implements OnDestroy {
       return
     }
     try {
-      await this.syncableDataService.upload(
+      await this.syncableDataService.uploadWithGetAll(
         'receiveTxn',
         1,
         this.receiveTxnService.saveAsPromise,

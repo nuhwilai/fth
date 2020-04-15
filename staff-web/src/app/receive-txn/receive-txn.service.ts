@@ -27,7 +27,6 @@ export class ReceiveTxnService {
 
   async updateStatusSync() {
     const number = await this.dataIndexedDbService.countRecords('receiveTxn')
-    console.log('number :', number)
     this.updateStatus(number)
   }
 
@@ -67,7 +66,7 @@ export class ReceiveTxnService {
     })
   }
 
-  saveAsPromise = async (data, callback?) => {
+  saveAsPromise = async (data, localIds) => {
     // const result = await this.http
     //   .post(environment.restEndpointUrl + '/receiveTxnSyncUp', {
     //     receiveTxns: [data],
@@ -80,7 +79,8 @@ export class ReceiveTxnService {
 
     return this.http
       .post(environment.restEndpointUrl + '/receiveTxnSyncUp', {
-        receiveTxns: [data],
+        receiveTxns: data,
+        localIds
       })
       .toPromise()
 
