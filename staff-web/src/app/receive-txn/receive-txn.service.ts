@@ -66,27 +66,12 @@ export class ReceiveTxnService {
     })
   }
 
-  saveAsPromise = async (data, localIds) => {
-    // const result = await this.http
-    //   .post(environment.restEndpointUrl + '/receiveTxnSyncUp', {
-    //     receiveTxns: [data],
-    //   })
-    //   .toPromise()
-    // if (callback) {
-    //   callback(result)
-    // }
-    // return result
-
+  saveAsPromise = async (data) => {
     return this.http
       .post(environment.restEndpointUrl + '/receiveTxnSyncUp', {
         receiveTxns: data,
-        localIds
       })
       .toPromise()
-
-    // return this.http.post(environment.restEndpointUrl + '/receiveTxnSyncUp', {
-    //   receiveTxns: [data],
-    // })
   }
 
   createReceiveTxn(data) {
@@ -107,6 +92,5 @@ export class ReceiveTxnService {
         resolve({ valid: false, reason: 'Cannot insert' })
       }
     })
-    // return this.indexDbService.addTxnIndexDb(data)
   }
 }

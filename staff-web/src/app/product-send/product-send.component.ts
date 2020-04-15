@@ -63,13 +63,11 @@ export class ProductSendComponent implements OnInit {
   }
 
   camerasFoundHandler($event) {
-    console.log('$event :', $event)
     this.cameras = $event
     this.desiredDevice = $event[0]
   }
 
   camerasNotFoundHandler($event) {
-    console.log('$camerasNotFoundHandler :', $event)
     this.messageService.add({
       severity: 'error',
       detail: 'ค้นหากล้องไม่พบ',

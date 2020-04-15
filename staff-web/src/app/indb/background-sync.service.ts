@@ -16,7 +16,7 @@ import * as _ from 'lodash'
 export class BackgroundSyncService implements OnDestroy {
   unsubscribe$ = new Subject()
   private intervalInstance = null
-  private intervalTime = 20000
+  private intervalTime = 15000
   private syncUpTxn$ = new BehaviorSubject<ITxnSubject>({
     status: null,
     txnCount: null,
@@ -41,10 +41,11 @@ export class BackgroundSyncService implements OnDestroy {
   }
 
   run() {
+    console.log('run background service')
     this.syncDownProductRound()
     this.syncUpReceiveTxn()
 
-    this.intervalInstance = setTimeout(() => {
+    this.intervalInstance = setInterval(() => {
       this.syncDownProductRound()
       this.syncUpReceiveTxn()
     }, this.intervalTime)
@@ -55,6 +56,7 @@ export class BackgroundSyncService implements OnDestroy {
   }
 
   unregister() {
+    console.log('clear background service')
     clearInterval(this.intervalInstance)
   }
 
@@ -63,9 +65,9 @@ export class BackgroundSyncService implements OnDestroy {
       return
     }
     try {
-      await this.syncableDataService.uploadWithGetAll(
+      await this.syncableDataService.upload(
         'receiveTxn',
-        1,
+        100,
         this.receiveTxnService.saveAsPromise,
       )
       this.receiveTxnService.updateStatusSync()

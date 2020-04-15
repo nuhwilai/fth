@@ -22,10 +22,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.authService.finishLoading.subscribe(() => {
-      this.backgroundSyncService.unregister()
-      this.backgroundSyncService.run()
-      this.receiveTxnService.updateStatusSync()
       this.loading = false
+    })
+
+    this.authService.authData$.subscribe((auth) => {
+      if (auth.isAuthenticated) {
+        this.backgroundSyncService.unregister()
+        this.backgroundSyncService.run()
+        this.receiveTxnService.updateStatusSync()
+      }
     })
   }
 }

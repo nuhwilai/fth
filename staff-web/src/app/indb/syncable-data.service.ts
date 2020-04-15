@@ -15,12 +15,19 @@ export class SyncableDataService {
 
   async upload(storeName: string, batchSize: number, handler: any) {
     let results = await this.dataIndexedDbService.list(storeName, batchSize)
-    if(_.size(results) > 0){
-        let upload_result : number[] = await handler(results)
-        for(let key of upload_result){
-            await this.dataIndexedDbService.deleteRecord(storeName, key)
+    if (_.size(results) > 0) {
+      const newResult = _.map(results, (result) => ({
+        ...result,
+        localId: result.id,
+        id: undefined,
+      }))
+      let upload_result: IResponseSuccess = await handler(newResult)
+      if (upload_result && upload_result.valid) {
+        for (let key of upload_result.data.localIds) {
+          await this.dataIndexedDbService.deleteRecord(storeName, key)
         }
-    }    
+      }
+    }
   }
 
   async uploadWithGetAll(storeName: string, batchSize: number, handler: any) {
