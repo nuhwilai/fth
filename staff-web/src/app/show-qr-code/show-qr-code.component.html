@@ -1,0 +1,33 @@
+<div class="section-heading has-background-info">
+  <h3 class="title has-text-light is-2">คิวอาร์โค้ด</h3>
+  <h4 class="subtitle has-text-light is-3">Qr code</h4>
+  <div class="backBtn" (click)="back()">
+    <span class="icon is-large has-text-primary">
+      <i class="fas fa-3x fa-chevron-left"></i>
+    </span>
+  </div>
+</div>
+<div class="container">
+  <div class="infomaion">
+    <h4 class="title is-4 header">
+      <b>{{ data?.firstname }} {{ data?.lastname }}</b> โทร.
+      {{ data?.phoneNumber }}
+    </h4>
+    <h4 class="title is-4 header">
+      ที่อยู่ : {{ data?.homeNumber }} หมู่ {{ data?.homeMoo }}
+      {{ data?.homeMooban }} ต.{{ data?.homeSubDistrict }} อ.{{
+        data?.homeDistrict
+      }}
+      จ.{{ data?.homeProvince }} {{ data?.homePostalCode }}
+    </h4>
+  </div>
+  <div class="qrCode" *ngIf="_id">
+    <img [src]="apiUrl + '/qrcode?text=' + qrcodeToken" />
+  </div>
+  <h4 class="title is-4 header">
+    กรุณาเก็บ QR code ไว้เป็นความลับห้ามมอบให้ผู้อื่น
+  </h4>
+  <h4 class="title is-4 header">
+    Please keep the QR code confidential. Do not give to others.
+  </h4>
+</div>

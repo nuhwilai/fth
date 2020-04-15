@@ -130,9 +130,9 @@
           class="columns is-desktop"
           *ngFor="let value of sponsoredGoogleSpreadSheetDatas"
         >
-          <div class="column"><b>{{ value[0] }}</b></div>
-          <div class="column"><b>{{ value[1] }}</b></div>
-          <div class="column"><b>{{ value[2] }}</b></div>
+          <div class="column"><b>{{ value.name }}</b></div>
+          <div class="column"><b>{{ value.description }}</b></div>
+          <div class="column"><b>{{ value.date }}</b></div>
         </div>
       </div>
     </div>

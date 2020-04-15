@@ -1,13 +1,13 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { MainComponent } from "./main.component";
+import { ShowQrCodeComponent } from "./show-qr-code.component";
 
 const routes: Routes = [
-  { path: "", component: MainComponent },
+  { path: "show-qr-code", component: ShowQrCodeComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MainRoutingModule {}
+export class ShowQrCodeRoutingModule {}
