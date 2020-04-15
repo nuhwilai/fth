@@ -14,6 +14,7 @@
   (onRowSelect)="onRowSelect($event)"
   [paginator]="true"
   [rows]="15"
+  [filterDelay]="800"
 >
   <ng-template pTemplate="caption">
     <div class="caption-container">
@@ -63,7 +64,7 @@
       <th>
         <p-calendar
           [(ngModel)]="currentOption.roundDate"
-          (onSelect)="dt.filter($event, 'rounddate', 'roundDate')"
+          (onSelect)="dt.filter($event, 'roundDate', 'roundDate')"
           dateFormat="dd/mm/yy"
           appendTo="body"
           placeholder="กรองโดยรอบวันที่"
