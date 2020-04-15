@@ -14,19 +14,17 @@ export class DataIndexedDbService {
             upgrade(db) {                
                 _.each(stores, storeName => {
                     if(!db.objectStoreNames.contains(storeName)){
-                        const store = db.createObjectStore(storeName, {
+                        db.createObjectStore(storeName, {
                             keyPath: 'id',
                             autoIncrement: true,
                         })
-                        store.createIndex('data', 'data')
-                        store.createIndex('flag', 'flag')
                     }
                 })
             }
         })
     }
 
-    async list(storeName) : Promise<string[]>{
+    async list(storeName) : Promise<any[]>{
         const results = []
         let cursor = await this.db.transaction(storeName).store.openCursor();
         while(cursor){
@@ -36,25 +34,18 @@ export class DataIndexedDbService {
         return results
     }
 
-    async deleteRecord(storeName, key): Promise<boolean>{
-        await this.db.delete(storeName, key)
-        return true
+    async deleteRecord(storeName, key: number): Promise<void>{
+        await this.db.delete(storeName, key)        
     }
 
-    async clearStore(storeName): Promise<boolean>{
-        let cursor = await this.db.transaction(storeName).store.openCursor();
-        while(cursor){
-            await this.db.delete(storeName, cursor.key)
-            cursor = await cursor.continue();
-        }
-        return true
+    async clearStore(storeName): Promise<void>{
+        return this.db.clear(storeName)
     }
 
     async addToStore(storeName, data): Promise<number>{
-        this.db.put(storeName, data)
-        return 0
+        return this.db.put(storeName, data)        
     }
 
     async countRecords(storeName): Promise<number>{        
-        return await this.db.count(storeName)
+        return this.db.count(storeName)
     }}
