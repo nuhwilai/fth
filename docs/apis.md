@@ -224,11 +224,12 @@ interface IProductRound {
 - [x] POST `/receiveTxnSyncUp`
     ```ts
     interface IReceiveTxnSyncUpBody{
+        localIds: string[]
         receiveTxns: IReceiveTxn[]
-        totalCount: number
     }
     interface IReceiveTxnSyncUpSuccessData{
         _ids: string[]
+        localIds: string[]
     }
     ```
 *Requires Authorization*
