@@ -80,7 +80,7 @@ export class ReceiveTxnService {
       const id = this.dataIndexedDbService.addToStore('receiveTxn', {
         ...data,
         receivedDateTime: date.toISOString(),
-        // receivedDate: date.format('YYYY-MM-DD'),
+        receivedDate: date.format('YYYY-MM-DD'),
       })
       if (id) {
         const number = await this.dataIndexedDbService.countRecords(
