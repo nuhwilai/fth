@@ -1,7 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core'
 import { Router } from '@angular/router'
+import { GoogleSpreadSheetService } from '../shared/google-spread-sheet.service'
+import { environment } from 'src/environments/environment'
 
-declare const gapi
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -20,39 +21,24 @@ export class MainComponent implements OnInit {
   ]
   bgImage =
     'https://www.karoncity.go.th/image/ratio/?file=files/com_travel/2017-09_3d79e0bfa456668.jpg&width=700&height=500'
-  contracts = [
-    { text: 'Winai Chidchiew' },
-    { text: 'matilphuket@gmail.com' },
-    { text: '083-1758822' },
-    { text: 'Manosit Jangjob' },
-    { text: 'manositjangjob@gmail.com' },
-    { text: '098-7894191' },
-  ]
+  contracts = []
 
   sponsoredGoogleSpreadSheetDatas: any[]
-  constructor(private router: Router, private _ngZone: NgZone) {}
+  constructor(
+    private router: Router,
+    private googleSpreadSheetService: GoogleSpreadSheetService,
+  ) {}
 
   ngOnInit(): void {
     this.getDataFromGoogleSpreadSheet()
   }
 
   getDataFromGoogleSpreadSheet() {
-    const checkGAPI = setInterval(() => {
-      if (gapi.client && gapi.client.sheets) {
-        clearInterval(checkGAPI)
-        gapi.client.sheets.spreadsheets.values
-          .get({
-            spreadsheetId: '1lpFr7KNOx5ljF3ElC-JQLgOHUa0rDgu99yDPUpQK9Hk',
-            range: 'Sheet1',
-          })
-          .then((response) => {
-            var result = response.result
-            this._ngZone.run(() => {
-              this.sponsoredGoogleSpreadSheetDatas = result.values
-            })
-          })
-      }
-    }, 500)
+    this.googleSpreadSheetService
+      .getSpreadSheet(environment.googleSpreadSheetPublicId)
+      .subscribe((data) => {
+        this.sponsoredGoogleSpreadSheetDatas = this.customCsvToArray(data)
+      })
   }
 
   goToRegister() {
@@ -61,5 +47,30 @@ export class MainComponent implements OnInit {
 
   goToRequestQrCode() {
     this.router.navigate(['/request-qr-code'])
+  }
+
+  
+  customCsvToArray(csvString) {
+    let lines = csvString.split('\n');
+    let results = []
+    lines.forEach(line => {
+      let array = line.split(',')
+      if(array.length > 3){
+        let values = {
+          name: array[0],
+          description: `${array[1].replace(`"`,"")},${array[2].replace(`"`,"")}`,
+          date: array[3]
+        }
+        results.push(values)
+      }else{
+        let values = {
+          name: array[0],
+          description: array[1],
+          date: array[2]
+        }
+        results.push(values)
+      }
+    });  
+    return results
   }
 }
