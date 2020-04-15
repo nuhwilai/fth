@@ -13,7 +13,8 @@
   selectionMode="single"
   (onRowSelect)="onRowSelect($event)"
   [paginator]="true"
-  [rows]="15"
+  [rows]="rows"
+  [rowsPerPageOptions]="rowsPerPageOptions"
   [filterDelay]="800"
 >
   <ng-template pTemplate="caption">

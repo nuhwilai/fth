@@ -33,6 +33,7 @@ interface IDeleteProductRoundSuccessData {
 // GET /productRounds
 interface IProductRoundSuccessData {
   productRounds: IProductRound[]
+  totalCount: number
 }
 
 // GET /productRounds/:id
