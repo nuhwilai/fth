@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router'
 import { ProductRoundReportComponent } from './product-round-report/product-round-report.component'
 import { ReceiveTxnReportComponent } from './receive-txn-report/receive-txn-report.component'
 import { AuthGuardService } from '../auth/auth-guard.service'
+import { UserReportComponent } from './user-report/user-report.component'
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
     path: 'receive-txn-report',
     component: ReceiveTxnReportComponent,
   },
+  { path: 'user-report', component: UserReportComponent },
 ]
 
 @NgModule({

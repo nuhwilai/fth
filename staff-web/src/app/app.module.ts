@@ -36,6 +36,7 @@ import { ProductSendComponent } from './product-send/product-send.component'
 import { ReceiveTxnModule } from './receive-txn/receive-txn.module'
 import { RecieverInfoComponent } from './reciever-info/reciever-info.component'
 import { ReportModule } from './report/report.module'
+import { UserModule } from './user/user.module'
 
 const config = new AuthServiceConfig([
   {
@@ -72,7 +73,6 @@ export function provideConfig() {
     CardModule,
     TableModule,
     DialogModule,
-    // NgxIndexedDBModule.forRoot(dbConfig),
     ToastModule,
     ProductRoundModule,
     AccordionModule,
@@ -80,6 +80,7 @@ export function provideConfig() {
     NavBarModule,
     ReportModule,
     ReceiveTxnModule,
+    UserModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),

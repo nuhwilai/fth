@@ -35,7 +35,19 @@ export class ProductRoundCrudComponent implements OnInit {
     this.productRoundForm = new FormGroup({
       _id: new FormControl(null),
       productName: new FormControl(null, [Validators.required]),
+      roundDate: new FormControl(null, [Validators.required]),
       roundDateTime: new FormControl(null, [Validators.required]),
+    })
+
+    this.productRoundForm.get('roundDateTime').valueChanges.subscribe((val) => {
+      if (val) {
+        this.productRoundForm.patchValue(
+          {
+            roundDate: moment(val).format('YYYY-MM-DD'),
+          },
+          { onlySelf: true, emitEvent: false },
+        )
+      }
     })
 
     this.initFilters()
