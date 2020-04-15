@@ -30,9 +30,6 @@ const allowPermissions = [
 
 const userPermission = async (req, res, next) => {
   try {
-    req.user = {
-      role: 'STAFF',
-    }
     if (
       (req.user && req.user.role === 'ADMIN') ||
       checkWhiteList(req, whiteList) ||
