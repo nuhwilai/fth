@@ -1,5 +1,5 @@
 export default {
-  store: 'recieveTxn',
+  store: 'receiveTxn',
   storeConfig: { keyPath: 'id', autoIncrement: true },
   storeSchema: [
     { name: 'nationalId', keypath: 'nationalId', options: { unique: false } },

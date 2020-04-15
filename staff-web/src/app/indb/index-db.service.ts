@@ -29,7 +29,7 @@ export class IndexDbService implements OnDestroy {
 
   authData = {}
   constructor(
-    private dbService: NgxIndexedDBService,
+    // private dbService: NgxIndexedDBService,
     private http: HttpClient,
     private authService: AuthService,
   ) {
@@ -46,24 +46,24 @@ export class IndexDbService implements OnDestroy {
   }
 
   run() {
-    this.dbService
-      .count('recieveTxn')
-      .then((number) => {
-        this.runIndexDbService()
-        this.updateStatus(number)
-      })
-      .catch((e) => {
-        if (e.includes('objectStore does not exists')) {
-          this.dbService.deleteDatabase().then(
-            () => {
-              window.location.reload()
-            },
-            (error) => {
-              console.log(error)
-            },
-          )
-        }
-      })
+    // this.dbService
+    //   .count('recieveTxn')
+    //   .then((number) => {
+    //     this.runIndexDbService()
+    //     this.updateStatus(number)
+    //   })
+    //   .catch((e) => {
+    //     if (e.includes('objectStore does not exists')) {
+    //       this.dbService.deleteDatabase().then(
+    //         () => {
+    //           window.location.reload()
+    //         },
+    //         (error) => {
+    //           console.log(error)
+    //         },
+    //       )
+    //     }
+    //   })
   }
 
   ngOnDestroy() {
@@ -99,30 +99,30 @@ export class IndexDbService implements OnDestroy {
   }
 
   async addTxnIndexDb(data) {
-    try {
-      const date = moment()
-      return this.dbService
-        .add('recieveTxn', {
-          ...data,
-          receivedDateTime: date.toISOString(),
-          receivedDate: date.format('YYYY-MM-DD'),
-        })
-        .then(async () => {
-          const number = await this.dbService.count('recieveTxn')
-          this.updateStatus(number)
-          const result: any = {
-            valid: true,
-          }
-          return Promise.resolve(result)
-        })
-    } catch (e) {
-      this.updateStatus(null, true)
-      const result: any = {
-        valid: false,
-        reason: e.message,
-      }
-      return Promise.resolve(result)
-    }
+    // try {
+    //   const date = moment()
+    //   return this.dbService
+    //     .add('recieveTxn', {
+    //       ...data,
+    //       receivedDateTime: date.toISOString(),
+    //       receivedDate: date.format('YYYY-MM-DD'),
+    //     })
+    //     .then(async () => {
+    //       const number = await this.dbService.count('recieveTxn')
+    //       this.updateStatus(number)
+    //       const result: any = {
+    //         valid: true,
+    //       }
+    //       return Promise.resolve(result)
+    //     })
+    // } catch (e) {
+    //   this.updateStatus(null, true)
+    //   const result: any = {
+    //     valid: false,
+    //     reason: e.message,
+    //   }
+    //   return Promise.resolve(result)
+    // }
   }
 
   runIndexDbService() {
@@ -141,42 +141,42 @@ export class IndexDbService implements OnDestroy {
     if (!this.authService.isGranted(['ADMIN', 'STAFF'])) {
       return
     }
-    this.dbService.getAll('recieveTxn').then(
-      (recieveTxn) => {
-        if (_.isEmpty(recieveTxn)) {
-          return
-        }
-        const newRecieveTxn = _.map(recieveTxn, (data) => _.omit(data, ['id']))
-        this.http
-          .post(environment.restEndpointUrl + '/receiveTxnSyncUp', {
-            receiveTxns: newRecieveTxn,
-          })
-          .subscribe(
-            (data: any) => {
-              if (data && data.valid) {
-                console.log('save success')
-                this.dbService.clear('recieveTxn').then(
-                  () => {
-                    console.log('clear :')
-                    this.updateStatus(0)
-                  },
-                  (error) => {
-                    console.log(error)
-                  },
-                )
-              } else {
-                this.updateStatus(newRecieveTxn.length, true)
-              }
-            },
-            (error) => {
-              this.updateStatus(newRecieveTxn.length, true)
-            },
-          )
-      },
-      (error) => {
-        console.log(error)
-      },
-    )
+    // this.dbService.getAll('recieveTxn').then(
+    //   (recieveTxn) => {
+    //     if (_.isEmpty(recieveTxn)) {
+    //       return
+    //     }
+    //     const newRecieveTxn = _.map(recieveTxn, (data) => _.omit(data, ['id']))
+    //     this.http
+    // .post(environment.restEndpointUrl + '/receiveTxnSyncUp', {
+    //   receiveTxns: newRecieveTxn,
+    // })
+    //       .subscribe(
+    //         (data: any) => {
+    //           if (data && data.valid) {
+    //             console.log('save success')
+    //             this.dbService.clear('recieveTxn').then(
+    //               () => {
+    //                 console.log('clear :')
+    //                 this.updateStatus(0)
+    //               },
+    //               (error) => {
+    //                 console.log(error)
+    //               },
+    //             )
+    //           } else {
+    //             this.updateStatus(newRecieveTxn.length, true)
+    //           }
+    //         },
+    //         (error) => {
+    //           this.updateStatus(newRecieveTxn.length, true)
+    //         },
+    //       )
+    //   },
+    //   (error) => {
+    //     console.log(error)
+    //   },
+    // )
   }
 
   getServiceToIndexDb() {
@@ -197,21 +197,21 @@ export class IndexDbService implements OnDestroy {
       .subscribe((data: any) => {
         if (data && data.valid) {
           const productRoundsData = data.data.productRounds
-          this.dbService.clear('productRound').then(
-            () => {
-              _.each(productRoundsData, (data) => {
-                this.dbService.add('productRound', data).then(
-                  () => {},
-                  (error) => {
-                    console.log('Add product round error', error)
-                  },
-                )
-              })
-            },
-            (error) => {
-              console.log(error)
-            },
-          )
+          // this.dbService.clear('productRound').then(
+          //   () => {
+          //     _.each(productRoundsData, (data) => {
+          //       this.dbService.add('productRound', data).then(
+          //         () => {},
+          //         (error) => {
+          //           console.log('Add product round error', error)
+          //         },
+          //       )
+          //     })
+          //   },
+          //   (error) => {
+          //     console.log(error)
+          //   },
+          // )
         }
       })
   }
@@ -224,18 +224,18 @@ export class IndexDbService implements OnDestroy {
         .then((data: any) => {
           if (data.valid) {
             const productRoundsData = data.data.productRounds
-            this.dbService.clear('productRound').then(
-              () => {
-                _.each(productRoundsData, (data) => {
-                  if (data) {
-                    this.dbService.add('productRound', data)
-                  }
-                })
-              },
-              (error) => {
-                console.log(error)
-              },
-            )
+            // this.dbService.clear('productRound').then(
+            //   () => {
+            //     _.each(productRoundsData, (data) => {
+            //       if (data) {
+            //         this.dbService.add('productRound', data)
+            //       }
+            //     })
+            //   },
+            //   (error) => {
+            //     console.log(error)
+            //   },
+            // )
             return Promise.resolve(data)
           } else {
             return Promise.reject(new Error(data.reason))

@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { NgxIndexedDBService } from 'ngx-indexed-db'
 import { HttpClient } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
 import { IndexDbService } from './indb/index-db.service'
+import { DataIndexedDbService } from './indb/data-indexed-db.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecieverService {
-  constructor(
-    private indexDbService: IndexDbService,
-    private http: HttpClient,
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getRecieverData(data) {
     // return new Observable((sub) => {
@@ -29,10 +26,5 @@ export class RecieverService {
     return this.http.get(
       environment.restEndpointUrl + `/users/${data.nationalId}`,
     )
-  }
-
-  createRecieveTxn(data) {
-    // return this.dbService.add('recieveTxn', data)
-    return this.indexDbService.addTxnIndexDb(data)
   }
 }

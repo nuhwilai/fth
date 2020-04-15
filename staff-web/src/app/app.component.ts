@@ -1,24 +1,31 @@
-import { Location } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
-import { NavigationEnd, Router } from '@angular/router'
-import * as _ from 'lodash'
-import { IndexDbService } from './indb/index-db.service'
-import { MessageService } from 'primeng/components/common/messageservice'
+import { BackgroundSyncService } from './indb/background-sync.service'
+import { AuthService } from './auth/auth.service'
+import { ReceiveTxnService } from './receive-txn/receive-txn.service'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   title = 'staff-web'
-  loading = false
+  loading = true
   user
 
   pathHideIcon = ['/home']
   currentPath = ''
-  constructor(private indexDbService: IndexDbService) {
-    this.indexDbService.run()
-  }
+  constructor(
+    private backgroundSyncService: BackgroundSyncService,
+    private authService: AuthService,
+    private receiveTxnService: ReceiveTxnService,
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.finishLoading.subscribe(() => {
+      this.backgroundSyncService.unregister()
+      this.backgroundSyncService.run()
+      this.receiveTxnService.updateStatusSync()
+      this.loading = false
+    })
+  }
 }

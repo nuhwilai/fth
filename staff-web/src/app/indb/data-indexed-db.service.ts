@@ -1,52 +1,60 @@
 import { Injectable } from '@angular/core'
 import * as _ from 'lodash'
 
-import { openDB } from 'idb';
+import { openDB } from 'idb'
+// import { openDB } from 'idb/with-async-ittr.js';
+// import {} from 'idb/with-async-ittr-cjs'
+// import {} from 'idb/with-async-ittr'
 
+// import * as async from 'idb/with-async-ittr'
+// console.log('async :', async);
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class DataIndexedDbService {
-    db: any
+  db: any
 
-    async useDb(dbName: string, stores: string[]){
-        this.db = await openDB(dbName, 1, {
-            upgrade(db) {                
-                _.each(stores, storeName => {
-                    if(!db.objectStoreNames.contains(storeName)){
-                        const store = db.createObjectStore(storeName, {
-                            keyPath: 'id',
-                            autoIncrement: true,
-                        })
-                        store.createIndex('flag', 'flag')
-                    }
-                })
-            }
+  async useDb(dbName: string, stores: string[]) {
+    this.db = await openDB(dbName, 1, {
+      upgrade(db) {
+        _.each(stores, (storeName) => {
+          if (!db.objectStoreNames.contains(storeName)) {
+            const store = db.createObjectStore(storeName, {
+              keyPath: 'id',
+              autoIncrement: true,
+            })
+            store.createIndex('flag', 'flag')
+          }
         })
-    }
+      },
+    })
 
-    async list(storeName) : Promise<any[]>{
-        const results = []
-        let cursor = await this.db.transaction(storeName).store.openCursor();
-        while(cursor){
-            results.push(cursor.value)
-            cursor = await cursor.continue();
-        }
-        return results
-    }
+    return this.db
+  }
 
-    async deleteRecord(storeName, key: number): Promise<void>{
-        await this.db.delete(storeName, key)        
+  async list(storeName): Promise<any[]> {
+    const results = []
+    let cursor = await this.db.transaction(storeName).store.openCursor()
+    while (cursor) {
+      results.push(cursor.value)
+      cursor = await cursor.continue()
     }
+    return results
+  }
 
-    async clearStore(storeName): Promise<void>{
-        return this.db.clear(storeName)
-    }
+  async deleteRecord(storeName, key: number): Promise<void> {
+    await this.db.delete(storeName, key)
+  }
 
-    async addToStore(storeName, data): Promise<number>{
-        return this.db.put(storeName, data)        
-    }
+  async clearStore(storeName): Promise<void> {
+    return this.db.clear(storeName)
+  }
 
-    async countRecords(storeName): Promise<number>{        
-        return this.db.count(storeName)
-    }}
+  async addToStore(storeName, data): Promise<number> {
+    return this.db.put(storeName, data)
+  }
+
+  async countRecords(storeName): Promise<number> {
+    return this.db.count(storeName)
+  }
+}

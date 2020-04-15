@@ -4,14 +4,18 @@ import { environment } from 'src/environments/environment'
 import { NgxIndexedDBService } from 'ngx-indexed-db'
 import { IndexDbService } from '../indb/index-db.service'
 import { stringify } from 'qs'
+import { DataIndexedDbService } from '../indb/data-indexed-db.service'
+import { SyncableDataService } from '../indb/syncable-data.service'
+import * as _ from 'lodash'
 @Injectable({
   providedIn: 'root',
 })
 export class ProductRoundService {
   constructor(
     private http: HttpClient,
-    private dbService: NgxIndexedDBService,
-    private indexDbService: IndexDbService,
+    // private dbService: NgxIndexedDBService,
+    private dataIndexedService: DataIndexedDbService,
+    private syncableDataServie: SyncableDataService,
   ) {}
 
   listProductRounds = (params: any) => {
@@ -23,11 +27,20 @@ export class ProductRoundService {
   }
 
   listProductRoundOffline = (params: any) => {
-    return this.dbService.getAll('productRound')
+    return this.dataIndexedService.list('productRound')
   }
 
-  syncDownProductRound = () => {
-    return this.indexDbService.reloadProductRound()
+  syncDownProductRound = async () => {
+    try {
+      const result: any = await this.listProductRounds({}).toPromise()
+      const newResult = _.map(result.data.productRounds, (productRound) => {
+        return { data: productRound }
+      })
+      await this.syncableDataServie.download('productRound', newResult)
+      return Promise.resolve({ valid: true, data: newResult })
+    } catch (e) {}
+
+    // return this.indexDbService.reloadProductRound()
   }
 
   createProductRound(params: any) {

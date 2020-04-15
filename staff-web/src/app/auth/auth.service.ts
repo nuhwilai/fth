@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import decode from 'jwt-decode'
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, ReplaySubject } from 'rxjs'
 import { SocialUser } from 'angularx-social-login'
 import { environment } from 'src/environments/environment'
 import { LocalStorage } from '@ngx-pwa/local-storage'
@@ -23,15 +23,27 @@ export class AuthService {
   authDataSubject: BehaviorSubject<AuthData>
 
   loginSub
+
+  public finishLoading: ReplaySubject<any> = new ReplaySubject()
   constructor(
     private router: Router,
     private http: HttpClient,
     private asyncLocalStorage: LocalStorage,
   ) {
-    this.asyncLocalStorage.getItem('access_token').subscribe((token) => {
-      this.assignAuthDataIfApplicable(token)
-    })
+    this.init()
     this.authDataSubject = new BehaviorSubject(this.authData)
+  }
+
+  async init() {
+    try {
+      const token = await this.asyncLocalStorage
+        .getItem('access_token')
+        .toPromise()
+      this.assignAuthDataIfApplicable(token)
+      this.finishLoading.next(true)
+    } catch (e) {
+      console.log('e :', e)
+    }
   }
 
   get authData$() {

@@ -18,8 +18,6 @@ import { TableModule } from 'primeng/table'
 import { DialogModule } from 'primeng/dialog'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ProductSendComponent } from './product-send/product-send.component'
-import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
-import { IndexDbService } from './indb/index-db.service'
 import { ToastModule } from 'primeng/toast'
 import recieveTxn from './product-send/recieve-txn'
 import { MessageService } from 'primeng/components/common/messageservice'
@@ -42,6 +40,8 @@ import { NavBarModule } from './nav-bar/nav-bar.module'
 import { AuthModule } from './auth/auth.module'
 import { ReportModule } from './report/report.module'
 import { ReceiveTxnModule } from './receive-txn/receive-txn.module'
+import { DataIndexedDbService } from './indb/data-indexed-db.service'
+import { SyncableDataService } from './indb/syncable-data.service'
 
 const config = new AuthServiceConfig([
   {
@@ -53,27 +53,6 @@ const config = new AuthServiceConfig([
 export function provideConfig() {
   return config
 }
-
-export function migrationFactory() {
-  return {
-    3: (db, transaction) => {
-      const store = transaction.objectStore('recieveTxn')
-      store.createIndex('receivedDate', 'receivedDate', { unique: false })
-    },
-  }
-}
-
-const dbConfig: DBConfig = {
-  name: 'MyDb',
-  version: 3,
-  objectStoresMeta: [productRoundIndbSchma, recieveTxn],
-  migrationFactory,
-}
-// const dbConfig: DBConfig = {
-//   name: 'MyDb',
-//   version: 1,
-//   objectStoresMeta: [productRoundIndbSchma, recieveTxn],
-// }
 
 @NgModule({
   declarations: [
@@ -99,7 +78,7 @@ const dbConfig: DBConfig = {
     CardModule,
     TableModule,
     DialogModule,
-    NgxIndexedDBModule.forRoot(dbConfig),
+    // NgxIndexedDBModule.forRoot(dbConfig),
     ToastModule,
     ProductRoundModule,
     AccordionModule,
@@ -127,5 +106,12 @@ const dbConfig: DBConfig = {
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private dataIndexedDbService: DataIndexedDbService,
+    private syncableDataService: SyncableDataService
+  ) {
+    this.syncableDataService.init('fth-db', ['productRound', 'receiveTxn'])
+    // this.dataIndexedDbService.useDb('fth-db', ['productRound', 'receiveTxn'])
+  }
 }
