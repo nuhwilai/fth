@@ -8,11 +8,17 @@ import { DialogModule } from 'primeng/dialog'
 import { InputTextModule } from 'primeng/inputtext'
 import { TableModule } from 'primeng/table'
 import { ProductRoundReportComponent } from './product-round-report/product-round-report.component'
-import { ReportRoutingModule } from './report-routing.module';
+import { ReportRoutingModule } from './report-routing.module'
 import { ReceiveTxnReportComponent } from './receive-txn-report/receive-txn-report.component'
+import { UserReportComponent } from './user-report/user-report.component'
+import { MultiSelectModule } from 'primeng/multiselect'
 
 @NgModule({
-  declarations: [ProductRoundReportComponent, ReceiveTxnReportComponent],
+  declarations: [
+    ProductRoundReportComponent,
+    ReceiveTxnReportComponent,
+    UserReportComponent,
+  ],
   imports: [
     CommonModule,
     ReportRoutingModule,
@@ -24,6 +30,7 @@ import { ReceiveTxnReportComponent } from './receive-txn-report/receive-txn-repo
     DialogModule,
     InputTextModule,
     CalendarModule,
+    MultiSelectModule,
   ],
 })
 export class ReportModule {}

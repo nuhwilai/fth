@@ -32,4 +32,11 @@
       <span class="title">รายงานการรับของรายบุคคล</span>
     </p-card>
   </a>
+  <br />
+  <a [routerLink]="['/user-report']" *ifAnyGranted="['ADMIN', 'STAFF']">
+    <p-card>
+      <i class="pi pi-download iconTitle"></i>
+      <span class="title">รายงานผู้เข้าร่วมโครงการ</span>
+    </p-card>
+  </a>
 </div>

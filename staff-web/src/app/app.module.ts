@@ -42,6 +42,7 @@ import { NavBarModule } from './nav-bar/nav-bar.module'
 import { AuthModule } from './auth/auth.module'
 import { ReportModule } from './report/report.module'
 import { ReceiveTxnModule } from './receive-txn/receive-txn.module'
+import { UserModule } from './user/user.module'
 
 const config = new AuthServiceConfig([
   {
@@ -107,6 +108,7 @@ const dbConfig: DBConfig = {
     NavBarModule,
     ReportModule,
     ReceiveTxnModule,
+    UserModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
