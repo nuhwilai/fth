@@ -14,10 +14,11 @@ export class DataIndexedDbService {
             upgrade(db) {                
                 _.each(stores, storeName => {
                     if(!db.objectStoreNames.contains(storeName)){
-                        db.createObjectStore(storeName, {
+                        const store = db.createObjectStore(storeName, {
                             keyPath: 'id',
                             autoIncrement: true,
                         })
+                        store.createIndex('flag', 'flag')
                     }
                 })
             }
