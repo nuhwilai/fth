@@ -1,0 +1,75 @@
+<div
+  style="display: flex; justify-content: space-between; align-items: center;"
+>
+  <h2>รายงานการแจกของ</h2>
+  <button
+    type="button"
+    pButton
+    icon="pi pi-file-excel"
+    iconPos="left"
+    label="ออกรายงานผู้เข้าร่วมโครงการ"
+    (click)="exportExcelByFilter()"
+    style="margin-right: 0.5em;"
+    class="ui-button-success"
+  ></button>
+</div>
+<p-table
+  #dt
+  [loading]="loading"
+  [value]="users"
+  [lazy]="true"
+  (onLazyLoad)="loadUsersLazy($event)"
+  [paginator]="true"
+  [rows]="rows"
+  [rowsPerPageOptions]="rowsPerPageOptions"
+  [columns]="selectedColumns"
+  [totalRecords]="totalRecords"
+  [filterDelay]="1000"
+  [rowHover]="true"
+>
+  <ng-template pTemplate="caption">
+    <div
+      class="ui-helper-clearfix"
+      style="display: flex; justify-content: flex-end; align-items: center;"
+    >
+      <p-multiSelect
+        [options]="cols"
+        [(ngModel)]="selectedColumns"
+        optionLabel="header"
+        selectedItemsLabel="ตัวกรองเพิ่มเติม"
+        [style]="{ minWidth: '200px', 'margin-right': '1em' }"
+        defaultLabel="เลือกหัวตาราง"
+        appendTo="body"
+      ></p-multiSelect>
+      <button
+        type="button"
+        pButton
+        icon="pi pi-undo"
+        iconPos="left"
+        label="คืนค่า"
+        (click)="onResetFilter(dt)"
+        style="margin-right: 1em;"
+        class="ui-button-primary"
+      ></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <th *ngFor="let col of columns">
+      {{ col.header }}
+    </th>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns">
+    <tr [pSelectableRow]="rowData">
+      <td *ngFor="let col of columns" style="text-align: center;">
+        {{ rowData[col.field] }}
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr id="row-empty">
+      <td [attr.colspan]="3">
+        ไม่พบข้อมูลรายการ
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
