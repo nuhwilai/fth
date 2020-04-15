@@ -64,7 +64,6 @@ export class ProductRoundCrudComponent implements OnInit {
   ) {
     this.loading = true
     let _filters = this.prepareFilters(filters)
-    console.log('_filter', _filters)
     _filters = _.merge(
       {
         offset,
