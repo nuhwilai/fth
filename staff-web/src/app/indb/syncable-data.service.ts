@@ -14,40 +14,13 @@ export class SyncableDataService {
   }
 
   async upload(storeName: string, batchSize: number, handler: any) {
-    let cursor = await this.db.transaction(storeName).store.openCursor()
-
-    // const result = [{_id: , localId:}]
-
-    while (cursor) {
-      const cur = cursor
-      const result = (await handler({ ...cur.value, localId: cur.key })) || null
-      try {
-        cursor = await cur.continue()
-      } catch (e) {
-        cursor = null
-      }
-      if (result && result.valid) {
-        // this.dataIndexedDbService.deleteRecord(storeName, cur.key)
-      }
-    }
-
-    // getAll
-
-    // save to server  => ids
-
-    // runTxn(idx)
-
-    // const tx = this.db.transaction(storeName)
-
-    // for await (const cursor of tx.store) {
-    //   const cur = cursor
-    //   const result = await handler(cur.value)
-    //   console.log('cur :', cur);
-    //   cursor.continue()
-    //   if (result) {
-    //     // this.dataIndexedDbService.deleteRecord(storeName, cur.key)
-    //   }
-    // }
+    let results = await this.dataIndexedDbService.list(storeName, batchSize)
+    if(_.size(results) > 0){
+        let upload_result : number[] = await handler(results)
+        for(let key of upload_result){
+            await this.dataIndexedDbService.deleteRecord(storeName, key)
+        }
+    }    
   }
 
   async uploadWithGetAll(storeName: string, batchSize: number, handler: any) {
