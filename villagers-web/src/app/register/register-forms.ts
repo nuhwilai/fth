@@ -332,6 +332,7 @@ export const surveyJSON = {
   pageNextText: 'ถัดไป',
   completeText: 'เสร็จสิ้น',
   showCompletedPage: false,
+  showProgressBar: 'bottom',
 }
 
 export const mockResult = {
