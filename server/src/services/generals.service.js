@@ -45,5 +45,9 @@ exports.transformReceiveTxn = (receiveTxn, user) => {
     receiveTxn.amount = Number(receiveTxn.amount)
   }
 
+  if (receiveTxn.localId) {
+    delete receiveTxn.localId
+  }
+
   return receiveTxn
 }

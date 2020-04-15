@@ -1,47 +1,41 @@
-import { BrowserModule } from '@angular/platform-browser'
-import { NgModule } from '@angular/core'
-
-import { AppRoutingModule } from './app-routing.module'
-import { AppComponent } from './app.component'
-
-import { LoginComponent } from './login/login.component'
-import { ReactiveFormsModule, FormsModule } from '@angular/forms'
-import { NavBarComponent } from './nav-bar/nav-bar.component'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { AuthInterceptor } from './auth-interceptor'
-import { ButtonModule } from 'primeng/button'
-import { ProgressSpinnerModule } from 'primeng/progressspinner'
-import { RecieverInfoComponent } from './reciever-info/reciever-info.component'
-import { ZXingScannerModule } from '@zxing/ngx-scanner'
-import { CardModule } from 'primeng/card'
-import { TableModule } from 'primeng/table'
-import { DialogModule } from 'primeng/dialog'
+import { NgModule } from '@angular/core'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { BrowserModule } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { ProductSendComponent } from './product-send/product-send.component'
-import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
-import { IndexDbService } from './indb/index-db.service'
-import { ToastModule } from 'primeng/toast'
-import recieveTxn from './product-send/recieve-txn'
-import { MessageService } from 'primeng/components/common/messageservice'
-
-import { ProductRoundModule } from './product-round/product-round.module'
-import productRoundIndbSchma from './main/product-round-indb-schma'
-import { IncludeArrayPipe } from './include-array.pipe'
-import { MainComponent } from './main/main.component'
-import { AccordionModule } from 'primeng/accordion'
-import { FieldsetModule } from 'primeng/fieldset'
 import { ServiceWorkerModule } from '@angular/service-worker'
-import { environment } from '../environments/environment'
+import { ZXingScannerModule } from '@zxing/ngx-scanner'
 import {
   AuthServiceConfig,
   GoogleLoginProvider,
   SocialLoginModule,
 } from 'angularx-social-login'
-import { AuthService } from './auth/auth.service'
-import { NavBarModule } from './nav-bar/nav-bar.module'
+import { AccordionModule } from 'primeng/accordion'
+import { ButtonModule } from 'primeng/button'
+import { CardModule } from 'primeng/card'
+import { MessageService } from 'primeng/components/common/messageservice'
+import { DialogModule } from 'primeng/dialog'
+import { FieldsetModule } from 'primeng/fieldset'
+import { ProgressSpinnerModule } from 'primeng/progressspinner'
+import { TableModule } from 'primeng/table'
+import { ToastModule } from 'primeng/toast'
+import { environment } from '../environments/environment'
+import { AppRoutingModule } from './app-routing.module'
+import { AppComponent } from './app.component'
+import { AuthInterceptor } from './auth-interceptor'
 import { AuthModule } from './auth/auth.module'
-import { ReportModule } from './report/report.module'
+import { AuthService } from './auth/auth.service'
+import { IncludeArrayPipe } from './include-array.pipe'
+import { DataIndexedDbService } from './indb/data-indexed-db.service'
+import { SyncableDataService } from './indb/syncable-data.service'
+import { LoginComponent } from './login/login.component'
+import { MainComponent } from './main/main.component'
+import { NavBarModule } from './nav-bar/nav-bar.module'
+import { ProductRoundModule } from './product-round/product-round.module'
+import { ProductSendComponent } from './product-send/product-send.component'
 import { ReceiveTxnModule } from './receive-txn/receive-txn.module'
+import { RecieverInfoComponent } from './reciever-info/reciever-info.component'
+import { ReportModule } from './report/report.module'
 import { UserModule } from './user/user.module'
 
 const config = new AuthServiceConfig([
@@ -54,27 +48,6 @@ const config = new AuthServiceConfig([
 export function provideConfig() {
   return config
 }
-
-export function migrationFactory() {
-  return {
-    3: (db, transaction) => {
-      const store = transaction.objectStore('recieveTxn')
-      store.createIndex('receivedDate', 'receivedDate', { unique: false })
-    },
-  }
-}
-
-const dbConfig: DBConfig = {
-  name: 'MyDb',
-  version: 3,
-  objectStoresMeta: [productRoundIndbSchma, recieveTxn],
-  migrationFactory,
-}
-// const dbConfig: DBConfig = {
-//   name: 'MyDb',
-//   version: 1,
-//   objectStoresMeta: [productRoundIndbSchma, recieveTxn],
-// }
 
 @NgModule({
   declarations: [
@@ -100,7 +73,6 @@ const dbConfig: DBConfig = {
     CardModule,
     TableModule,
     DialogModule,
-    NgxIndexedDBModule.forRoot(dbConfig),
     ToastModule,
     ProductRoundModule,
     AccordionModule,
@@ -129,5 +101,11 @@ const dbConfig: DBConfig = {
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private dataIndexedDbService: DataIndexedDbService,
+    private syncableDataService: SyncableDataService,
+  ) {
+    this.syncableDataService.init('fth-db', ['productRound', 'receiveTxn'])
+  }
 }

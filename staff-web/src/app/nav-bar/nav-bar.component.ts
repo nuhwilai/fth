@@ -1,5 +1,4 @@
 import { Component, OnInit, ElementRef } from '@angular/core'
-import { IndexDbService } from '../indb/index-db.service'
 import { Router, NavigationEnd } from '@angular/router'
 import * as _ from 'lodash'
 import { Location } from '@angular/common'

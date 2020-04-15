@@ -80,10 +80,19 @@ router.post('/receiveTxnSyncUp', async (req, res) => {
           : req.body.receiveTxns,
       )
     }
+
+    const localIds = _.map(req.body.receiveTxns, 'localId')
+
     const receiveTxnResults = await db.receiveTxn.insertManyAsync(
       transformReceiveTxns(req.body.receiveTxns),
     )
-    res.send({ valid: true, data: { _ids: _.map(receiveTxnResults, '_id') } })
+    res.send({
+      valid: true,
+      data: {
+        _ids: _.map(receiveTxnResults, '_id'),
+        localIds,
+      },
+    })
   } catch (error) {
     res.send({ valid: false, reason: error.message })
   }
