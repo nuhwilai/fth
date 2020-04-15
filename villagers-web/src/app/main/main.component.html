@@ -29,6 +29,7 @@
 <!-- Terms of use -->
 <section class="section" id="services">
   <div class="section-heading">
+    <h3 class="title is-4">ลงทะเบียนเพื่อรับอาหารและถุงยังชีพ</h3>
     <h3 class="title is-2">ข้อตกลงการใช้งาน</h3>
     <h4 class="subtitle is-5">Terms of use</h4>
   </div>
@@ -102,16 +103,16 @@
       <div class="columns is-desktop">
         <div class="column"></div>
         <div class="column">
-          <div>Winai Chidchiew</div>
-          <div>matilphuket@gmail.com</div>
-          <div>083-1758822</div>
+          <div><b>Winai Chidchiew</b></div>
+          <div><b>matilphuket@gmail.com</b></div>
+          <div><b>083-1758822</b></div>
         </div>
         <div class="column">
-          <div>Manosit Jangjob</div>
-          <div>manositjangjob@gmail.com</div>
-          <div>098-7894191</div>
+          <div><b>Manosit Jangjob</b></div>
+          <div><b>manositjangjob@gmail.com</b></div>
+          <div><b>098-7894191</b></div>
         </div>
-        <div class="column"></div>
+        <div class="column is-hidden-mobile"></div>
       </div>
     </div>
     <br />
@@ -120,11 +121,22 @@
 
 <!-- Sponsored by -->
 <section class="section" id="resume">
-  <div class="section-heading">
-    <h3 class="title is-2">สนับสนุนโดย</h3>
-    <h4 class="subtitle is-5">Sponsored by</h4>
-  </div>
-  <!-- <nav class="level">
+  <div class="container">
+    <div class="section-heading">
+      <h3 class="title is-2">สนับสนุนโดย</h3>
+      <h4 class="subtitle is-5">Sponsored by</h4>
+      <div *ngIf="sponsoredGoogleSpreadSheetDatas">
+        <div
+          class="columns is-desktop"
+          *ngFor="let value of sponsoredGoogleSpreadSheetDatas"
+        >
+          <div class="column"><b>{{ value[0] }}</b></div>
+          <div class="column"><b>{{ value[1] }}</b></div>
+          <div class="column"><b>{{ value[2] }}</b></div>
+        </div>
+      </div>
+    </div>
+    <!-- <nav class="level">
     <div
       class="level-item has-text-centered"
       *ngFor="let sponsered of sponsoredBy"
@@ -132,25 +144,13 @@
       <a [href]="sponsered.link"><img [src]="sponsered.imageURI" /></a>
     </div>
   </nav> -->
-  <div *ngIf="sponsoredGoogleSpreadSheetDatas">
-    <div class="content">
-      <h4
-        class="title is-12 textCenter"
-        *ngFor="let value of sponsoredGoogleSpreadSheetDatas"
-      >
-        <div class="sponsered">
-          <span>{{ value[0] }}</span>
-          <span>{{ value[1] }}</span>
-        </div>
-      </h4>
-    </div>
   </div>
 </section>
 
 <section class="section"></section>
 
 <!-- Footer -->
-<footer class="footer">
+<footer class="footer has-background-grey-lighter">
   <div class="section-heading">
     <p>
       <strong>Bulma Personal Template</strong> by
