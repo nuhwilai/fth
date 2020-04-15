@@ -30,6 +30,7 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    window.scrollTo(0, 0); //handle scroll top
     this.initSurvey()
   }
 
@@ -162,7 +163,7 @@ export class RegisterComponent implements OnInit {
           } else {
             this.notificationError(data.reason)
           }
-          this.initSurvey()
+          this.editSurvey()
         }
       },
       (err) => {

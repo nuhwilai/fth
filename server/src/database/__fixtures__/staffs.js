@@ -7,7 +7,7 @@ module.exports = [
     role: 'ADMIN',
   },
   {
-    _id: mongojs.ObjectId('000000000000000000000001'),
+    _id: mongojs.ObjectId('000000000000000000000002'),
     email: 'pawaret@pupasoft.com',
     role: 'ADMIN',
   },

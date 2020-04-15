@@ -270,7 +270,7 @@ export const surveyJSON = {
                 },
                 {
                   value: 'NO_MEAT',
-                  text: 'ไม่ทานเนื้อสัตว์ทั้งหมด ( Not eating all the meat )',
+                  text: 'ไม่ทานเนื้อสัตว์ทั้งหมด ( Vegetarian )',
                 },
               ],
             },

@@ -70,6 +70,24 @@
             qrcodeToken: string
         }
     ```
+- [x] GET `/users`
+   ```ts
+        interface IUserQuerystring{
+            offset?: number
+            max?: number
+            sort?: string // fieldName ex. roundDateTime
+            order?: 'desc' | 'asc'
+            // filter
+            firstname_like?: string
+            lastname_like?: string
+            nationalId_like?: string
+            phoneNumber_like?: string
+        }
+        interface IUserSuccessData {
+            users: IUser[]
+            totalCount: number
+        }
+    ```
 - [x] GET `/users/:nationalId`
     ```ts
         interface IUserQuerystring{
@@ -135,6 +153,7 @@ interface IReceiveTxn {
         }
         interface IReceiveTxnSuccessData {
             receiveTxns: ICustomRecieveTxn[]
+            totalCount: number
         }
     ```
 
