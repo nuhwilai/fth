@@ -17,6 +17,7 @@ export class ICreateUseRequestData {
     isUsePassport: string
     firstname: string
     lastname: string
+    phoneNumber?: string
     nationalId: string
     allergies: string[]
     diseases: string[]

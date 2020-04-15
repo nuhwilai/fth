@@ -6,7 +6,7 @@ export const surveyJSON = {
         {
           type: 'text',
           name: 'firstname',
-          title: 'ชื่อ ( Firstname )',
+          title: 'ชื่อ ( Firstname ) *',
           isRequired: true,
           requiredErrorText: 'กรุณากรอกชื่อ ( please fill your firstname )',
           placeHolder:
@@ -15,7 +15,7 @@ export const surveyJSON = {
         {
           type: 'text',
           name: 'lastname',
-          title: 'นามสกุล ( Lastname )',
+          title: 'นามสกุล ( Lastname ) *',
           isRequired: true,
           requiredErrorText: 'กรุณากรอกนามสกุล ( please fill your lastname )',
           placeHolder: 'ระบุนามสกุล ( fill your lastname )',
@@ -42,7 +42,7 @@ export const surveyJSON = {
           type: 'text',
           name: 'nationalId',
           title:
-            'หมายเลขบัตรประจำตัวประชาชน หรือ พาสปอร์ต ( National identification number or Passport number )',
+            'หมายเลขบัตรประจำตัวประชาชน หรือ พาสปอร์ต ( National identification number or Passport number ) *',
           isRequired: true,
           requiredErrorText:
             'กรุณากรอกหมายเลขบัตรประจำตัวประชาชน หรือ พาสปอร์ต ( please fill your national id or passport number )',
@@ -60,7 +60,7 @@ export const surveyJSON = {
         {
           type: 'text',
           name: 'phoneNumber',
-          title: 'หมายเลขโทรศัพท์มือถือที่ติดต่อได้ ( Mobile phone number )',
+          title: 'หมายเลขโทรศัพท์มือถือที่ติดต่อได้ ( Mobile phone number ) *',
           isRequired: true,
           requiredErrorText:
             'กรุณากรอกหมายเลขโทรศัพท์มือถือที่ติดต่อได้ ( please fill your mobile phone number )',
@@ -81,7 +81,7 @@ export const surveyJSON = {
             {
               type: 'text',
               name: 'homeNumber',
-              title: 'บ้านเลขที่ ( House number )',
+              title: 'บ้านเลขที่ ( House number ) *',
               isRequired: true,
               requiredErrorText:
                 'กรุณากรอกบ้านเลขที่ ( please fill your house number )',
@@ -188,7 +188,7 @@ export const surveyJSON = {
             {
               type: 'text',
               name: 'firstname',
-              title: 'ชื่อ ( Firstname )',
+              title: 'ชื่อ ( Firstname ) *',
               isRequired: true,
               requiredErrorText: 'กรุณากรอกชื่อ ( please fill your firstname )',
               placeHolder:
@@ -197,7 +197,7 @@ export const surveyJSON = {
             {
               type: 'text',
               name: 'lastname',
-              title: 'นามสกุล ( Lastname )',
+              title: 'นามสกุล ( Lastname ) *',
               isRequired: true,
               requiredErrorText:
                 'กรุณากรอกนามสกุล ( please fill your lastname )',
@@ -225,7 +225,7 @@ export const surveyJSON = {
               type: 'text',
               name: 'nationalId',
               title:
-                'หมายเลขบัตรประจำตัวประชาชน หรือ พาสปอร์ต ( National identification number or Passport number )',
+                'หมายเลขบัตรประจำตัวประชาชน หรือ พาสปอร์ต ( National identification number or Passport number ) *',
               isRequired: true,
               requiredErrorText:
                 'กรุณากรอกหมายเลขบัตรประจำตัวประชาชน หรือ พาสปอร์ต ( please fill your national id or passport number )',
@@ -240,6 +240,22 @@ export const surveyJSON = {
                   text: 'คุณกรอกหมายเลขบัตรประชาชนไม่ถูกต้อง',
                 },
               ],
+            },
+            {
+              type: 'text',
+              name: 'phoneNumber',
+              title: 'หมายเลขโทรศัพท์มือถือที่ติดต่อได้ ( Mobile phone number )',
+              requiredErrorText:
+                'กรุณากรอกหมายเลขโทรศัพท์มือถือที่ติดต่อได้ ( please fill your mobile phone number )',
+              validators: [
+                {
+                  type: 'regex',
+                  text: 'หมายเลขโทรศัพท์มือถือไม่ถูกต้อง',
+                  regex: '^[0-9]*$',
+                },
+              ],
+              maxLength: 10,
+              placeHolder: '0xxxxxxxxx',
             },
             {
               type: 'checkbox',
