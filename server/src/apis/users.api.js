@@ -103,7 +103,7 @@ router.get('/', async (req, res) => {
     const userAsync = db.user.find(query)
 
     if (limit) {
-      userAsync = userAsync.limit(limit)
+      userAsync.limit(limit)
     }
 
     await userAsync
