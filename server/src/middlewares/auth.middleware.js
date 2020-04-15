@@ -10,7 +10,8 @@ const authMiddleware = (req, res, next) => {
   if (
     config.disableAuth ||
     (req.path.startsWith('/login') && req.method == 'POST') ||
-    req.path.startsWith('/users') ||
+    (req.path.startsWith('/users') && req.method == 'POST') ||
+    (req.path.startsWith('/users/') && req.method == 'GET') ||
     req.path.startsWith('/requestQrToken') ||
     req.path.startsWith('/qrcode')
   ) {

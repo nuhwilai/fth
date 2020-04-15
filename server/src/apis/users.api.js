@@ -8,6 +8,7 @@ const mongojs = require('mongojs')
 const router = require('express').Router()
 const _ = require('lodash')
 const { userShortSchema } = require('../conf/schema')
+const { createFilterConditions } = require('../services/apiHandler.service')
 const { parseDateStrToDate } = require('../services/generals.service')
 
 router.post('/', async (req, res) => {
@@ -77,6 +78,49 @@ router.get('/:nationalId', async (req, res) => {
       projection,
     )
     res.send({ valid: true, data: { user: userResult } })
+  } catch (error) {
+    res.send({ valid: false, reason: error.message })
+  }
+})
+
+router.get('/', async (req, res) => {
+  try {
+    let query = _.pick(req.query, [
+      'firstname_like',
+      'lastname_like',
+      'nationalId_like',
+      'phoneNumber_like',
+    ])
+
+    query = createFilterConditions(query)
+
+    const limit = req.query.max ? Number(req.query.max) : null
+    const skip = req.query.offset ? Number(req.query.offset) : 0
+    const sort = req.query.sort ? req.query.sort : '_id'
+    const order = req.query.order == 'asc' ? 1 : -1
+    
+    const totalCount = await db.user.countAsync(query)
+    const userAsync = db.user.find(query)
+
+    if (limit) {
+      userAsync = userAsync.limit(limit)
+    }
+
+    await userAsync
+      .sort({ [sort]: order })
+      .skip(skip)
+      .toArray((err, result) => {
+        if (err) {
+          throw err
+        }
+        res.send({
+          valid: true,
+          data: {
+            totalCount,
+            users: result,
+          },
+        })
+      })
   } catch (error) {
     res.send({ valid: false, reason: error.message })
   }
