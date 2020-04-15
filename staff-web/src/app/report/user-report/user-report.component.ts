@@ -1,12 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core'
-import { UserService } from 'src/app/user/user.service'
-import { IUser } from 'src/app/shared/models/user'
-import { LazyLoadEvent } from 'primeng/api'
-import * as moment from 'moment'
+import { Component, Input, OnInit } from '@angular/core'
+import { Router } from '@angular/router'
 import * as _ from 'lodash'
-import { createUserFullNameStr } from 'src/app/shared/models/extra'
+import * as moment from 'moment'
+import { LazyLoadEvent } from 'primeng/api'
 import { ALLERGIES } from 'src/app/core/allergiesType'
 import { DISEASE } from 'src/app/core/diseaseType'
+import { RequestQrCodeService } from 'src/app/request-qr-code/request-qr-code.service'
+import { IRequestQrTokenResponse } from 'src/app/request-qr-code/type'
+import { IUser } from 'src/app/shared/models/user'
+import { UserService } from 'src/app/user/user.service'
 
 @Component({
   selector: 'app-user-report',
@@ -26,7 +28,11 @@ export class UserReportComponent implements OnInit {
   exporting: boolean = false
   _selectedColumns: any[] = []
 
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    private requestQrCodeService: RequestQrCodeService,
+    private router: Router,
+  ) {
     // user cols
     this.cols = [
       { field: 'firstname', header: 'ชื่อ' },
@@ -307,7 +313,6 @@ export class UserReportComponent implements OnInit {
         Sheets: { users: usersWorksheet, members: membersWorksheet },
         SheetNames: ['users', 'members'],
       }
-      // console.log('workbook', workbook)
       const excelBuffer: any = xlsx.write(workbook, {
         bookType: 'xlsx',
         type: 'array',
@@ -343,5 +348,46 @@ export class UserReportComponent implements OnInit {
       _worksheet[address].v = _address
     }
     return _worksheet
+  }
+
+  requestQrCode(user: any) {
+    let _user = _.pick(user, ['isUsePassport', 'nationalId', 'phoneNumber'])
+    this.loading = true
+    this.requestQrCodeService.requestQrCode(_user).subscribe(
+      (data: IRequestQrTokenResponse) => {
+        if (data.valid) {
+          this.router.navigate([
+            'show-qr-code',
+            {
+              ...data.data,
+              ..._.pick(user, [
+                'firstname',
+                'lastname',
+                'nationalId',
+                'phoneNumber',
+                'homeDistrict',
+                'homeMoo',
+                'homeMooban',
+                'homeNumber',
+                'homePostalCode',
+                'homeProvince',
+                'homeSubDistrict',
+              ]),
+            },
+          ])
+          this.loading = false
+        } else {
+          this.loading = false
+          // if (ERROR_MESSAGES[data.reason]) {
+          //   this.notificationError(ERROR_MESSAGES[data.reason])
+          // } else {
+          //   this.notificationError(data.reason)
+          // }
+        }
+      },
+      (err) => {
+        this.loading = false
+      },
+    )
   }
 }

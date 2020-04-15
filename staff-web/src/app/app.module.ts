@@ -37,6 +37,8 @@ import { ReceiveTxnModule } from './receive-txn/receive-txn.module'
 import { RecieverInfoComponent } from './reciever-info/reciever-info.component'
 import { ReportModule } from './report/report.module'
 import { UserModule } from './user/user.module'
+import { RequestQrCodeModule } from './request-qr-code/request-qr-code.module'
+import { ShowQrCodeModule } from './show-qr-code/show-qr-code.module'
 
 const config = new AuthServiceConfig([
   {
@@ -81,6 +83,8 @@ export function provideConfig() {
     ReportModule,
     ReceiveTxnModule,
     UserModule,
+    RequestQrCodeModule,
+    ShowQrCodeModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),
