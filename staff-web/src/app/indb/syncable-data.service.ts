@@ -5,7 +5,7 @@ import * as _ from 'lodash'
 @Injectable({
     providedIn: 'root',
 })
-class SyncableDataService {    
+export class SyncableDataService {    
     db: any
     constructor(
         private dataIndexedDbService: DataIndexedDbService
