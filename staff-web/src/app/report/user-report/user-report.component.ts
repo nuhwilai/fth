@@ -187,7 +187,7 @@ export class UserReportComponent implements OnInit {
       let _diseases = this.createDiseasesObj(user)
       _user = _.chain({})
         .extend(user, _allergies, _diseases, {
-          memberCount: _.size(user.members),
+          memberCount: _.size(user.members) + 1, // include user
         })
         // .omit([
         //   '_id',
@@ -205,7 +205,7 @@ export class UserReportComponent implements OnInit {
   createAllergiesObj(user: any) {
     let _allergies = {}
     _.each(ALLERGIES, (it: { key: string; icon: string; value: string }) => {
-      let sign = _.includes(_.get(user, 'allergies', []), it.key) ? '✔' : ''
+      let sign = _.includes(_.get(user, 'allergies', []), it.key) ? '1' : ''
       _.extend(_allergies, { [it.key]: sign })
     })
     return _allergies
@@ -214,7 +214,7 @@ export class UserReportComponent implements OnInit {
   createDiseasesObj(user: any) {
     let _diseases = {}
     _.each(DISEASE, (it: { key: string; icon: string; value: string }) => {
-      let sign = _.includes(_.get(user, 'diseases', []), it.key) ? '✔' : ''
+      let sign = _.includes(_.get(user, 'diseases', []), it.key) ? '1' : ''
       _.extend(_diseases, { [it.key]: sign })
     })
     return _diseases

@@ -154,7 +154,7 @@ export class ProductRoundReportComponent implements OnInit {
         if (res.valid) {
           console.log('receiveTxns', res.data)
           let txns = _.chain(res.data.receiveTxns)
-            .map((it) => {
+            .map((it: any) => {
               const { user } = it
               const _name = createUserFullNameStr(user)
               const _address = createUserAddressStr(user)
@@ -162,8 +162,8 @@ export class ProductRoundReportComponent implements OnInit {
               return {
                 name: _name,
                 address: _address,
-                nationalId: _.get(it, 'nationalId', ''),
-                phoneNumber: _.get(it, 'phoneNumber', ''),
+                nationalId: _.get(user, 'nationalId', ''),
+                phoneNumber: _.get(user, 'phoneNumber', ''),
                 amount: _.get(it, 'amount', ''),
                 receivedDateTime: moment(it.receivedDateTime).format(
                   'DD-MM-YYYY HH:ss',
