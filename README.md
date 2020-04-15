@@ -16,7 +16,7 @@ Open source for web application that using for recording receiving product (food
              cat jwtRS256.key
              cat jwtRS256.key.pub
          ```
-    - in `/server/keys/prod`, config `config.js`
+    - in `/server/conf`, config `config.js`
          ```js
              {   ...
                  secretKey: 'YOUR_SECRET_KEY',
