@@ -10,17 +10,20 @@ export class DataIndexedDbService {
     db: any
 
     async useDb(dbName: string, stores: string[]){
-        this.db = await openDB(dbName, 1)
-        _.each(stores, storeName => {
-            if(!this.db.objectStoreNames.contains(storeName)){
-                const store = this.db.createObjectSore(storeName, {
-                    keyPath: 'id',
-                    autoIncrement: true,
+        this.db = await openDB(dbName, 1, {
+            upgrade(db) {                
+                _.each(stores, storeName => {
+                    if(!db.objectStoreNames.contains(storeName)){
+                        const store = db.createObjectStore(storeName, {
+                            keyPath: 'id',
+                            autoIncrement: true,
+                        })
+                        store.createIndex('data', 'data')
+                        store.createIndex('flag', 'flag')
+                    }
                 })
-                store.createIndex('data', 'data')
             }
         })
-        
     }
 
     async list(storeName) : Promise<string[]>{
@@ -54,5 +57,4 @@ export class DataIndexedDbService {
 
     async countRecords(storeName): Promise<number>{        
         return await this.db.count(storeName)
-    }
-}
+    }}
