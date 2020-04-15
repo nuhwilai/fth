@@ -4,7 +4,6 @@ module.exports = [
   {
     _id: mongojs.ObjectId('000000000000000000000002'),
     nationalId: '7021541772072',
-    phoneNumber: '081111111',
     receivedDateTime: new Date('2020-04-11T12:15:52.254Z'),
     receivedDate: '2020-04-11',
     productId: mongojs.ObjectId('000000000000000000000001'),
@@ -13,7 +12,6 @@ module.exports = [
   {
     _id: mongojs.ObjectId('000000000000000000000003'),
     nationalId: '4201306818592',
-    phoneNumber: '081111112',
     receivedDateTime: new Date('2020-04-11T12:15:52.254Z'),
     receivedDate: '2020-04-11',
     productId: mongojs.ObjectId('000000000000000000000002'),
@@ -22,7 +20,6 @@ module.exports = [
   {
     _id: mongojs.ObjectId('000000000000000000000004'),
     nationalId: '1281036360039',
-    phoneNumber: '081111113',
     receivedDateTime: new Date('2020-04-11T12:15:52.254Z'),
     receivedDate: '2020-04-11',
     productId: mongojs.ObjectId('000000000000000000000001'),
