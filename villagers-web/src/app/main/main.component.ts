@@ -37,7 +37,7 @@ export class MainComponent implements OnInit {
     this.googleSpreadSheetService
       .getSpreadSheet(environment.googleSpreadSheetPublicId)
       .subscribe((data) => {
-        this.sponsoredGoogleSpreadSheetDatas = this.csvToArray(data)
+        this.sponsoredGoogleSpreadSheetDatas = this.customCsvToArray(data)
       })
   }
 
@@ -50,7 +50,7 @@ export class MainComponent implements OnInit {
   }
 
   
-  csvToArray(csvString) {
+  customCsvToArray(csvString) {
     let lines = csvString.split('\n');
     let results = []
     lines.forEach(line => {
