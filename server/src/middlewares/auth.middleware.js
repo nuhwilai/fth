@@ -66,7 +66,11 @@ const checkPermission = (req, allowPermissions) => {
       p.roles.includes(req.user ? req.user.role : null),
   )
 
-  if (allowPermission.methods && allowPermission.methods.length > 0) {
+  if (
+    allowPermission &&
+    allowPermission.methods &&
+    allowPermission.methods.length > 0
+  ) {
     return allowPermission.methods.includes(req.method)
   } else {
     return typeof allowPermission !== 'undefined'
