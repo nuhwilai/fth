@@ -5,10 +5,10 @@ import { ActivatedRoute } from '@angular/router'
 import * as _ from 'lodash'
 import { MessageService } from 'primeng/components/common/messageservice'
 import { verifyJWTToken } from '../utils'
-import { IndexDbService, ITxnSubject } from '../indb/index-db.service'
 import { ZXingScannerComponent } from '@zxing/ngx-scanner'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
+import { ReceiveTxnService, ITxnSubject } from '../receive-txn/receive-txn.service'
 
 @Component({
   selector: 'app-product-send',
@@ -36,7 +36,7 @@ export class ProductSendComponent implements OnInit {
     private recieverService: RecieverService,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private indexDbService: IndexDbService,
+    private receiveTxnService: ReceiveTxnService,
   ) {}
 
   ngOnInit() {
@@ -45,7 +45,7 @@ export class ProductSendComponent implements OnInit {
     this.txactionRecieveForm.patchValue({
       productId: this.supplyId,
     })
-    this.indexDbService
+    this.receiveTxnService
       .getSyncUpTxn$()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((surveySubjectResult: ITxnSubject) => {
@@ -63,13 +63,11 @@ export class ProductSendComponent implements OnInit {
   }
 
   camerasFoundHandler($event) {
-    console.log('$event :', $event)
     this.cameras = $event
     this.desiredDevice = $event[0]
   }
 
   camerasNotFoundHandler($event) {
-    console.log('$camerasNotFoundHandler :', $event)
     this.messageService.add({
       severity: 'error',
       detail: 'ค้นหากล้องไม่พบ',
@@ -117,13 +115,13 @@ export class ProductSendComponent implements OnInit {
     if (this.txactionRecieveForm.invalid) {
       return
     }
-    this.recieverService
-      .createRecieveTxn({
+    this.receiveTxnService
+      .createReceiveTxn({
         ...this.txactionRecieveForm.value,
         amount: this.amount,
       })
       .then(
-        (result) => {
+        (result: any) => {
           if (result && result.valid) {
             this.messageService.add({
               severity: 'success',

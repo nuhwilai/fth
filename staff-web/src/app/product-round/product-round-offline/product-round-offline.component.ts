@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ProductRoundService } from '../product-round.service'
 import { MessageService } from 'primeng/components/common/messageservice'
+import * as _ from 'lodash'
 
 @Component({
   selector: 'app-product-round-offline',
@@ -38,19 +39,6 @@ export class ProductRoundOfflineComponent implements OnInit {
       productName: new FormControl(null, [Validators.required]),
       roundDateTime: new FormControl(null, [Validators.required]),
     })
-
-    this.initFilters()
-  }
-
-  refreshData() {
-    this.loading = true
-    this.productRoundService.listProductRoundOffline({}).then((res: any) => {
-      // if (res.valid) {
-      this.productRoundList = this.prepareProductRounds(res)
-      this.totalRecords = this.productRoundList.length
-      // }
-      this.loading = false
-    })
   }
 
   syncDownProductRound() {
@@ -59,7 +47,10 @@ export class ProductRoundOfflineComponent implements OnInit {
       .syncDownProductRound()
       .then((result: any) => {
         if (result && result.valid) {
-          this.productRoundList = this.prepareProductRounds(result.data.productRounds)
+          const newData = _.map(result.data, (data) => {
+            return data.data
+          })
+          this.productRoundList = this.prepareProductRounds(newData)
           this.totalRecords = this.productRoundList.length
           this.messaageService.add({
             severity: 'success',
@@ -91,14 +82,11 @@ export class ProductRoundOfflineComponent implements OnInit {
     order?: number,
   ) {
     this.loading = true
-    console.log('load product round')
     setTimeout(() => {
       this.productRoundService.listProductRoundOffline({}).then((res: any) => {
-        // if (res.valid) {
-        this.productRoundList = this.prepareProductRounds(res)
+        const newData = _.map(res, (data) => data.data)
+        this.productRoundList = this.prepareProductRounds(newData)
         this.totalRecords = this.productRoundList.length
-        console.log('this.productRoundList', this.productRoundList)
-        // }
         this.loading = false
       })
     }, 0)
@@ -113,83 +101,6 @@ export class ProductRoundOfflineComponent implements OnInit {
       $event.sortField,
       $event.sortOrder,
     )
-  }
-
-  get f() {
-    return this.productRoundForm.controls
-  }
-
-  private initFilters() {}
-
-  onResetFilter(dt) {
-    this.initFilters()
-  }
-
-  showDialogToAdd() {
-    this.newProductRound = true
-    this.productRound = this.formInitialValue
-    this.productRoundForm.patchValue(this.productRound)
-    this.displayDialog = true
-  }
-
-  onDialogHide(event: any) {
-    this.submitted = false
-    this.productRoundForm.reset(this.formInitialValue)
-  }
-
-  onRowSelect(event: any) {
-    this.newProductRound = false
-    this.productRound = event.data
-    // this.productRound = _.clone(event.data)
-    this.productRoundForm.patchValue(this.productRound)
-    this.displayDialog = true
-    this.submitted = true
-  }
-
-  save() {
-    this.submitted = true
-    if (this.productRoundForm.invalid) return
-    if (this.newProductRound) {
-      this.productRoundService
-        .createProductRound(this.productRoundForm.value)
-        .subscribe((res: IResponseSuccess) => {
-          if (res.valid) {
-            console.log(`product round ${res.data._id} has been created`)
-          } else {
-          }
-          this.refreshData()
-        })
-    } else {
-      let _value = this.productRoundForm.value
-      let _id = _value._id
-      delete _value._id
-      this.productRoundService
-        .updateProductRound(_id, _value)
-        .subscribe((res: IResponseSuccess) => {
-          if (res.valid) {
-            console.log(`product round ${res.data._id} has been updated.`)
-          }
-          this.refreshData()
-        })
-    }
-    this.productRound = this.formInitialValue
-    this.displayDialog = false
-    this.submitted = false
-  }
-
-  delete(id: string) {
-    this.productRoundService
-      .deleteProductRound(id)
-      .subscribe((res: IResponseSuccess) => {
-        if (res.valid) {
-          console.log(`product round id ${res.data._id} has been deleted.`)
-        } else {
-        }
-        this.refreshData()
-        delete this.productRound
-      })
-    this.displayDialog = false
-    this.submitted = false
   }
 
   prepareProductRounds = (rounds: IProductRound[]) => {

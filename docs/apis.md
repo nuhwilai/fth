@@ -225,10 +225,10 @@ interface IProductRound {
     ```ts
     interface IReceiveTxnSyncUpBody{
         receiveTxns: IReceiveTxn[]
-        totalCount: number
     }
     interface IReceiveTxnSyncUpSuccessData{
         _ids: string[]
+        localIds: string[]
     }
     ```
 *Requires Authorization*

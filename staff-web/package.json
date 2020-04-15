@@ -27,6 +27,7 @@
     "@zxing/ngx-scanner": "^3.0.0",
     "angularx-social-login": "^2.2.1",
     "file-saver": "^2.0.2",
+    "idb": "^5.0.2",
     "jsrsasign": "^8.0.13",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
