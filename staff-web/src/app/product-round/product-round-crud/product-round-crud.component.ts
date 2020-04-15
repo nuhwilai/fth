@@ -10,6 +10,8 @@ import { LazyLoadEvent } from 'primeng/api'
   styleUrls: ['./product-round-crud.component.scss'],
 })
 export class ProductRoundCrudComponent implements OnInit {
+  rows: number = 10
+  rowsPerPageOptions: number[] = [10, 20, 50]
   displayDialog: boolean
 
   productRound: IProductRound
@@ -53,22 +55,6 @@ export class ProductRoundCrudComponent implements OnInit {
     this.initFilters()
   }
 
-  private refreshData() {
-    this.loading = true
-    this.productRoundService
-      .listProductRounds({})
-      .subscribe((res: IResponseSuccess) => {
-        if (res.valid) {
-          this.productRoundList = this.prepareProductRounds(
-            res.data.productRounds,
-          )
-          this.totalRecords = this.productRoundList.length
-          console.log('this.productRoundList', this.productRoundList)
-        }
-        this.loading = false
-      })
-  }
-
   private loadProductRounds(
     offset: number,
     max: number,
@@ -78,6 +64,16 @@ export class ProductRoundCrudComponent implements OnInit {
   ) {
     this.loading = true
     let _filters = this.prepareFilters(filters)
+    console.log('_filter', _filters)
+    _filters = _.merge(
+      {
+        offset,
+        max,
+        sort,
+        order,
+      },
+      _filters,
+    )
     console.log('load product rounds with filters', _filters)
     setTimeout(() => {
       this.productRoundService
@@ -87,7 +83,7 @@ export class ProductRoundCrudComponent implements OnInit {
             this.productRoundList = this.prepareProductRounds(
               res.data.productRounds,
             )
-            this.totalRecords = this.productRoundList.length
+            this.totalRecords = res.data.totalCount
             console.log('this.productRoundList', this.productRoundList)
           }
           this.loading = false
@@ -166,9 +162,7 @@ export class ProductRoundCrudComponent implements OnInit {
             console.log(`product round ${res.data._id} has been created`)
           } else {
           }
-          // this.loadProductRoundsLazy(this.currentLazyLoadEvent)
-          this.initFilters()
-          this.refreshData()
+          this.loadProductRoundsLazy(this.currentLazyLoadEvent)
         })
     } else {
       let _value = this.productRoundForm.value
@@ -180,9 +174,7 @@ export class ProductRoundCrudComponent implements OnInit {
           if (res.valid) {
             console.log(`product round ${res.data._id} has been updated.`)
           }
-          // this.loadProductRoundsLazy(this.currentLazyLoadEvent)
-          this.initFilters()
-          this.refreshData()
+          this.loadProductRoundsLazy(this.currentLazyLoadEvent)
         })
     }
     this.productRound = this.formInitialValue
@@ -198,9 +190,7 @@ export class ProductRoundCrudComponent implements OnInit {
           console.log(`product round id ${res.data._id} has been deleted.`)
         } else {
         }
-        // this.loadProductRoundsLazy(this.currentLazyLoadEvent)
-        this.initFilters()
-        this.refreshData()
+        this.loadProductRoundsLazy(this.currentLazyLoadEvent)
         delete this.productRound
       })
     this.displayDialog = false
