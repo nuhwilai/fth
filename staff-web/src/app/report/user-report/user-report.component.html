@@ -55,11 +55,13 @@
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
+      <th>QR Code</th>
       <th *ngFor="let col of columns">
         {{ col.header }}
       </th>
     </tr>
     <tr>
+      <th></th>
       <th *ngFor="let col of columns" class="ui-fluid">
         <input
           *ngIf="col.field === 'firstname'"
@@ -100,6 +102,15 @@
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr [pSelectableRow]="rowData">
+      <td>
+        <button
+          type="button"
+          pButton
+          label="QR Code"
+          (click)="requestQrCode(rowData)"
+          class="ui-button-success"
+        ></button>
+      </td>
       <td *ngFor="let col of columns" style="text-align: center;">
         {{ rowData[col.field] }}
       </td>
