@@ -5,8 +5,13 @@ import { stringify } from 'qs'
 import * as _ from 'lodash'
 import { DataIndexedDbService } from '../indb/data-indexed-db.service'
 import { BehaviorSubject } from 'rxjs'
-import { ITxnSubject } from '../indb/index-db.service'
 import * as moment from 'moment'
+
+export interface ITxnSubject {
+  status: string | null
+  txnCount: number | null
+}
+
 @Injectable({
   providedIn: 'root',
 })

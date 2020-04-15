@@ -1,9 +1,6 @@
-import { Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core'
 import { environment } from 'src/environments/environment'
-import { IndexDbService } from './indb/index-db.service'
-import { DataIndexedDbService } from './indb/data-indexed-db.service'
 
 @Injectable({
   providedIn: 'root',

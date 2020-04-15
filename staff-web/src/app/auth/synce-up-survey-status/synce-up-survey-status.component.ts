@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core'
 
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-import { IndexDbService, ITxnSubject } from 'src/app/indb/index-db.service'
 import { AuthService } from '../auth.service'
+import { ReceiveTxnService, ITxnSubject } from 'src/app/receive-txn/receive-txn.service'
 @Component({
   selector: 'app-synce-up-survey-status',
   templateUrl: './synce-up-survey-status.component.html',
@@ -15,8 +15,8 @@ export class SynceUpSurveyStatusComponent implements OnInit {
   serveyLocalCount = 0
   isAuth // TODO check auth
   constructor(
-    private localDbService: IndexDbService,
     private authService: AuthService,
+    private receiveTxnService: ReceiveTxnService,
   ) {}
 
   ngOnInit(): void {
@@ -25,7 +25,7 @@ export class SynceUpSurveyStatusComponent implements OnInit {
         this.isAuth = authData.isAuthenticated
       }
     })
-    this.localDbService
+    this.receiveTxnService
       .getSyncUpTxn$()
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((surveySubjectResult: ITxnSubject) => {

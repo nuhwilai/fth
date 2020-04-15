@@ -1,14 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core'
 import { Subject, BehaviorSubject } from 'rxjs'
-import { ITxnSubject } from './index-db.service'
 import { HttpClient } from '@angular/common/http'
 import { takeUntil } from 'rxjs/operators'
 import { AuthService, AuthData } from '../auth/auth.service'
 import { SyncableDataService } from './syncable-data.service'
-import { ReceiveTxnService } from '../receive-txn/receive-txn.service'
+import { ReceiveTxnService, ITxnSubject } from '../receive-txn/receive-txn.service'
 import { ProductRoundService } from '../product-round/product-round.service'
 import * as _ from 'lodash'
-
 @Injectable({
   providedIn: 'root',
 })

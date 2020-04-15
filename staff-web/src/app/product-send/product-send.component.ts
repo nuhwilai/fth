@@ -5,11 +5,10 @@ import { ActivatedRoute } from '@angular/router'
 import * as _ from 'lodash'
 import { MessageService } from 'primeng/components/common/messageservice'
 import { verifyJWTToken } from '../utils'
-import { IndexDbService, ITxnSubject } from '../indb/index-db.service'
 import { ZXingScannerComponent } from '@zxing/ngx-scanner'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-import { ReceiveTxnService } from '../receive-txn/receive-txn.service'
+import { ReceiveTxnService, ITxnSubject } from '../receive-txn/receive-txn.service'
 
 @Component({
   selector: 'app-product-send',
@@ -37,7 +36,6 @@ export class ProductSendComponent implements OnInit {
     private recieverService: RecieverService,
     private route: ActivatedRoute,
     private messageService: MessageService,
-    private indexDbService: IndexDbService,
     private receiveTxnService: ReceiveTxnService,
   ) {}
 

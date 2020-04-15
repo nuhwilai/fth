@@ -1,12 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { environment } from 'src/environments/environment'
-import { NgxIndexedDBService } from 'ngx-indexed-db'
-import { IndexDbService } from '../indb/index-db.service'
+import * as _ from 'lodash'
 import { stringify } from 'qs'
+import { environment } from 'src/environments/environment'
 import { DataIndexedDbService } from '../indb/data-indexed-db.service'
 import { SyncableDataService } from '../indb/syncable-data.service'
-import * as _ from 'lodash'
 @Injectable({
   providedIn: 'root',
 })
