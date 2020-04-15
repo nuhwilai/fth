@@ -224,7 +224,6 @@ interface IProductRound {
 - [x] POST `/receiveTxnSyncUp`
     ```ts
     interface IReceiveTxnSyncUpBody{
-        localIds: string[]
         receiveTxns: IReceiveTxn[]
     }
     interface IReceiveTxnSyncUpSuccessData{
