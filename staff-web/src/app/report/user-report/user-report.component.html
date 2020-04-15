@@ -54,9 +54,49 @@
     </div>
   </ng-template>
   <ng-template pTemplate="header" let-columns>
-    <th *ngFor="let col of columns">
-      {{ col.header }}
-    </th>
+    <tr>
+      <th *ngFor="let col of columns">
+        {{ col.header }}
+      </th>
+    </tr>
+    <tr>
+      <th *ngFor="let col of columns" class="ui-fluid">
+        <input
+          *ngIf="col.field === 'firstname'"
+          type="text"
+          pInputText
+          [(ngModel)]="currentOption.firstname_like"
+          (input)="dt.filter($event.target.value, col.field, 'firstname_like')"
+          placeholder="กรองโดยชื่อ หรือ นามสกุล"
+        />
+        <input
+          *ngIf="col.field === 'lastname'"
+          type="text"
+          pInputText
+          [(ngModel)]="currentOption.lastname_like"
+          (input)="dt.filter($event.target.value, col.field, 'lastname_like')"
+          placeholder="กรองโดยชื่อ หรือ นามสกุล"
+        />
+        <input
+          *ngIf="col?.field === 'nationalId'"
+          type="text"
+          pInputText
+          [(ngModel)]="currentOption.nationalId_like"
+          (input)="dt.filter($event.target.value, col.field, 'nationalId_like')"
+          placeholder="กรองโดยหมายเลขบัตร"
+        />
+        <input
+          *ngIf="col?.field === 'phoneNumber'"
+          type="text"
+          pInputText
+          [(ngModel)]="currentOption.phoneNumber_like"
+          (input)="
+            dt.filter($event.target.value, col.field, 'phoneNumber_like')
+          "
+          placeholder="กรองโดยเบอร์โทรศัพท์"
+        />
+      </th>
+    </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr [pSelectableRow]="rowData">
@@ -67,7 +107,7 @@
   </ng-template>
   <ng-template pTemplate="emptymessage">
     <tr id="row-empty">
-      <td [attr.colspan]="3">
+      <td [attr.colspan]="selectedColumns.length">
         ไม่พบข้อมูลรายการ
       </td>
     </tr>

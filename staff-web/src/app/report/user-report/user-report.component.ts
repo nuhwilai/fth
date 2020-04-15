@@ -29,7 +29,8 @@ export class UserReportComponent implements OnInit {
   constructor(private userService: UserService) {
     // user cols
     this.cols = [
-      { field: 'fullname', header: 'ชื่อ-สกุล' },
+      { field: 'firstname', header: 'ชื่อ' },
+      { field: 'lastname', header: 'นามสกุล' },
       { field: 'nationalId', header: 'หมายเลขบัตร' },
       { field: 'phoneNumber', header: 'เบอร์โทรศัพท์' },
       { field: 'homeNumber', header: 'บ้านเลขที่' },
@@ -83,7 +84,8 @@ export class UserReportComponent implements OnInit {
     this.selectedColumns = _.filter(this.cols, (it: any) =>
       _.includes(
         [
-          'fullname',
+          'firstname',
+          'lastname',
           'nationalId',
           'phoneNumber',
           'NO_SEA_FOOD',
@@ -135,19 +137,16 @@ export class UserReportComponent implements OnInit {
     order?: number,
   ) {
     this.loading = true
-    let _filters = this.prepareFilters(filters)
+    const _filters = this.prepareFilters(filters)
 
-    console.log('load users with filters', _filters)
     setTimeout(() => {
       this.userService
-        .listUsers({})
-        // .listUsers({ offset, max, ..._filters })
+        .listUsers({ offset, max, ..._filters })
         .subscribe((res: IResponseSuccess) => {
           if (res.valid) {
             // console.log('res.data', res.data)
             this.users = this.prepareUsers(res.data.users)
             this.totalRecords = res.data.totalCount
-            // this.users = res.data.users
             console.log('this.users', this.users)
           }
           this.loading = false
@@ -187,15 +186,9 @@ export class UserReportComponent implements OnInit {
       let _allergies = this.createAllergiesObj(user)
       let _diseases = this.createDiseasesObj(user)
       _user = _.chain({})
-        .extend(
-          { fullname: createUserFullNameStr(user) },
-          user,
-          _allergies,
-          _diseases,
-          {
-            memberCount: _.size(user.members),
-          },
-        )
+        .extend(user, _allergies, _diseases, {
+          memberCount: _.size(user.members),
+        })
         // .omit([
         //   '_id',
         //   'firstname',
@@ -270,7 +263,8 @@ export class UserReportComponent implements OnInit {
     })
     let _users = _.map(users, (user) => {
       return _.pick(user, [
-        'fullname',
+        'firstname',
+        'lastname',
         'nationalId',
         'phoneNumber',
         'homeNumber',
@@ -310,11 +304,10 @@ export class UserReportComponent implements OnInit {
       )
 
       const workbook = {
-        // WBProps: { CodeName: { users: 'XXX', members: 'yyy' } },
         Sheets: { users: usersWorksheet, members: membersWorksheet },
         SheetNames: ['users', 'members'],
-        CodeNames: { users: 'XXX', members: 'yyy' },
       }
+      // console.log('workbook', workbook)
       const excelBuffer: any = xlsx.write(workbook, {
         bookType: 'xlsx',
         type: 'array',
