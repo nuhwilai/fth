@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core'
 import { DataIndexedDbService } from './data-indexed-db.service'
 import * as _ from 'lodash'
+import { ReplaySubject } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
 export class SyncableDataService {
   db: any
+  public settingLoaded: ReplaySubject<boolean> = new ReplaySubject()
   constructor(private dataIndexedDbService: DataIndexedDbService) {}
 
   async init(dbName: string, stores: string[]) {
     this.db = await this.dataIndexedDbService.useDb(dbName, stores)
+    this.settingLoaded.next(true)
   }
 
   async upload(storeName: string, batchSize: number, handler: any) {

@@ -105,11 +105,5 @@ export function provideConfig() {
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor(
-    private authService: AuthService,
-    private dataIndexedDbService: DataIndexedDbService,
-    private syncableDataService: SyncableDataService,
-  ) {
-    this.syncableDataService.init('fth-db', ['productRound', 'receiveTxn'])
-  }
+  constructor(private authService: AuthService) {}
 }
