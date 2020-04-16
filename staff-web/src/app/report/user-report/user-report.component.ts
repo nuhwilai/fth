@@ -5,7 +5,7 @@ import * as moment from 'moment'
 import { LazyLoadEvent } from 'primeng/api'
 import { RequestQrCodeService } from 'src/app/request-qr-code/request-qr-code.service'
 import { IRequestQrTokenResponse } from 'src/app/request-qr-code/type'
-import { ALLERGIES, DISEASES } from 'src/app/shared/config'
+import { ALLERGIES, DISEASES } from 'src/app/shared/constants'
 import { IUser } from 'src/app/shared/models/user'
 import { UserService } from 'src/app/user/user.service'
 
