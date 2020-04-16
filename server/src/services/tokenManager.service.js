@@ -4,11 +4,11 @@ const jwtExpress = require('express-jwt')
 const fs = require('fs')
 const path = require('path')
 
-const keyFile = config.runProd
+const keyFile = config.isProd
   ? path.join(path.resolve(__dirname), '..', '..', 'keys', 'prod', 'app.key')
   : path.join(path.resolve(__dirname), '..', '..', 'keys', 'dev', 'app.key')
 
-const publicKeyFile = config.runProd
+const publicKeyFile = config.isProd
   ? path.join(path.resolve(__dirname), '..', '..', 'keys', 'prod', 'app.key.pub')
   : path.join(path.resolve(__dirname), '..', '..', 'keys', 'dev', 'app.key.pub')
 
