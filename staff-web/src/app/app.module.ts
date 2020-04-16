@@ -22,7 +22,6 @@ import { ToastModule } from 'primeng/toast'
 import { environment } from '../environments/environment'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
-import { AuthInterceptor } from './auth-interceptor'
 import { AuthModule } from './auth/auth.module'
 import { AuthService } from './auth/auth.service'
 import { IncludeArrayPipe } from './include-array.pipe'
@@ -39,6 +38,7 @@ import { ReportModule } from './report/report.module'
 import { UserModule } from './user/user.module'
 import { RequestQrCodeModule } from './request-qr-code/request-qr-code.module'
 import { ShowQrCodeModule } from './show-qr-code/show-qr-code.module'
+import { AuthInterceptor } from './auth/auth-interceptor'
 
 const config = new AuthServiceConfig([
   {
