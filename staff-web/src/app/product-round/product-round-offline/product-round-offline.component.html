@@ -16,7 +16,9 @@
   [totalRecords]="totalRecords"
   [value]="productRoundList"
   [paginator]="true"
-  [rows]="15"
+  [rows]="max"
+  [lazyLoadOnInit]="true"
+
 >
   <ng-template pTemplate="header" let-columns>
     <tr>
@@ -28,7 +30,7 @@
   <ng-template pTemplate="body" let-rowData let-columns="columns">
     <tr [pSelectableRow]="rowData">
       <td>{{ rowData.productName }}</td>
-      <td class="center">{{ rowData.roundDateTime | date: 'dd/MM/yyyy' }}</td>
+      <td class="center">{{ rowData.roundDate | date: 'dd/MM/yyyy' }}</td>
       <td style="text-align: center;">
         <a [routerLink]="['/product-send', rowData._id]">
           <p-button label="แจกของ"> </p-button>

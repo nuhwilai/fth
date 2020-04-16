@@ -102,7 +102,7 @@ export class ProductRoundReportComponent implements OnInit {
             this.productRounds = this.prepareProductRounds(
               res.data.productRounds,
             )
-            this.totalRecords = this.productRounds.length
+            this.totalRecords = res.data.totalCount
             console.log('this.productRounds', this.productRounds)
           }
           this.loading = false

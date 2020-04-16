@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
     const productRoundCreateResult = await db.productRound.insertAsync({
       productName: req.body.productName,
       roundDateTime: moment(req.body.roundDateTime).toDate(),
-      roundDate: moment(req.body.roundDateTime).format('YYYY-MM-DD'),
+      roundDate: req.body.roundDate,
     })
     res.send({ valid: true, data: { _id: productRoundCreateResult._id } })
   } catch (error) {

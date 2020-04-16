@@ -10,11 +10,12 @@ Open source for web application that using for recording receiving product (food
     - `app.key` and `app.key.pub`
 
          ```sh
-             ssh-keygen -t rsa -b 4096 -m PEM -f jwtRS256.key
              # Don't add passphrase
-             openssl rsa -in jwtRS256.key -pubout -outform PEM -out jwtRS256.key.pub
-             cat jwtRS256.key
-             cat jwtRS256.key.pub
+             ssh-keygen -t rsa -b 4096 -m PEM -f app.key
+             mv app.key.pub _app.key.pub
+             openssl rsa -in app.key -pubout -outform PEM -out app.key.pub
+             cat app.key
+             cat app.key.pub
          ```
     - in `/server/conf`, config `config.js`
          ```js
