@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authStateSub = this.oAuthService.authState.subscribe((user) => {
       if (user) {
         this.authService.loginWithSocialUser(user, this.onSuccess, this.onError)
+        this.oAuthService.signOut()
       }
     })
   }
@@ -68,7 +69,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       summary: 'ลงชื่อเข้าใช้งาน',
       detail: `ลงชื่อเข้าใช้งานเรียบร้อย`,
     })
-    this.oAuthService.signOut(true)
   }
 
   onError = (error: string) => {
