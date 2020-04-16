@@ -5,7 +5,7 @@ import * as moment from 'moment'
 import {
   createUserFullNameStr,
   createUserAddressStr,
-} from 'src/app/shared/models/extra'
+} from 'src/app/shared/extra'
 @Component({
   selector: 'app-receive-txn-report',
   templateUrl: './receive-txn-report.component.html',

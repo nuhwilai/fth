@@ -3,10 +3,9 @@ import { Router } from '@angular/router'
 import * as _ from 'lodash'
 import * as moment from 'moment'
 import { LazyLoadEvent } from 'primeng/api'
-import { ALLERGIES } from 'src/app/core/allergiesType'
-import { DISEASE } from 'src/app/core/diseaseType'
 import { RequestQrCodeService } from 'src/app/request-qr-code/request-qr-code.service'
 import { IRequestQrTokenResponse } from 'src/app/request-qr-code/type'
+import { ALLERGIES, DISEASES } from 'src/app/shared/config'
 import { IUser } from 'src/app/shared/models/user'
 import { UserService } from 'src/app/user/user.service'
 
@@ -44,13 +43,13 @@ export class UserReportComponent implements OnInit {
       { field: 'homeMooban', header: 'หมู่บ้าน' },
     ]
 
-    const allergyCols = _.map(ALLERGIES, (it) => ({
-      field: it.key,
-      header: it.value,
+    const allergyCols = _.map(ALLERGIES, (v, k) => ({
+      field: k,
+      header: v,
     }))
-    const diseaseCols = _.map(DISEASE, (it) => ({
-      field: it.key,
-      header: it.value,
+    const diseaseCols = _.map(DISEASES, (v, k) => ({
+      field: k,
+      header: v,
     }))
 
     const extraCols = [
@@ -210,18 +209,18 @@ export class UserReportComponent implements OnInit {
 
   createAllergiesObj(user: any) {
     let _allergies = {}
-    _.each(ALLERGIES, (it: { key: string; icon: string; value: string }) => {
-      let sign = _.includes(_.get(user, 'allergies', []), it.key) ? '1' : ''
-      _.extend(_allergies, { [it.key]: sign })
+    _.each(ALLERGIES, (v, k) => {
+      let sign = _.includes(_.get(user, 'allergies', []), k) ? '1' : ''
+      _.extend(_allergies, { [k]: sign })
     })
     return _allergies
   }
 
   createDiseasesObj(user: any) {
     let _diseases = {}
-    _.each(DISEASE, (it: { key: string; icon: string; value: string }) => {
-      let sign = _.includes(_.get(user, 'diseases', []), it.key) ? '1' : ''
-      _.extend(_diseases, { [it.key]: sign })
+    _.each(DISEASES, (v, k) => {
+      let sign = _.includes(_.get(user, 'diseases', []), k) ? '1' : ''
+      _.extend(_diseases, { [k]: sign })
     })
     return _diseases
   }
@@ -295,7 +294,7 @@ export class UserReportComponent implements OnInit {
     import('xlsx').then((xlsx) => {
       // users sheet
       let usersWorksheet = xlsx.utils.json_to_sheet(_users)
-      usersWorksheet = this.changeWorksheetColumnName(
+      usersWorksheet = this.changeWorksheetHeaderName(
         xlsx,
         usersWorksheet,
         this.cols,
@@ -303,7 +302,7 @@ export class UserReportComponent implements OnInit {
 
       // member sheet
       let membersWorksheet = xlsx.utils.json_to_sheet(_members)
-      membersWorksheet = this.changeWorksheetColumnName(
+      membersWorksheet = this.changeWorksheetHeaderName(
         xlsx,
         membersWorksheet,
         this.memberCols,
@@ -334,7 +333,7 @@ export class UserReportComponent implements OnInit {
     })
   }
 
-  changeWorksheetColumnName(xlsx: any, worksheet: any, cols: any) {
+  changeWorksheetHeaderName(xlsx: any, worksheet: any, cols: any) {
     let _worksheet = worksheet
     var range = xlsx.utils.decode_range(_worksheet['!ref'])
     for (var C = range.s.c; C <= range.e.c; ++C) {

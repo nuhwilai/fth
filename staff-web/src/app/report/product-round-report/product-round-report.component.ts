@@ -7,7 +7,7 @@ import { ReceiveTxnService } from 'src/app/receive-txn/receive-txn.service'
 import {
   createUserAddressStr,
   createUserFullNameStr,
-} from 'src/app/shared/models/extra'
+} from 'src/app/shared/extra'
 
 interface FILE_META {
   fileName: string
