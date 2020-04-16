@@ -34,19 +34,21 @@
         *ngIf="scannerEnabled"
         pButton
         type="button"
-        label="swap camera"
-        (click)="toggleCamera(desiredDevice, cameras)"
+        label="Next"
+        (click)="nextDevice()"
         icon="pi pi-refresh"
         id="swap"
       ></button>
     </div>
     <zxing-scanner
       *ngIf="scannerEnabled"
+      #scanner
       [enable]="scannerEnabled"
-      [device]="desiredDevice"
+      [(device)]="currentDevice"
       (camerasFound)="camerasFoundHandler($event)"
       (camerasNotFound)="camerasNotFoundHandler($event)"
       (scanSuccess)="scanSuccessHandler($event)"
+      (deviceChange)="deviceChange($event)"
     ></zxing-scanner>
   </div>
 

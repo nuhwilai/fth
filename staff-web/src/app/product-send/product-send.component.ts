@@ -8,7 +8,10 @@ import { verifyJWTToken } from '../utils'
 import { ZXingScannerComponent } from '@zxing/ngx-scanner'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-import { ReceiveTxnService, ITxnSubject } from '../receive-txn/receive-txn.service'
+import {
+  ReceiveTxnService,
+  ITxnSubject,
+} from '../receive-txn/receive-txn.service'
 
 @Component({
   selector: 'app-product-send',
@@ -16,12 +19,12 @@ import { ReceiveTxnService, ITxnSubject } from '../receive-txn/receive-txn.servi
   styleUrls: ['./product-send.component.scss'],
 })
 export class ProductSendComponent implements OnInit {
-  @ViewChild('scanner', { static: true })
+  @ViewChild('scanner', { static: false })
   scanner: ZXingScannerComponent
   unsubscribe$ = new Subject()
   recieverInfo: any
   scannerEnabled = false
-  desiredDevice = null
+  currentDevice = null
   txactionRecieveForm = new FormGroup({
     nationalId: new FormControl('', Validators.required),
     receivedDateTime: new FormControl(null),
@@ -30,8 +33,9 @@ export class ProductSendComponent implements OnInit {
   amount = 1
   supplyId
   staffData
-  cameras: any
+  availableDevices: MediaDeviceInfo[]
   txnRequireCount
+  currentDeviceIndex: number
   constructor(
     private recieverService: RecieverService,
     private route: ActivatedRoute,
@@ -57,14 +61,12 @@ export class ProductSendComponent implements OnInit {
     this.scannerEnabled = true
   }
   clickCloseCamera($event) {
-    this.desiredDevice = null
+    this.currentDevice = null
     this.scannerEnabled = false
-    // this.scanner.reset()
   }
 
-  camerasFoundHandler($event) {
-    this.cameras = $event
-    this.desiredDevice = $event[0]
+  camerasFoundHandler(devices: MediaDeviceInfo[]) {
+    this.availableDevices = devices
   }
 
   camerasNotFoundHandler($event) {
@@ -155,20 +157,20 @@ export class ProductSendComponent implements OnInit {
       productId: this.supplyId,
     })
   }
-  toggleCamera = (
-    currentCamera: MediaDeviceInfo,
-    cameras: MediaDeviceInfo[],
-  ) => {
-    console.log('cameras', cameras)
-    console.log('currentCamera', currentCamera)
+  nextDevice = () => {
+    const nextIndex =
+      (this.currentDeviceIndex + 1) % _.size(this.availableDevices)
+    this.currentDeviceIndex = nextIndex
+    console.log('next device index', nextIndex)
+    this.scanner.device = this.availableDevices[nextIndex]
+  }
 
-    if (cameras && cameras.length == 2 && currentCamera) {
-      // use _.xorBy e.g. assert _.xor([1,2], [2]) == [1]
-      this.desiredDevice = _.chain(cameras)
-        .xorBy([currentCamera], 'deviceId')
-        .first()
-        .value()
-      console.log('toggle to camera', this.desiredDevice)
+  deviceChange(device: MediaDeviceInfo) {
+    if (this.currentDeviceIndex === undefined) {
+      this.currentDeviceIndex = _.findIndex(
+        this.availableDevices,
+        (it: any) => it.deviceId == device.deviceId,
+      )
     }
   }
 }
