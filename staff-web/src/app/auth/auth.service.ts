@@ -30,8 +30,8 @@ export class AuthService {
     private http: HttpClient,
     private asyncLocalStorage: LocalStorage,
   ) {
-    this.init()
     this.authDataSubject = new BehaviorSubject(this.authData)
+    this.init()
   }
 
   async init() {

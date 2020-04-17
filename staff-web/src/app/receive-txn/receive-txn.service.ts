@@ -25,9 +25,9 @@ export class ReceiveTxnService {
     private dataIndexedDbService: DataIndexedDbService,
   ) {}
 
-  async updateStatusSync() {
+  async updateStatusSync(isError?) {
     const number = await this.dataIndexedDbService.countRecords('receiveTxn')
-    this.updateStatus(number)
+    this.updateStatus(number, isError)
   }
 
   getSyncUpTxn$() {

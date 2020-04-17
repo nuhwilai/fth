@@ -31,12 +31,20 @@ export class BackgroundSyncService implements OnDestroy {
     private syncableDataService: SyncableDataService,
     private receiveTxnService: ReceiveTxnService,
     private productRoundService: ProductRoundService,
-  ) {
+  ) {}
+
+  subscribeAuthChange() {
     this.authService.authData$
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe((auth: AuthData) => {
         this.isAuth = auth.isAuthenticated
         this.authData = auth
+        this.unregister()
+        if (auth.isAuthenticated) {
+          this.run()
+        } else {
+          this.receiveTxnService.updateStatusSync(true)
+        }
       })
   }
 
@@ -60,9 +68,9 @@ export class BackgroundSyncService implements OnDestroy {
     clearInterval(this.intervalInstance)
   }
 
-  syncUpReceiveTxn = async () => {
+  syncUpReceiveTxn = async (isFirst = true) => {
     if (!this.authService.isGranted(['ADMIN', 'STAFF'])) {
-      return
+      return isFirst ? this.receiveTxnService.updateStatusSync(true) : null
     }
     try {
       await this.syncableDataService.upload(
@@ -73,6 +81,7 @@ export class BackgroundSyncService implements OnDestroy {
       this.receiveTxnService.updateStatusSync()
     } catch (e) {
       console.log('e :', e)
+      this.receiveTxnService.updateStatusSync()
     }
   }
 
