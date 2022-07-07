@@ -31,7 +31,7 @@
     "jsrsasign": "^8.0.13",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "ngx-indexed-db": "^4.0.14",
     "primeicons": "^2.0.0",
     "primeng": "8.1.4",
